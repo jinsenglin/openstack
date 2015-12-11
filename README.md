@@ -39,4 +39,4 @@ Exported Variable
 | get-api-token.sh  | API_TOKEN  |
 | get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |
 | get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
-| get-virtual-machines.sh  | RESP_JSON_GET_SERVERS  |
+| get-virtual-machines.sh  | RESP_JSON_SERVERS  |
