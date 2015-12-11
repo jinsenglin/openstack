@@ -10,7 +10,8 @@ Downloading OpenStack RC File
 - Click 'Download OpenStack RC File'
 
 Dependency
-- [show-nova-compute-service-public-url.sh , get-virtual-machines.sh] -> get-nova-compute-service-public-url.sh
+- get-virtual-machines.sh -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
+- show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
 - [get-nova-compute-service.sh , get-api-token.sh] -> auth-openstack.sh -> example-openrc.sh
