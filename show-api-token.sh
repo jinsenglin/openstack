@@ -1,5 +1,5 @@
 #!/bin/bash -ex
 
-source auth-openstack.sh
+source get-api-token.sh
 
-echo $RESP_JSON_AUTH | jq '.access.token.id' | sed 's/"//g'
+echo $API_TOKEN
