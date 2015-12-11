@@ -10,7 +10,7 @@ Downloading OpenStack RC File
 - Click 'Download OpenStack RC File'
 
 Dependency
-- [show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
+- [show-nova-compute-service-public-url.sh , get-virtual-machines.sh] -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
 - [get-nova-compute-service.sh , get-api-token.sh] -> auth-openstack.sh -> example-openrc.sh
@@ -28,14 +28,15 @@ Debugging
 - ./show-nova-compute-service.sh
 - ./get-nova-compute-service-public-url.sh
 - ./show-nova-compute-service-public-url.sh
+- ./get-virtual-machines.sh
 
 Exported Variable
 
 | Script  | Variable |
 | ------------- | ------------- |
+| example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |
+| auth-openstack.sh  | RESP_JSON_AUTH  |
 | get-api-token.sh  | API_TOKEN  |
 | get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |
 | get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
-| auth-openstack.sh  | RESP_JSON_AUTH  |
-| example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |
-
+| get-virtual-machines.sh  | ?  |
