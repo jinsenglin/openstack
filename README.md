@@ -32,6 +32,7 @@ Exported Variable
 | ------------- | ------------- |
 | get-api-token.sh  | API_TOKEN  |
 | get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |
+| get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
 | auth-openstack.sh  | RESP_JSON_AUTH  |
 | example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |
 
