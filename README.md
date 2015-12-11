@@ -17,3 +17,10 @@ Dependency
 Example Usage
 - bash show-nova-compute-service.sh
 - bash show-api-token.sh
+
+Debugging
+- ./auth-openstack.sh
+- ./get-api-token.sh
+- ./get-nova-compute-service.sh
+- ./show-api-token.sh
+- ./show-nova-compute-service.sh
