@@ -8,3 +8,6 @@ Downloading OpenStack RC File
 - Click 'Access & Security' under the 'Compute' menu
 - Click 'API Access' in the top menu of the right-side page
 - Click 'Download OpenStack RC File'
+
+Dependency
+- [show-nova-compute-service.sh , show-api-token.sh] -> auth-openstack.sh -> example-openrc.sh
