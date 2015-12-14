@@ -61,3 +61,5 @@ API Versions
 | Function  | Required API Version  | Current API Version used in Lab |
 | ------------- | ------------- | ------------- |
 
+Security Group related API Notes
+- http://developer.openstack.org/api-ref-networking-v2-ext.html vs. http://developer.openstack.org/api-ref-compute-v2.1.html
