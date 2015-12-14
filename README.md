@@ -17,8 +17,9 @@ Getting TryStack API Password
 - Click 'Request API password' button in the right-side page
 
 Dependency
+- show-os-keypairs.sh -> get-os-keypairs.sh
 - show-virtual-machines.sh -> get-virtual-machines.sh
-- get-virtual-machines.sh -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
+- [get-virtual-machines.sh , get-os-keypairs.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
@@ -43,6 +44,7 @@ Exported Environment Variable
 | get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
 | get-virtual-machines.sh  | RESP_JSON_SERVERS  |
 | get-api-services.sh  | API_SERVICES  |
+| get-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS  |
 
 API Versions
 
