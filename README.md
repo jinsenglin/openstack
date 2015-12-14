@@ -65,7 +65,7 @@ Argument and Exported Environment Variable
 | get-external-gateway-network.sh  | EXTERNAL_GW_NET  |  |
 | get-external-gateway-network-id.sh  | EXTERNAL_GW_NET_ID  |  |
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
-| add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  |  |
+| add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  | "$router_id" "$subnet_id"  |
 
 API Versions
 
