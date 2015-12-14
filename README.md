@@ -21,7 +21,7 @@ Dependency
 - show-virtual-machines.sh -> get-virtual-machines.sh
 - get-external-gateway-network-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network.sh -> get-networks.sh
-- [create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
+- [add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
 - [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
@@ -65,6 +65,7 @@ Argument and Exported Environment Variable
 | get-external-gateway-network.sh  | EXTERNAL_GW_NET  |  |
 | get-external-gateway-network-id.sh  | EXTERNAL_GW_NET_ID  |  |
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
+| add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  |  |
 
 API Versions
 
