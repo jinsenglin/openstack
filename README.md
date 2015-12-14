@@ -19,6 +19,7 @@ Getting TryStack API Password
 Dependency
 - show-os-keypairs.sh -> get-os-keypairs.sh
 - show-virtual-machines.sh -> get-virtual-machines.sh
+- get-external-gateway-network-subnet-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network.sh -> get-networks.sh
 - [add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
@@ -64,6 +65,7 @@ Argument and Exported Environment Variable
 | create-subnets.sh  | RESP_JSON_SUBNETS_CREATE  | "$network_id"  |
 | get-external-gateway-network.sh  | EXTERNAL_GW_NET  |  |
 | get-external-gateway-network-id.sh  | EXTERNAL_GW_NET_ID  |  |
+| get-external-gateway-network-subnet-id.sh  | EXTERNAL_GW_NET_SUBNET_ID  |  |
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
 | add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  | "$router_id" "$subnet_id"  |
 
