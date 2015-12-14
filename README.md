@@ -19,7 +19,7 @@ Getting TryStack API Password
 Dependency
 - show-os-keypairs.sh -> get-os-keypairs.sh
 - show-virtual-machines.sh -> get-virtual-machines.sh
-- [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
+- [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
@@ -48,6 +48,7 @@ Argument and Exported Environment Variable
 | create-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_CREATE  |  |
 | import-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_IMPORT  | "$public_ssh_key_content"  |
 | get-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS  |  |
+| create-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS_CREATE  |  |
 
 API Versions
 
