@@ -43,3 +43,9 @@ Exported Environment Variable
 | get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
 | get-virtual-machines.sh  | RESP_JSON_SERVERS  |
 | get-api-services.sh  | API_SERVICES  |
+
+API Versions
+
+| Function  | Required API Version  | Current API Version used in Lab |
+| ------------- | ------------- | ------------- |
+| Create or import keypair  | Compute API v2.1  | Compute API v2  |
