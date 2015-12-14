@@ -22,7 +22,8 @@ Dependency
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
-- [get-nova-compute-service.sh , get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
+- get-nova-compute-service.sh -> get-api-services.sh
+- [get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
 - auth-openstack.sh -> example-openrc.sh
  
 Example Usage
