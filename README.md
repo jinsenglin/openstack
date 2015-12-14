@@ -23,7 +23,7 @@ Dependency
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
-- [show-api-services.sh , get-nova-compute-service.sh] -> get-api-services.sh
+- [show-api-services.sh , get-nova-compute-service.sh , get-neutron-network-service.sh] -> get-api-services.sh
 - [get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
 - auth-openstack.sh -> example-openrc.sh
  
@@ -50,10 +50,10 @@ Argument and Exported Environment Variable
 | get-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS  |  |
 | create-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS_CREATE  |  |
 | create-os-security-group-rules.sh  | RESP_JSON_OS_SECGROUP_RULES_CREATE  | "$parent_secgroup_id"  |
+| get-neutron-network-service.sh  | JSON_NEUTRON_NETWORK_SERV  |  |
 
 API Versions
 
 | Function  | Required API Version  | Current API Version used in Lab |
 | ------------- | ------------- | ------------- |
-| Create or import keypair  | Compute API v2.1  | Compute API v2  |
-| Create default security group rule  | Compute API v2.1  | Compute API v2  |
+
