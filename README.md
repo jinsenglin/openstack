@@ -32,9 +32,9 @@ Example Usage
 Example Usage for Debugging
 - ./show-virtual-machines.sh
 
-Exported Variable
+Exported Environment Variable
 
-| Script  | Variable |
+| Script  | Exported Variable |
 | ------------- | ------------- |
 | example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |
 | auth-openstack.sh  | RESP_JSON_AUTH  |
