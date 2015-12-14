@@ -60,7 +60,7 @@ Argument and Exported Environment Variable
 | get-networks.sh  | RESP_JSON_NETWORKS  |  |
 | get-subnets.sh  | RESP_JSON_SUBNETS  |  |
 | create-networks.sh  | RESP_JSON_NETWORKS_CREATE  |  |
-| get-external-gateway.sh  | RESP_JSON_EXTERNAL_GW  |  |
+| get-external-gateway.sh  | EXTERNAL_GW  |  |
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
 
 API Versions
