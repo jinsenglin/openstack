@@ -46,9 +46,10 @@ Argument and Exported Environment Variable
 | get-api-services.sh  | API_SERVICES  |  |
 | get-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS  |  |
 | create-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_CREATE  |  |
-| import-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_IMPORT  | "$public_ssh_key_content"  |
+| import-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_IMPORT  | "$public_sshkey_content"  |
 | get-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS  |  |
 | create-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS_CREATE  |  |
+| create-os-security-group-rules.sh  | RESP_JSON_OS_SECGROUP_RULES_CREATE  | "$parent_secgroup_id"  |
 
 API Versions
 
