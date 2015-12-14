@@ -26,7 +26,7 @@ Dependency
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - get-neutron-network-service-public-url.sh -> get-neutron-network-service.sh
 - show-api-token.sh -> get-api-token.sh
-- [show-api-services.sh , get-nova-compute-service.sh , get-neutron-network-service.sh] -> get-api-services.sh
+- [show-api-services.sh , get-nova-compute-service.sh , get-neutron-network-service.sh , get-glance-image-service.sh] -> get-api-services.sh
 - [get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
 - auth-openstack.sh -> example-openrc.sh
  
@@ -58,6 +58,7 @@ Argument and Exported Environment Variable
 | get-routers.sh  | RESP_JSON_ROUTERS  |  |
 | get-networks.sh  | RESP_JSON_NETWORKS  |  |
 | get-external-gateway.sh  | RESP_JSON_EXTERNAL_GW  |  |
+| get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
 
 API Versions
 
