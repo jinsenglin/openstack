@@ -20,7 +20,7 @@ Dependency
 - show-os-keypairs.sh -> get-os-keypairs.sh
 - show-virtual-machines.sh -> get-virtual-machines.sh
 - get-external-gateway.sh -> get-networks.sh
-- [create-networks.sh , get-networks.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
+- [get-subnets.sh , create-networks.sh , get-networks.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
 - [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
@@ -57,6 +57,7 @@ Argument and Exported Environment Variable
 | get-neutron-network-service-public-url.sh  | NEUTRON_NETWORK_SERV_PUBLIC_URL  |  |
 | get-routers.sh  | RESP_JSON_ROUTERS  |  |
 | get-networks.sh  | RESP_JSON_NETWORKS  |  |
+| get-subnets.sh  | RESP_JSON_SUBNETS  |  |
 | create-networks.sh  | RESP_JSON_NETWORKS_CREATE  |  |
 | get-external-gateway.sh  | RESP_JSON_EXTERNAL_GW  |  |
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
