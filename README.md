@@ -9,6 +9,13 @@ Downloading OpenStack RC File
 - Click 'API Access' in the top menu of the right-side page
 - Click 'Download OpenStack RC File'
 
+Getting TryStack API Password
+- Use browser to visit Horizon dashboard
+- Login Horizon with Facebook Account
+- Click 'Settings' in the left-side menu
+- Click 'API Password' under the 'Settings' menu
+- Click 'Request API password' button in the right-side page
+
 Dependency
 - show-virtual-machines.sh -> get-virtual-machines.sh
 - get-virtual-machines.sh -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
