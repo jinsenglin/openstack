@@ -22,24 +22,13 @@ Dependency
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - show-api-token.sh -> get-api-token.sh
-- [get-nova-compute-service.sh , get-api-token.sh] -> auth-openstack.sh
+- [get-nova-compute-service.sh , get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
 - auth-openstack.sh -> example-openrc.sh
  
 Example Usage
 - bash show-virtual-machines.sh
-- bash show-nova-compute-service-public-url.sh
-- bash show-nova-compute-service.sh
-- bash show-api-token.sh
 
-Debugging
-- ./auth-openstack.sh
-- ./get-api-token.sh
-- ./get-nova-compute-service.sh
-- ./show-api-token.sh
-- ./show-nova-compute-service.sh
-- ./get-nova-compute-service-public-url.sh
-- ./show-nova-compute-service-public-url.sh
-- ./get-virtual-machines.sh
+Example Usage for Debugging
 - ./show-virtual-machines.sh
 
 Exported Variable
@@ -52,3 +41,4 @@ Exported Variable
 | get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |
 | get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
 | get-virtual-machines.sh  | RESP_JSON_SERVERS  |
+| get-api-services.sh  | API_SERVICES  |
