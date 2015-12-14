@@ -56,7 +56,7 @@ Argument and Exported Environment Variable
 | get-neutron-network-service.sh  | JSON_NEUTRON_NETWORK_SERV  |  |
 | get-neutron-network-service-public-url.sh  | NEUTRON_NETWORK_SERV_PUBLIC_URL  |  |
 | get-routers.sh  | RESP_JSON_ROUTERS  |  |
-| create-routers.sh  | RESP_JSON_ROUTERS_CREATE  |  |
+| create-routers.sh  | RESP_JSON_ROUTERS_CREATE  | "$external_gw_network_id"  |
 | get-networks.sh  | RESP_JSON_NETWORKS  |  |
 | get-subnets.sh  | RESP_JSON_SUBNETS  |  |
 | create-networks.sh  | RESP_JSON_NETWORKS_CREATE  |  |
