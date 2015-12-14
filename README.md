@@ -22,6 +22,7 @@ Dependency
 - [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
+- get-neutron-network-service-public-url.sh -> get-neutron-network-service.sh
 - show-api-token.sh -> get-api-token.sh
 - [show-api-services.sh , get-nova-compute-service.sh , get-neutron-network-service.sh] -> get-api-services.sh
 - [get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
@@ -51,6 +52,7 @@ Argument and Exported Environment Variable
 | create-os-security-groups.sh  | RESP_JSON_OS_SECGROUPS_CREATE  |  |
 | create-os-security-group-rules.sh  | RESP_JSON_OS_SECGROUP_RULES_CREATE  | "$parent_secgroup_id"  |
 | get-neutron-network-service.sh  | JSON_NEUTRON_NETWORK_SERV  |  |
+| get-neutron-network-service-public-url.sh  | NEUTRON_NETWORK_SERV_PUBLIC_URL  |  |
 
 API Versions
 
