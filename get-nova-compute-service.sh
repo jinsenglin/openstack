@@ -1,5 +1,5 @@
 #!/bin/bash -ex
 
-source auth-openstack.sh
+source get-api-services.sh
 
-export JSON_NOVA_COMPUTE_SERV=$(echo $RESP_JSON_AUTH | jq '.access.serviceCatalog[] | select(.name == "nova" and .type == "compute")')
+export JSON_NOVA_COMPUTE_SERV=$(echo $API_SERVICES | jq '.[] | select(.name == "nova" and .type == "compute")')
