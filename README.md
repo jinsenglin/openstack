@@ -33,20 +33,20 @@ Example Usage
 Example Usage for Debugging
 - ./show-virtual-machines.sh
 
-Exported Environment Variable
+Argument and Exported Environment Variable
 
-| Script  | Exported Variable |
-| ------------- | ------------- |
-| example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |
-| auth-openstack.sh  | RESP_JSON_AUTH  |
-| get-api-token.sh  | API_TOKEN  |
-| get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |
-| get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |
-| get-virtual-machines.sh  | RESP_JSON_SERVERS  |
-| get-api-services.sh  | API_SERVICES  |
-| get-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS  |
-| create-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_CREATE  |
-| import-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_IMPORT  |
+| Script  | Exported Variable | Argument |
+| ------------- | ------------- | ------------- |
+| example-openrc.sh  | OS_AUTH_URL , OS_TENANT_ID , OS_TENANT_NAME , OS_PROJECT_NAME , OS_USERNAME , OS_PASSWORD , OS_REGION_NAME  |  |
+| auth-openstack.sh  | RESP_JSON_AUTH  |  |
+| get-api-token.sh  | API_TOKEN  |  |
+| get-nova-compute-service.sh  | JSON_NOVA_COMPUTE_SERV  |  |
+| get-nova-compute-service-public-url.sh  | NOVA_COMPUTE_SERV_PUBLIC_URL  |  |
+| get-virtual-machines.sh  | RESP_JSON_SERVERS  |  |
+| get-api-services.sh  | API_SERVICES  |  |
+| get-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS  |  |
+| create-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_CREATE  |  |
+| import-os-keypairs.sh  | RESP_JSON_OS_KEYPAIRS_IMPORT  | "$public_ssh_key_content"  |
 
 API Versions
 
