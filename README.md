@@ -49,3 +49,4 @@ API Versions
 | Function  | Required API Version  | Current API Version used in Lab |
 | ------------- | ------------- | ------------- |
 | Create or import keypair  | Compute API v2.1  | Compute API v2  |
+| Create default security group rule  | Compute API v2.1  | Compute API v2  |
