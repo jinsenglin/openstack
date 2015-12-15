@@ -8,6 +8,5 @@ fi
 source get-api-token.sh
 source get-glance-image-service-public-url.sh
 
-curl -o $RANDOM.img -i -X GET $GLANCE_IMAGE_SERV_PUBLIC_URL/v2/images/$1/file \
-            -H "Content-Type: application/json" \
+curl -o $RANDOM.img -X GET $GLANCE_IMAGE_SERV_PUBLIC_URL/v2/images/$1/file \
             -H "X-Auth-Token: $API_TOKEN"
