@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ $# -lt 1 ]; then
-	echo "Usage: $0 <public ssh key content>"
+	echo "Usage: $([ -z $BASH_ARGV ] && basename $0 || basename $BASH_ARGV) <public ssh key content>"
 	exit 1
 fi
 

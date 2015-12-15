@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ $# -lt 2 ]; then
-	echo "Usage: $0 <router id> <subnet id>"
+	echo "Usage: $([ -z $BASH_ARGV ] && basename $0 || basename $BASH_ARGV) <router id> <subnet id>"
 	exit 1
 fi
 

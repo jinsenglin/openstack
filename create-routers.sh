@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ $# -lt 1 ]; then
-	echo "Usage: $0 <external gateway network id>"
+	echo "Usage: $([ -z $BASH_ARGV ] && basename $0 || basename $BASH_ARGV) <external gateway network id>"
 	exit 1
 fi
 

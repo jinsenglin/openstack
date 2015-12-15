@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ $# -lt 1 ]; then
-        echo "Usage: $0 <parent security group id>"
+        echo "Usage: $([ -z $BASH_ARGV ] && basename $0 || basename $BASH_ARGV) <parent security group id>"
         exit 1
 fi
 

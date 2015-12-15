@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [ $# -lt 1 ]; then
-	echo "Usage: $0 <network id>"
+	echo "Usage: $([ -z $BASH_ARGV ] && basename $0 || basename $BASH_ARGV) <network id>"
 	exit 1
 fi
 
