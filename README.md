@@ -87,6 +87,7 @@ API Versions
 
 Security Group related API Notes
 - http://developer.openstack.org/api-ref-networking-v2-ext.html vs. http://developer.openstack.org/api-ref-compute-v2.1.html
+- Can specify direction vs. Can't
 - RESP_JSON_SECURITY_GROUPS_CREATE vs. RESP_JSON_OS_SECGROUPS_CREATE
 - create-security-groups.sh vs. create-os-security-groups.sh
 - RESP_JSON_SECURITY_GROUPS vs. RESP_JSON_OS_SECGROUPS
