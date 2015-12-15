@@ -72,7 +72,7 @@ Argument and Exported Environment Variable
 | get-security-groups.sh  | RESP_JSON_SECURITY_GROUPS  |  |
 | create-security-groups.sh  | RESP_JSON_SECURITY_GROUPS_CREATE  |  |
 | get-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES  |  |
-| create-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES_CREATE  |  |
+| create-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES_CREATE  | "$sg_id"  |
 
 API Versions
 
