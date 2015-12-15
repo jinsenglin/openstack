@@ -22,7 +22,7 @@ Dependency
 - get-external-gateway-network-subnet-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network.sh -> get-networks.sh
-- [get-security-groups.sh , add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
+- [create-security-groups.sh , get-security-groups.sh , add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
 - [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
@@ -69,6 +69,7 @@ Argument and Exported Environment Variable
 | get-glance-image-service.sh  | JSON_GLANCE_IMAGE_SERV  |  |
 | add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  | "$router_id" "$subnet_id"  |
 | get-security-groups.sh  | RESP_JSON_SECURITY_GROUPS  |  |
+| create-security-groups.sh  | RESP_JSON_SECURITY_GROUPS_CREATE  |  |
 
 API Versions
 
@@ -77,3 +78,6 @@ API Versions
 
 Security Group related API Notes
 - http://developer.openstack.org/api-ref-networking-v2-ext.html vs. http://developer.openstack.org/api-ref-compute-v2.1.html
+- RESP_JSON_SECURITY_GROUPS_CREATE vs. RESP_JSON_OS_SECGROUPS_CREATE
+- create-security-groups.sh vs. create-os-security-groups.sh
+- RESP_JSON_SECURITY_GROUPS vs. RESP_JSON_OS_SECGROUPS
