@@ -27,6 +27,7 @@ Dependency
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - get-neutron-network-service-public-url.sh -> get-neutron-network-service.sh
+- get-glance-image-service-public-url.sh -> get-glance-image-service.sh
 - show-api-token.sh -> get-api-token.sh
 - [show-api-services.sh , get-nova-compute-service.sh , get-neutron-network-service.sh , get-glance-image-service.sh] -> get-api-services.sh
 - [get-api-token.sh , get-api-services.sh] -> auth-openstack.sh
@@ -58,6 +59,7 @@ Argument and Exported Environment Variable
 | create-os-security-group-rules.sh  | RESP_JSON_OS_SECGROUP_RULES_CREATE  | "$parent_secgroup_id"  |
 | get-neutron-network-service.sh  | JSON_NEUTRON_NETWORK_SERV  |  |
 | get-neutron-network-service-public-url.sh  | NEUTRON_NETWORK_SERV_PUBLIC_URL  |  |
+| get-glance-image-service-public-url.sh  | GLANCE_IMAGE_SERV_PUBLIC_URL  |  |
 | get-routers.sh  | RESP_JSON_ROUTERS  |  |
 | create-routers.sh  | RESP_JSON_ROUTERS_CREATE  | "$external_gw_network_id"  |
 | get-networks.sh  | RESP_JSON_NETWORKS  |  |
