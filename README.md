@@ -81,3 +81,6 @@ Security Group related API Notes
 - RESP_JSON_SECURITY_GROUPS_CREATE vs. RESP_JSON_OS_SECGROUPS_CREATE
 - create-security-groups.sh vs. create-os-security-groups.sh
 - RESP_JSON_SECURITY_GROUPS vs. RESP_JSON_OS_SECGROUPS
+- get-security-groups.sh vs. get-os-security-groups.sh
+- RESP_JSON_OS_SECGROUP_RULES_CREATE vs. ?
+- create-os-security-group-rules.sh vs. ?
