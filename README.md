@@ -97,3 +97,6 @@ Security Group related API Notes
 - create-security-group-rules.sh vs. create-os-security-group-rules.sh
 - RESP_JSON_SECURITY_GROUP_RULES vs N/A
 - get-security-group-rules.sh vs N/A
+
+Bugs
+- upload-images.sh
