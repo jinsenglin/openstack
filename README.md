@@ -99,4 +99,4 @@ Security Group related API Notes
 - get-security-group-rules.sh vs N/A
 
 Bugs
-- upload-images.sh
+- upload-images.sh (always only upload half size of the given file , WHY?)
