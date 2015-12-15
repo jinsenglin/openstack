@@ -22,8 +22,8 @@ Dependency
 - get-external-gateway-network-subnet-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network-id.sh -> get-external-gateway-network.sh
 - get-external-gateway-network.sh -> get-networks.sh
-- [create-security-groups.sh , get-security-groups.sh , add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
-- [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
+- [create-security-group-rules.sh , get-security-group-rules.sh , create-security-groups.sh , get-security-groups.sh , add-router-interface.sh , create-subnets.sh , get-subnets.sh , create-networks.sh , get-networks.sh , create-routers.sh , get-routers.sh] -> [get-neutron-network-service-public-url.sh , get-api-token.sh]
+- [get-virtual-machines.sh , get-os-keypairs.sh , create-os-keypairs.sh , import-os-keypairs.sh , get-os-security-groups.sh , create-os-security-groups.sh , create-os-security-group-rules.sh] -> [get-nova-compute-service-public-url.sh , get-api-token.sh]
 - show-nova-compute-service-public-url.sh -> get-nova-compute-service-public-url.sh
 - [show-nova-compute-service.sh , get-nova-compute-service-public-url.sh] -> get-nova-compute-service.sh
 - get-neutron-network-service-public-url.sh -> get-neutron-network-service.sh
@@ -70,6 +70,8 @@ Argument and Exported Environment Variable
 | add-router-interface.sh  | RESP_JSON_ADD_ROUTER_IF  | "$router_id" "$subnet_id"  |
 | get-security-groups.sh  | RESP_JSON_SECURITY_GROUPS  |  |
 | create-security-groups.sh  | RESP_JSON_SECURITY_GROUPS_CREATE  |  |
+| get-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES  |  |
+| create-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES_CREATE  |  |
 
 API Versions
 
@@ -82,5 +84,7 @@ Security Group related API Notes
 - create-security-groups.sh vs. create-os-security-groups.sh
 - RESP_JSON_SECURITY_GROUPS vs. RESP_JSON_OS_SECGROUPS
 - get-security-groups.sh vs. get-os-security-groups.sh
-- RESP_JSON_OS_SECGROUP_RULES_CREATE vs. ?
-- create-os-security-group-rules.sh vs. ?
+- RESP_JSON_SECURITY_GROUP_RULES_CREATE vs. RESP_JSON_OS_SECGROUP_RULES_CREATE
+- create-security-group-rules.sh vs. create-os-security-group-rules.sh
+- RESP_JSON_SECURITY_GROUP_RULES vs N/A
+- get-security-group-rules.sh vs N/A
