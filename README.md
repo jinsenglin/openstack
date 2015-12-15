@@ -99,5 +99,4 @@ Security Group related API Notes
 - get-security-group-rules.sh vs N/A
 
 Bugs
-- download-images.sh
 - upload-images.sh
