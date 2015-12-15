@@ -100,3 +100,4 @@ Security Group related API Notes
 
 Bugs
 - upload-images.sh (always only upload half size of the given file , WHY?)
+- - https://bugs.launchpad.net/openstack-manuals/+bug/1399814
