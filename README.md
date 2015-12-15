@@ -17,7 +17,7 @@ Getting TryStack API Password
 - Click 'Request API password' button in the right-side page
 
 Dependency
-- [get-images.sh] -> [get-glance-image-service-public-url.sh , get-api-token.sh]
+- [create-images.sh , get-images.sh] -> [get-glance-image-service-public-url.sh , get-api-token.sh]
 - show-os-keypairs.sh -> get-os-keypairs.sh
 - show-virtual-machines.sh -> get-virtual-machines.sh
 - get-external-gateway-network-subnet-id.sh -> get-external-gateway-network.sh
@@ -77,6 +77,7 @@ Argument and Exported Environment Variable
 | get-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES  |  |
 | create-security-group-rules.sh  | RESP_JSON_SECURITY_GROUP_RULES_CREATE  | "$sg_id"  |
 | get-images.sh  | RESP_JSON_IMAGES  |  |
+| create-images.sh  | RESP_JSON_IMAGES_CREATE  |  |
 
 API Versions
 
