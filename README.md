@@ -34,6 +34,7 @@ Dependency
  
 Example Usage
 - bash show-virtual-machines.sh
+- source auth-openstack.sh && echo $RESP_JSON_AUTH | jq '.'
 
 Example Usage for Debugging
 - ./show-virtual-machines.sh
