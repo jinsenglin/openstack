@@ -1,7 +1,7 @@
 # openstack
 
 Downloading OpenStack RC File
-- Use browser to visit Horizon dashboard
+- Use browser to visit Horizon dashboard (https://x86.trystack.org/dashboard)
 - Login Horizon
 - Click 'Project' in the left-side menu
 - Click 'Compute' under the 'Project' menu
