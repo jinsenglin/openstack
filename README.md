@@ -101,3 +101,8 @@ Security Group related API Notes
 Bugs
 - upload-images.sh (always only upload half size of the given file , WHY?)
 - - https://bugs.launchpad.net/openstack-manuals/+bug/1399814
+
+Tutorial Creating OpenStack Instance in TryStack
+- https://edwardsamuel.wordpress.com/2014/10/25/tutorial-creating-openstack-instance-in-trystack/
+- To add security group rule: Ingress IPv4 ICMP Any 0.0.0.0/0
+- To add security group rule: Ingress IPv4 SSH Any 0.0.0.0/0
