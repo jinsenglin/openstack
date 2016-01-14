@@ -38,5 +38,9 @@ source $OPENRC_FILE
 	SECURITY_GROUP_NAME=$OS_TENANT_NAME
 	# bash create-security-group-rules-for-devops.sh $SECURITY_GROUP_NAME
 
+# to launch platform-installer virtual machine
+	# source launch-platform-installer-vm.sh $INSTALLER_IMAGE_ID $SECURITY_GROUP_NAME $KEYPAIR_NAME $NETWORK_ID
+	source launch-platform-installer-vm.state
+
 # to update init-paas-for-devops.sh script
 	bash update-init-paas-for-devops.sh
