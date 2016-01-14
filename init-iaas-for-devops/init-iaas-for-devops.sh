@@ -2,37 +2,41 @@
 
 set -ex
 
-if [ $# -lt 2 ]; then
-	echo "Usage: $0 EXTERNAL_NET_ID CLOUD_IMAGE_ID"
+if [ $# -lt 4 ]; then
+	echo "Usage: $0 EXTERNAL_NET_ID INSTALLER_IMAGE_FILE UBUNTU_IMAGE_FILE OPENRC_FILE"
 	exit 1
 fi
-POSTFIX="-dev" #empty for production; "-dev" for development
+EXTERNAL_NET_ID=$1
+INSTALLER_IMAGE_FILE=$2
+UBUNTU_IMAGE_FILE=$3
+OPENRC_FILE=$4
 
-source devops-openrc.sh
+source $OPENRC_FILE
 
+# to upload image
+	# source upload-image-for-devops.sh $INSTALLER_IMAGE_FILE $UBUNTU_IMAGE_FILE
+	source upload-image-for-devops.state
  
 # to create router
-	ROUTER_NAME=devops$POSTFIX
-	EXTERNAL_NET_ID=$1 
+	ROUTER_NAME=$OS_TENANT_NAME
 	# source create-router-for-devops.sh $ROUTER_NAME $EXTERNAL_NET_ID
-
+	source create-router-for-devops.state
 
 # to create network and subnet
-	NETWORK_NAME=devops$POSTFIX
+	NETWORK_NAME=$OS_TENANT_NAME
 	# source create-network-for-devops.sh $NETWORK_NAME 
+	source create-network-for-devops.state
 
 # to link router and subnet
 	# bash link-router-and-subnet.sh $ROUTER_ID $SUBNET_ID
 
-
 # to create ssh key pair
-	KEYPAIR_NAME=devops$POSTFIX
-	# bash create-ssh-key-pair.sh
+	KEYPAIR_NAME=$OS_TENANT_NAME
+	# bash create-ssh-key-pair.sh $KEYPAIR_NAME
 
 # to create security group and rules
-	SECURITY_GROUP_NAME=devops$POSTFIX
+	SECURITY_GROUP_NAME=$OS_TENANT_NAME
 	# bash create-security-group-rules-for-devops.sh $SECURITY_GROUP_NAME
 
 # to update init-paas-for-devops.sh script
-	CLOUD_IMAGE_ID=$2
 	bash update-init-paas-for-devops.sh

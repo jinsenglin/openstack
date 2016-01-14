@@ -16,20 +16,6 @@
 
 set -ex
 
-step0
-#step1
-#source init-paas-for-devops.state && step2
-#source init-paas-for-devops.state && step3
-#source init-paas-for-devops.state && step4
-#source init-paas-for-devops.state && step5
-#source init-paas-for-devops.state && step6
-#source init-paas-for-devops.state && step7
-#source init-paas-for-devops.state && step8
-#source init-paas-for-devops.state && step9
-#source init-paas-for-devops.state && step10
-#source init-paas-for-devops.state && step11
-#source init-paas-for-devops.state && step12
-
 function step0() {
   OpenStackImageID="412beaba-bb81-4e41-9f0e-afaf0a3aa3ad" # CHANGE ME when IaaS changed
   OpenStackNetID="26c8fc94-eb7f-47b5-9911-45ab66a72918" # CHANGE ME when IaaS changed
@@ -413,3 +399,19 @@ function step12() {
   echo "export OSSAPI_IP='$OSSAPI_IP'" >> init-paas-for-devops.state
   echo "export RESP_INSTALL_OSSAPI='$RESP_INSTALL_OSSAPI'" >> init-paas-for-devops.state
 }
+
+#main
+	step0
+	#step1
+	#source init-paas-for-devops.state && step2
+	#source init-paas-for-devops.state && step3
+	#source init-paas-for-devops.state && step4
+	#source init-paas-for-devops.state && step5
+	#source init-paas-for-devops.state && step6
+	#source init-paas-for-devops.state && step7
+	#source init-paas-for-devops.state && step8
+	#source init-paas-for-devops.state && step9
+	#source init-paas-for-devops.state && step10
+	#source init-paas-for-devops.state && step11
+	#source init-paas-for-devops.state && step12
+
