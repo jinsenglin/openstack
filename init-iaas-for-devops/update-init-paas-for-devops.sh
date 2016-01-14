@@ -2,12 +2,19 @@
 
 set -ex
 
-curl https://raw.githubusercontent.com/jinsenglin/cloudcli/master/paas-boostrap-api-server-integration-test > init-paas-for-devops.sh
+# to update OpenStackImageID with cloud-image-id
 
-# to update
+# to update OpenStackNetID with network-id
 
-# to update
+# to update IaaSVMSSHKeyContent with ssh-private-key-content
 
-# to update
+# to update OpenStackTenantName with
+# to update OpenStackUserName with
+# to update OpenStackAPIKey with
+# to update IaaSVMSSHKeyName with
+# to update OpenStackSecurityGroupID with
 
-# to update
+# to update API_SERVER
+# to update OpenStackAuthURL
+# to update OpenStackNetIPPublicMicrobosh
+# to update OpenStackNetIPPublicCF
