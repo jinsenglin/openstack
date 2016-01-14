@@ -67,7 +67,7 @@ RESP_CREATE_LDAP_VM=$(curl -X POST --header "Content-Type: application/json" --h
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_CREATE_LDAP_VM='$RESP_CREATE_LDAP_VM'" >> paas-boostrap-api-server-integration-test.state
 }
-step1
+#step1
 
 # 2/12
 source paas-boostrap-api-server-integration-test.state
@@ -90,7 +90,7 @@ echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export LDAP_IP='$LDAP_IP'" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> paas-boostrap-api-server-integration-test.state
 }
-step2
+#step2
 
 # 3/12
 source paas-boostrap-api-server-integration-test.state
@@ -114,7 +114,7 @@ RESP_CREATE_INCEPTION_VM=$(curl -X POST --header "Content-Type: application/json
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_CREATE_INCEPTION_VM='$RESP_CREATE_INCEPTION_VM'" >> paas-boostrap-api-server-integration-test.state
 }
-step3
+#step3
 
 # 4/12
 source paas-boostrap-api-server-integration-test.state
@@ -137,7 +137,7 @@ echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export INCEPTION_IP='$INCEPTION_IP'" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> paas-boostrap-api-server-integration-test.state
 }
-step4
+#step4
 
 # 5/12
 source paas-boostrap-api-server-integration-test.state
@@ -173,7 +173,7 @@ echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export INCEPTION_IP='$INCEPTION_IP'" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> paas-boostrap-api-server-integration-test.state
 }
-step5
+#step5
 
 # 6/12
 source paas-boostrap-api-server-integration-test.state
@@ -197,7 +197,7 @@ RESP_CREATE_APIM_VM=$(curl -X POST --header "Content-Type: application/json" --h
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_CREATE_APIM_VM='$RESP_CREATE_APIM_VM'" >> paas-boostrap-api-server-integration-test.state
 }
-step6
+#step6
 
 # 7/12
 source paas-boostrap-api-server-integration-test.state
@@ -257,7 +257,7 @@ echo "export LDAP_userNameListFilter='$LDAP_userNameListFilter'" >> paas-boostra
 echo "export LDAP_userNameSearchFilter='$LDAP_userNameSearchFilter'" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_INSTALL_APIM='$RESP_INSTALL_APIM'" >> paas-boostrap-api-server-integration-test.state
 }
-step7
+#step7
 
 # 8/12
 source paas-boostrap-api-server-integration-test.state
@@ -281,7 +281,7 @@ RESP_CREATE_IDP_VM=$(curl -X POST --header "Content-Type: application/json" --he
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> paas-boostrap-api-server-integration-test.state
 }
-step8
+#step8
 
 # 9/12
 source paas-boostrap-api-server-integration-test.state
@@ -304,7 +304,7 @@ echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export IDP_IP='$IDP_IP'" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_INSTALL_IDP='$RESP_INSTALL_IDP'" >> paas-boostrap-api-server-integration-test.state
 }
-step9
+#step9
 
 # 10/12
 source paas-boostrap-api-server-integration-test.state
@@ -328,7 +328,7 @@ RESP_CREATE_OSSAPI_VM=$(curl -X POST --header "Content-Type: application/json" -
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> paas-boostrap-api-server-integration-test.state
 }
-step10
+#step10
 
 # 11/12
 source paas-boostrap-api-server-integration-test.state
@@ -426,5 +426,6 @@ RESP_INSTALL_OSSAPI=$(curl -X POST --header "Content-Type: application/json" --h
 
 echo "# $(date)" >> paas-boostrap-api-server-integration-test.state
 echo "export OSSAPI_IP='$OSSAPI_IP'" >> paas-boostrap-api-server-integration-test.state
+echo "export RESP_INSTALL_OSSAPI='$RESP_INSTALL_OSSAPI'" >> paas-boostrap-api-server-integration-test.state
 }
-step12
+#step12
