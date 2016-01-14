@@ -15,17 +15,15 @@ export OS_AUTH_URL=http://10.5.50.3:5000/v2.0
 
 # With the addition of Keystone we have standardized on the term **tenant**
 # as the entity that owns the resources.
-export OS_TENANT_ID=abafb59666954e4b903f648b44bfa6fc
-export OS_TENANT_NAME="cloudfoundry"
-export OS_PROJECT_NAME="cloudfoundry"
+export OS_TENANT_ID=237fefa0477f4d4c8ea30a96a41fbe0b
+export OS_TENANT_NAME="devops"
+export OS_PROJECT_NAME="devops"
 
 # In addition to the owning entity (tenant), OpenStack stores the entity
 # performing the action as the **user**.
 export OS_USERNAME="devops"
 
 # With Keystone you pass the keystone password.
-#echo "Please enter your OpenStack Password: "
-#read -sr OS_PASSWORD_INPUT
 export OS_PASSWORD=devops
 
 # If your configuration has multiple regions, we set that information here.
