@@ -42,5 +42,9 @@ source $OPENRC_FILE
 	# source launch-platform-installer-vm.sh $INSTALLER_IMAGE_ID $SECURITY_GROUP_NAME $KEYPAIR_NAME $NETWORK_ID
 	source launch-platform-installer-vm.state
 
+# to create floating ips
+	# source create-floating-ips.sh
+	# source create-floating-ips.state
+
 # to update init-paas-for-devops.sh script
 	bash update-init-paas-for-devops.sh
