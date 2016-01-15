@@ -44,7 +44,7 @@ source $OPENRC_FILE
 
 # to create floating ips
 	# source create-floating-ips.sh
-	# source create-floating-ips.state
+	source create-floating-ips.state
 
-# to update init-paas-for-devops.sh script
-	bash update-init-paas-for-devops.sh
+# to create init-openstack-for-devops.state 
+	bash create-init-openstack-for-devops.state.sh 
