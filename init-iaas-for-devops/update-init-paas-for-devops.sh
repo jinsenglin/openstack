@@ -9,7 +9,7 @@ echo "export UBUNTU_IMAGE_ID=$UBUNTU_IMAGE_ID" >> init.openstack.for-devops.stat
 echo "export SUBNET_ID=$SUBNET_ID" >> init.openstack.for-devops.state
 
 # to update IaaSVMSSHKeyContent with ssh-private-key-content
-# TODO
+echo "export SSH_KEY_CONTENT=$(sed ':a;N;$!ba;s/\n/|/g' $OS_TENANT_NAME.pem)" >> init.openstack.for-devops.state
 
 # to update OpenStackTenantName with
 echo "export OS_TENANT_NAME=$OS_TENANT_NAME" >> init.openstack.for-devops.state
