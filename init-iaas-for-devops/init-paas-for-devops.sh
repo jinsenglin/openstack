@@ -16,6 +16,8 @@
 
 set -ex
 
+source init.openstack.for-devops.state
+
 function step0() {
   OpenStackImageID="412beaba-bb81-4e41-9f0e-afaf0a3aa3ad" # CHANGE ME when IaaS changed
   OpenStackNetID="26c8fc94-eb7f-47b5-9911-45ab66a72918" # CHANGE ME when IaaS changed
