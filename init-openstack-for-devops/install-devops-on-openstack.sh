@@ -16,23 +16,23 @@
 
 set -ex
 
-source init.openstack.for-devops.state
+source init-openstack-for-devops.state
 
 function step0() {
-  OpenStackImageID="412beaba-bb81-4e41-9f0e-afaf0a3aa3ad" # CHANGE ME when IaaS changed
-  OpenStackNetID="26c8fc94-eb7f-47b5-9911-45ab66a72918" # CHANGE ME when IaaS changed
-  IaaSVMSSHKeyContent="-----BEGIN RSA PRIVATE KEY-----|MIIEowIBAAKCAQEAlkohoIKUxEHPb/IuURYyDfohRpFOSadNZmy5QphBT8hBOVeE|ne1Wllv9Of/w1E9DxhZqOzsITs9jExyQcOfMUcb65goJA5cLPmZ1iTYSlvfgTQ8C|i1bRQ3J0HlAakJjmTCN/sUV3W05Z3JRTiqv3pIUGaf1BRfmEg4JVkZLBm9gFE3qi|E8xkWOyJn6wqtXcHFLpdqxSUHDgEQODV38SRdomyM1kaJBI/FxEzn3bXKuWMQx6x|5ThupVd6/SIzvF4rqr3K9sD3eq1GrygCk1vFr1nn3BuLvxmB/vbF5FN5AGGNx9P9|TxUyHeCfITiTDZDWwKL5S3Oms+QuItHBYzft7QIDAQABAoIBAD38z4fbtC6Kkluz|ASWSyQx4ybbIggjhB4yidXshP3b/ut9C2MEmvlsAEB8XEKcRFnwijKhnfdK7uTqN|wom/IcftEVlGdFdVul5/diUk91/rV0mRUlRUd7WhBIHoOjy/w+VNkwJ0C3nOhEP1|rct5iIgEEhQvT/fjpaN0Y4TKii6TthpkjiNnLSf2vmKowc9DFGU2ZnC0HDnbym2e|SWlKxz/l4QFD0ioA+biMcoV0i2qpp4A6i5W+2VsEYlv9kZJJaEaVEIjWoGxJABks|EKFjvyss9cQUHWDBGWmZ6gy+HjS96XxCdnMps73d6V3cjisSd5xyq1WZFdBMYGlk|h7lhquUCgYEAxqkzVOooLb5JVk/jMnH0gwdBHtp+eGMr+ZvYGMqRYTeonRxj8szz|CXyFvBbI/5YsYmGTwFt2m4YN5ObsSv0x7HKp8MgpDzlTDuDL5DPZkMYo5QNuv93d|jMLXgfCabDgNecnsGQkC+5yMt5JEGGShZzIw7zkptF41WjrAKgjlM/sCgYEAwarV|WwJTc762RVvb1K61bHCMLi70rEhRd8ezAqhrM7SZAKQqgcu2lxbTc82r/LG9lbbn|16vPL8/0YpdtoP+yQC9mNSN+B/RJO8qlVAxVjCemHaD/l/aTkad8wMv999DhF+Hy|9zCoGulzbhJU/mskncE+PyRm84FjUkP7RJSe2TcCgYEAhIGdJHlevUwb3H9CmoYZ|wj/Xdr3j92amkUIavEZ4+7BFPi4OmIeNX/l3tkI4ZQoEpsZQ58/Z59hdch145HfH|kd/VbC4F/QqOVPEp7heLeZ5C7qYAe+d/fAEF/7y9M4ubqW0+lmBFZhBAZ70ewGp2|ob9/lkC5iX4A9iMTw7XVM3sCgYBSt/zZGm06isKfbVS/yr+Cya+WKkgnLdxeJNW4|1Oa09vZC59ugBLrAXeeDFt3W2LP5Nl5gJ+oeqdvgIH2avpwL/jLRj49NJnIBL9Td|yUbgzi6NiS6iYZc2JyuJzZd0Oatq3/8+xXGHzR6YbQwQfwLsvpUvswSmDSW3BYJV|EIWokQKBgDXGuIvrcdVthYKREwGmskZkRtTy9/eEd1E6HFZ841DANublSsn0bWBu|9nqtlGu2Jp6nAmM4ppYCBjIKsjaCL3muCOrh3BKFE+MEztpmN+6Uqi9vrqoBeI9f|e+V5GNCWXCZ61BtjZGC+rXi/NhO5QM4AqjCBgktWGshz55ovdM6j|-----END RSA PRIVATE KEY-----" # CHANGE ME when IaaS changed
+  API_SERVER="http://$INSTALLER_FLOATING_IP:9000"
 
-  OpenStackTenantName="devops"
-  OpenStackUserName="devops"
-  OpenStackAPIKey="devops"
-  IaaSVMSSHKeyName="devops"
-  OpenStackSecurityGroupID="devops"
+  IaaSVMSSHKeyContent="${SSH_KEY_CONTENT::-1}"
+  IaaSVMSSHKeyName="$KEYPAIR_NAME"
 
-  API_SERVER="http://10.5.50.134:9000" # CHANGE IT when platform-installer virtual machine changed
-  OpenStackAuthURL="http://10.5.50.3:5000/v2.0" # CHANGE ME when IaaS changed
-  OpenStackNetIPPublicMicrobosh="10.5.50.135" # CHANGE ME when IaaS changed
-  OpenStackNetIPPublicCF="10.5.50.140" # CHANGE ME when IaaS changed
+  OpenStackImageID="$UBUNTU_IMAGE_ID"
+  OpenStackNetID="$SUBNET_ID"
+  OpenStackTenantName="$OS_TENANT_NAME"
+  OpenStackUserName="$OS_USERNAME"
+  OpenStackAPIKey="$OS_PASSWORD"
+  OpenStackSecurityGroupID="$SECURITY_GROUP_NAME"
+  OpenStackAuthURL="$OS_AUTH_URL"
+  OpenStackNetIPPublicMicrobosh="$MICROBOSH_FLOATING_IP"
+  OpenStackNetIPPublicCF="$CF_FLOATING_IP"
 
   IaaSVMSSHAccount="ubuntu"
   OpenStackNetDNS="8.8.8.8"
@@ -50,12 +50,12 @@ function step0() {
   OpenStackNetIPPrivateCFNfs="192.168.100.105"
   OpenStackNetIPPrivateCFPostgres="192.168.100.106"
   OpenStackNetIPPrivateCFRouter="192.168.100.107"
-  OpenStackNetIPPrivateCFRunner="192.168.100.108"
+  OpenStackNetIPPrivateCFRunner="192.168.101.108"
 }
 
 function step1() {
-  echo "# step1" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step1 create_ldap_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_LDAP_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaaSType\": \"openstack\",
@@ -70,13 +70,16 @@ function step1() {
   \"openStackUserName\": \"$OpenStackUserName\"
   }" $API_SERVER/task/create_ldap_vm?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export RESP_CREATE_LDAP_VM='$RESP_CREATE_LDAP_VM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_LDAP_VM='$RESP_CREATE_LDAP_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_LDAP_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step2() {
-  echo "# step2" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step2 install_ldap" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   LDAP_IP=$(echo $RESP_CREATE_LDAP_VM | jq '.artifact.ldapvmendpoint' | sed 's/"//g')
   RESP_INSTALL_LDAP=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -87,16 +90,20 @@ function step2() {
   \"ldap\": {
     \"ldapvmendpoint\": \"$LDAP_IP\"
   }
-  }" $API_SERVER/task/install_ldap?api_key=apiKey&api_key=apiKey | sed 's/&amp;/\&/g')
+  }" $API_SERVER/task/install_ldap?api_key=apiKey&api_key=apiKey)
+  RESP_INSTALL_LDAP=$(echo $RESP_INSTALL_LDAP | sed 's/&amp;/\&/g')
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export LDAP_IP='$LDAP_IP'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export LDAP_IP='$LDAP_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_LDAP" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step3() {
-  echo "# step3" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step3 create_inception_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_INCEPTION_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaaSType\": \"openstack\",
@@ -111,13 +118,16 @@ function step3() {
   \"openStackUserName\": \"$OpenStackUserName\"
   }" $API_SERVER/task/create_inception_vm?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export RESP_CREATE_INCEPTION_VM='$RESP_CREATE_INCEPTION_VM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_INCEPTION_VM='$RESP_CREATE_INCEPTION_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_INCEPTION_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step4() {
-  echo "# step4" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step4 install_inception" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
   RESP_INSTALL_INCEPTION=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -130,14 +140,17 @@ function step4() {
   }
   }" $API_SERVER/task/install_inception?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export INCEPTION_IP='$INCEPTION_IP'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_INCEPTION" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step5() {
-  echo "# step5" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step5 install_microbosh" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
   RESP_INSTALL_MICROBOSH=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -163,14 +176,17 @@ function step5() {
   }
   }" $API_SERVER/task/install_microbosh?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export INCEPTION_IP='$INCEPTION_IP'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_MICROBOSH" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step6() {
-  echo "# step6" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step6 create_apim_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_APIM_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaaSType\": \"openstack\",
@@ -185,13 +201,16 @@ function step6() {
   \"openStackUserName\": \"$OpenStackUserName\"
   }" $API_SERVER/task/create_apim_vm?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export RESP_CREATE_APIM_VM='$RESP_CREATE_APIM_VM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_APIM_VM='$RESP_CREATE_APIM_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_APIM_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step7() {
-  echo "# step7" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step7 install_apim" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   APIM_IP=$(echo $RESP_CREATE_APIM_VM | jq '.artifact.apimvmendpoint' | sed 's/"//g')
   LDAP_IP=$(echo $RESP_CREATE_LDAP_VM | jq '.artifact.ldapvmendpoint' | sed 's/"//g')
@@ -229,26 +248,29 @@ function step7() {
   }
   }" $API_SERVER/task/install_apim?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export APIM_IP='$APIM_IP'" >> init-paas-for-devops.state
-  echo "export LDAP_IP='$LDAP_IP'" >> init-paas-for-devops.state
-  echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> init-paas-for-devops.state
-  echo "export LDAP_URL='$LDAP_URL'" >> init-paas-for-devops.state
-  echo "export LDAP_USERDN='$LDAP_USERDN'" >> init-paas-for-devops.state
-  echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> init-paas-for-devops.state
-  echo "export LDAP_groupNameAttribute='$LDAP_groupNameAttribute'" >> init-paas-for-devops.state
-  echo "export LDAP_groupNameListFilter='$LDAP_groupNameListFilter'" >> init-paas-for-devops.state
-  echo "export LDAP_groupNameSearchFilter='$LDAP_groupNameSearchFilter'" >> init-paas-for-devops.state
-  echo "export LDAP_groupSearchBase='$LDAP_groupSearchBase'" >> init-paas-for-devops.state
-  echo "export LDAP_userNameAttribute='$LDAP_userNameAttribute'" >> init-paas-for-devops.state
-  echo "export LDAP_userNameListFilter='$LDAP_userNameListFilter'" >> init-paas-for-devops.state
-  echo "export LDAP_userNameSearchFilter='$LDAP_userNameSearchFilter'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_APIM='$RESP_INSTALL_APIM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export APIM_IP='$APIM_IP'" >> install-devops-on-openstack.state
+  echo "export LDAP_IP='$LDAP_IP'" >> install-devops-on-openstack.state
+  echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> install-devops-on-openstack.state
+  echo "export LDAP_URL='$LDAP_URL'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERDN='$LDAP_USERDN'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> install-devops-on-openstack.state
+  echo "export LDAP_groupNameAttribute='$LDAP_groupNameAttribute'" >> install-devops-on-openstack.state
+  echo "export LDAP_groupNameListFilter='$LDAP_groupNameListFilter'" >> install-devops-on-openstack.state
+  echo "export LDAP_groupNameSearchFilter='$LDAP_groupNameSearchFilter'" >> install-devops-on-openstack.state
+  echo "export LDAP_groupSearchBase='$LDAP_groupSearchBase'" >> install-devops-on-openstack.state
+  echo "export LDAP_userNameAttribute='$LDAP_userNameAttribute'" >> install-devops-on-openstack.state
+  echo "export LDAP_userNameListFilter='$LDAP_userNameListFilter'" >> install-devops-on-openstack.state
+  echo "export LDAP_userNameSearchFilter='$LDAP_userNameSearchFilter'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_APIM='$RESP_INSTALL_APIM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_APIM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step8() {
-  echo "# step8" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step8 create_idp_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_IDP_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaaSType\": \"openstack\",
@@ -263,13 +285,16 @@ function step8() {
   \"openStackUserName\": \"$OpenStackUserName\"
   }" $API_SERVER/task/create_idp_vm?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_IDP_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step9() {
-  echo "# step9" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step9 install_idp" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   IDP_IP=$(echo $RESP_CREATE_IDP_VM | jq '.artifact.idpvmendpoint' | sed 's/"//g')
   RESP_INSTALL_IDP=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -282,14 +307,17 @@ function step9() {
   }
   }" $API_SERVER/task/install_idp?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export IDP_IP='$IDP_IP'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_IDP='$RESP_INSTALL_IDP'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export IDP_IP='$IDP_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_IDP='$RESP_INSTALL_IDP'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_IDP" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step10() {
-  echo "# step10" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step10 create_ossapi_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_OSSAPI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaaSType\": \"openstack\",
@@ -304,13 +332,16 @@ function step10() {
   \"openStackUserName\": \"$OpenStackUserName\"
   }" $API_SERVER/task/create_ossapi_vm?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_OSSAPI_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step11() {
-  echo "# step11" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step11 install_cf" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
   LDAP_SEARCHBASE=$(echo $RESP_INSTALL_LDAP | jq '.artifact.searchBase' | sed 's/"//g')
@@ -354,21 +385,32 @@ function step11() {
   }
   }" $API_SERVER/task/install_cf?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export INCEPTION_IP='$INCEPTION_IP'" >> init-paas-for-devops.state
-  echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> init-paas-for-devops.state
-  echo "export LDAP_SEARCHFILTER='$LDAP_SEARCHFILTER'" >> init-paas-for-devops.state
-  echo "export LDAP_URL='$LDAP_URL'" >> init-paas-for-devops.state
-  echo "export LDAP_USERDN='$LDAP_USERDN'" >> init-paas-for-devops.state
-  echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_CF='$RESP_INSTALL_CF'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
+  echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> install-devops-on-openstack.state
+  echo "export LDAP_SEARCHFILTER='$LDAP_SEARCHFILTER'" >> install-devops-on-openstack.state
+  echo "export LDAP_URL='$LDAP_URL'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERDN='$LDAP_USERDN'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_CF='$RESP_INSTALL_CF'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_CF" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 function step12() {
-  echo "# step12" >> init-paas-for-devops.state
-  echo "# $(date)" >> init-paas-for-devops.state
+  echo "# Step12 install_ossapi" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   OSSAPI_IP=$(echo $RESP_CREATE_OSSAPI_VM | jq '.artifact.ossapiVMEndpoint' | sed 's/"//g')
+  LDAP_SEARCHBASE=$(echo $RESP_INSTALL_LDAP | jq '.artifact.searchBase' | sed 's/"//g')
+  LDAP_SEARCHFILTER=$(echo $RESP_INSTALL_LDAP | jq '.artifact.searchFilter' | sed 's/"//g')
+  LDAP_URL=$(echo $RESP_INSTALL_LDAP | jq '.artifact.url' | sed 's/"//g')
+  LDAP_USERDN=$(echo $RESP_INSTALL_LDAP | jq '.artifact.userDN' | sed 's/"//g')
+  LDAP_USERPASSWORD=$(echo $RESP_INSTALL_LDAP | jq '.artifact.userPassword' | sed 's/"//g')
+  CF_API_URL=$(echo $RESP_INSTALL_CF | jq '.artifact.cfapiendpoint' | sed 's/"//g')
+  CF_ADMIN_USER=$(echo $RESP_INSTALL_CF | jq '.artifact.cfadminUser' | sed 's/"//g')
+  CF_ADMIN_PASS=$(echo $RESP_INSTALL_CF | jq '.artifact.cfadminPassword' | sed 's/"//g')
   RESP_INSTALL_OSSAPI=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaas\": {
     \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
@@ -379,16 +421,16 @@ function step12() {
     \"ossapiVMEndpoint\": \"$OSSAPI_IP\"
   },
   \"ldap\": {
-    \"searchBase\": \"ou=users,ou=system\",
-    \"searchFilter\": \"uid={0}\",
-    \"url\": \"ldap://192.168.100.4:10389\",
-    \"userDN\": \"uid=admin,ou=system\",
-    \"userPassword\": \"secret\"
+    \"searchBase\": \"$LDAP_SEARCHBASE\",
+    \"searchFilter\": \"$LDAP_SEARCHFILTER\",
+    \"url\": \"$LDAP_URL\",
+    \"userDN\": \"$LDAP_USERDN\",
+    \"userPassword\": \"$LDAP_USERPASSWORD\"
   },
   \"cf\": {
-    \"cfapiendpoint\": \"https://api.10.5.50.140.xip.io\",
-    \"cfadminUser\": \"admin\",
-    \"cfadminPassword\": \"cfadmin\"
+    \"cfapiendpoint\": \"$CF_API_URL\",
+    \"cfadminUser\": \"$CF_ADMIN_USER\",
+    \"cfadminPassword\": \"$CF_ADMIN_PASS\"
   },
   \"microbosh\": {
     \"microboshAPIEndpoint\": \"https://192.168.100.6:25555\",
@@ -397,23 +439,34 @@ function step12() {
   }
   }" $API_SERVER/task/install_ossapi?api_key=apiKey&api_key=apiKey)
 
-  echo "# $(date)" >> init-paas-for-devops.state
-  echo "export OSSAPI_IP='$OSSAPI_IP'" >> init-paas-for-devops.state
-  echo "export RESP_INSTALL_OSSAPI='$RESP_INSTALL_OSSAPI'" >> init-paas-for-devops.state
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export OSSAPI_IP='$OSSAPI_IP'" >> install-devops-on-openstack.state
+  echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> install-devops-on-openstack.state
+  echo "export LDAP_SEARCHFILTER='$LDAP_SEARCHFILTER'" >> install-devops-on-openstack.state
+  echo "export LDAP_URL='$LDAP_URL'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERDN='$LDAP_USERDN'" >> install-devops-on-openstack.state
+  echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> install-devops-on-openstack.state
+  echo "export CF_API_URL='$CF_API_URL'" >> install-devops-on-openstack.state
+  echo "export CF_ADMIN_USER='$CF_ADMIN_USER'" >> install-devops-on-openstack.state
+  echo "export CF_ADMIN_PASS='$CF_ADMIN_PASS'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_OSSAPI='$RESP_INSTALL_OSSAPI'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_OSSAPI" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
 }
 
 #main
 	step0
 	#step1
-	#source init-paas-for-devops.state && step2
-	#source init-paas-for-devops.state && step3
-	#source init-paas-for-devops.state && step4
-	#source init-paas-for-devops.state && step5
-	#source init-paas-for-devops.state && step6
-	#source init-paas-for-devops.state && step7
-	#source init-paas-for-devops.state && step8
-	#source init-paas-for-devops.state && step9
-	#source init-paas-for-devops.state && step10
-	#source init-paas-for-devops.state && step11
-	#source init-paas-for-devops.state && step12
+	#source install-devops-on-openstack.state && step2
+	#source install-devops-on-openstack.state && step3
+	#source install-devops-on-openstack.state && step4
+	#source install-devops-on-openstack.state && step5
+	#source install-devops-on-openstack.state && step6
+	#source install-devops-on-openstack.state && step7
+	#source install-devops-on-openstack.state && step8
+	#source install-devops-on-openstack.state && step9
+	#source install-devops-on-openstack.state && step10
+	#source install-devops-on-openstack.state && step11
+	#source install-devops-on-openstack.state && step12
 
