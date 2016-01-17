@@ -458,16 +458,16 @@ function step12() {
 
 #main
 	step0
-#	step1
-#	sleep 10 && source install-devops-on-openstack.state && step2
-#	sleep 10 && source install-devops-on-openstack.state && step3
-#	sleep 10 && source install-devops-on-openstack.state && step4
-#	sleep 10 && source install-devops-on-openstack.state && step5
-#	sleep 10 && source install-devops-on-openstack.state && step6
-#	sleep 10 && source install-devops-on-openstack.state && step7
-#	sleep 10 && source install-devops-on-openstack.state && step8
-#	sleep 10 && source install-devops-on-openstack.state && step9
-#	sleep 10 && source install-devops-on-openstack.state && step10
+	step1
+	sleep 10 && source install-devops-on-openstack.state && step2
+	sleep 10 && source install-devops-on-openstack.state && step3
+	sleep 10 && source install-devops-on-openstack.state && step4
+	sleep 10 && source install-devops-on-openstack.state && step5
+	sleep 10 && source install-devops-on-openstack.state && step6
+	sleep 10 && source install-devops-on-openstack.state && step7
+	sleep 10 && source install-devops-on-openstack.state && step8
+	sleep 10 && source install-devops-on-openstack.state && step9
+	sleep 10 && source install-devops-on-openstack.state && step10
 	sleep 10 && source install-devops-on-openstack.state && step11 
 	sleep 10 && source install-devops-on-openstack.state && step12
 
