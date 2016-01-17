@@ -25,7 +25,8 @@ function step0() {
   IaaSVMSSHKeyName="$KEYPAIR_NAME"
 
   OpenStackImageID="$UBUNTU_IMAGE_ID"
-  OpenStackNetID="$SUBNET_ID"
+# OpenStackNetID="$SUBNET_ID"
+  OpenStackNetID="$NETWORK_ID"
   OpenStackTenantName="$OS_TENANT_NAME"
   OpenStackUserName="$OS_USERNAME"
   OpenStackAPIKey="$OS_PASSWORD"
@@ -457,16 +458,16 @@ function step12() {
 
 #main
 	step0
-	step1
-	source install-devops-on-openstack.state && step2
-	source install-devops-on-openstack.state && step3
-	source install-devops-on-openstack.state && step4
-	source install-devops-on-openstack.state && step5
-	source install-devops-on-openstack.state && step6
-	source install-devops-on-openstack.state && step7
-	source install-devops-on-openstack.state && step8
-	source install-devops-on-openstack.state && step9
-	source install-devops-on-openstack.state && step10
-	source install-devops-on-openstack.state && step11
-	source install-devops-on-openstack.state && step12
+#	step1
+#	sleep 10 && source install-devops-on-openstack.state && step2
+#	sleep 10 && source install-devops-on-openstack.state && step3
+#	sleep 10 && source install-devops-on-openstack.state && step4
+#	sleep 10 && source install-devops-on-openstack.state && step5
+#	sleep 10 && source install-devops-on-openstack.state && step6
+#	sleep 10 && source install-devops-on-openstack.state && step7
+#	sleep 10 && source install-devops-on-openstack.state && step8
+#	sleep 10 && source install-devops-on-openstack.state && step9
+#	sleep 10 && source install-devops-on-openstack.state && step10
+	sleep 10 && source install-devops-on-openstack.state && step11 
+	sleep 10 && source install-devops-on-openstack.state && step12
 

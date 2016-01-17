@@ -9,6 +9,7 @@ set -ex
 	echo "export UBUNTU_IMAGE_ID=\"$UBUNTU_IMAGE_ID\"" >> init-openstack-for-devops.state
 
 # for variable OpenStackNetID used in install-devops.sh 
+	echo "export NETWORK_ID=\"$NETWORK_ID\"" >> init-openstack-for-devops.state
 	echo "export SUBNET_ID=\"$SUBNET_ID\"" >> init-openstack-for-devops.state
 
 # for IaaSVMSSHKeyContent used in install-devops.sh 
