@@ -5,3 +5,5 @@
 3-2. clean-up-openstack script
 4. add acceptance-test script
 5. add step "create org `admin` and space `admin`" to install-cf
+6. add install-ossui api
+7. add install-mysql api (for wso2-das)
