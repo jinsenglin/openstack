@@ -418,7 +418,7 @@ function step12() {
   \"iaas\": {
     \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
     \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
-    \"openStackNetIPPrivateMicrobosh\": \"192.168.100.6\"
+    \"openStackNetIPPrivateMicrobosh\": \"$OpenStackNetIPPrivateMicrobosh\"
   },
   \"ossapi\": {
     \"ossapiVMEndpoint\": \"$OSSAPI_IP\"
@@ -436,7 +436,7 @@ function step12() {
     \"cfadminPassword\": \"$CF_ADMIN_PASS\"
   },
   \"microbosh\": {
-    \"microboshAPIEndpoint\": \"https://192.168.100.6:25555\",
+    \"microboshAPIEndpoint\": \"https://$OpenStackNetIPPrivateMicrobosh:25555\",
     \"microboshAdminPassword\": \"admin\",
     \"microboshAdminUser\": \"admin\"
   }
@@ -491,8 +491,7 @@ function step14() {
   RESP_INSTALL_OSSUI=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaas\": {
     \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
-    \"openStackNetIPPrivateMicrobosh\": \"192.168.100.6\"
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
   },
   \"ossui\": {
     \"ossuiVMEndpoint\": \"$OSSUI_IP\"
