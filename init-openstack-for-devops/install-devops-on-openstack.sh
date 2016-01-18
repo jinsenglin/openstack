@@ -13,6 +13,8 @@
 #	10. create_ossapi_vm
 #	11. install_cf
 #	12. install_ossapi
+#	13. create_ossui_vm
+#	14. install_ossui
 
 set -ex
 
@@ -456,6 +458,59 @@ function step12() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
+function step13() {
+  echo "# Step13 create_ossui_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_OSSUI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_ossui_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_OSSUI_VM='$RESP_CREATE_OSSUI_VM'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_OSSUI_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step14() {
+  echo "# Step14 install_ossui" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  OSSUI_IP=$(echo $RESP_CREATE_OSSUI_VM | jq '.artifact.ossuiVMEndpoint' | sed 's/"//g')
+  OSSAPI_URL=$(echo $RESP_INSTALL_OSSAPI | jq '.artifact.ossAPIEndpoint' | sed 's/"//g')
+  RESP_INSTALL_OSSUI=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
+    \"openStackNetIPPrivateMicrobosh\": \"192.168.100.6\"
+  },
+  \"ossui\": {
+    \"ossuiVMEndpoint\": \"$OSSUI_IP\"
+  },
+  \"ossapi\": {
+    \"ossAPIEndpoint\": \"$OSSAPI_URL\"
+  }
+  }" $API_SERVER/task/install_ossui?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export OSSUI_IP='$OSSUI_IP'" >> install-devops-on-openstack.state
+  echo "export OSSAPI_URL='$OSSAPI_URL'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_OSSUI='$RESP_INSTALL_OSSUI'" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_OSSUI" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
 #main
 	step0
 	step1
@@ -470,4 +525,6 @@ function step12() {
 	sleep 10 && source install-devops-on-openstack.state && step10
 	sleep 10 && source install-devops-on-openstack.state && step11 
 	sleep 10 && source install-devops-on-openstack.state && step12
+	sleep 10 && source install-devops-on-openstack.state && step13
+	sleep 10 && source install-devops-on-openstack.state && step14
 
