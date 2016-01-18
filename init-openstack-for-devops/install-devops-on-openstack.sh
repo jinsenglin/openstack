@@ -51,7 +51,7 @@ function step0() {
   OpenStackNetIPPrivateCFNfs="192.168.100.105"
   OpenStackNetIPPrivateCFPostgres="192.168.100.106"
   OpenStackNetIPPrivateCFRouter="192.168.100.107"
-  OpenStackNetIPPrivateCFRunner="192.168.101.108"
+  OpenStackNetIPPrivateCFRunner="192.168.100.108"
 }
 
 function step1() {
@@ -459,7 +459,7 @@ function step12() {
 #main
 	step0
 	step1
-	sleep 10 && source install-devops-on-openstack.state && step2
+	sleep 30 && source install-devops-on-openstack.state && step2
 	sleep 10 && source install-devops-on-openstack.state && step3
 	sleep 10 && source install-devops-on-openstack.state && step4
 	sleep 10 && source install-devops-on-openstack.state && step5

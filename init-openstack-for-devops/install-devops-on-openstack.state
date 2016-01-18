@@ -1,0 +1,105 @@
+# Step1 create_ldap_vm
+# Started at Sun Jan 17 15:41:44 UTC 2016
+# Finished at Sun Jan 17 15:42:58 UTC 2016
+export RESP_CREATE_LDAP_VM='{"message":null,"artifact":{"ldapvmendpoint":"192.168.100.4"}}'
+# Step2 install_ldap
+# Started at Sun Jan 17 15:43:08 UTC 2016
+# Finished at Sun Jan 17 15:43:09 UTC 2016
+export LDAP_IP='192.168.100.4'
+export RESP_INSTALL_LDAP='{"message":"step2_exec_shell failed","artifact":null}'
+# Step2 install_ldap
+# Started at Sun Jan 17 15:44:52 UTC 2016
+# Finished at Sun Jan 17 15:51:57 UTC 2016
+export LDAP_IP='192.168.100.4'
+export RESP_INSTALL_LDAP='{"message":null,"artifact":{"userPassword":"secret","searchFilter":"uid={0}","searchBase":"ou=users,ou=system","userNameListFilter":"(objectClass=inetOrgPerson)","userNameAttribute":"uid","groupNameListFilter":"(objectClass=groupOfUniqueNames)","groupNameSearchFilter":"(&(objectClass=groupOfUniqueNames)(cn=?))","groupSearchBase":"ou=groups,ou=system","groupNameAttribute":"cn","userNameSearchFilter":"(&(objectClass=inetOrgPerson)(uid=?))","userDN":"uid=admin,ou=system","url":"ldap://192.168.100.4:10389/"}}'
+# Step3 create_inception_vm
+# Started at Sun Jan 17 15:52:07 UTC 2016
+# Finished at Sun Jan 17 15:53:16 UTC 2016
+export RESP_CREATE_INCEPTION_VM='{"message":null,"artifact":{"inceptionVMEndpoint":"192.168.100.5"}}'
+# Step4 install_inception
+# Started at Sun Jan 17 15:53:26 UTC 2016
+# Finished at Sun Jan 17 16:05:18 UTC 2016
+export INCEPTION_IP='192.168.100.5'
+export RESP_INSTALL_INCEPTION='{"message":null}'
+# Step5 install_microbosh
+# Started at Sun Jan 17 16:05:28 UTC 2016
+# Finished at Sun Jan 17 16:33:08 UTC 2016
+export INCEPTION_IP='192.168.100.5'
+export RESP_INSTALL_MICROBOSH='{"message":null}'
+# Step6 create_apim_vm
+# Started at Sun Jan 17 16:33:18 UTC 2016
+# Finished at Sun Jan 17 16:34:25 UTC 2016
+export RESP_CREATE_APIM_VM='{"message":null,"artifact":{"apimvmendpoint":"192.168.100.7"}}'
+# Step7 install_apim
+# Started at Sun Jan 17 16:34:35 UTC 2016
+# Finished at Sun Jan 17 16:42:44 UTC 2016
+export APIM_IP='192.168.100.7'
+export LDAP_IP='192.168.100.4'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_URL='ldap://192.168.100.4:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export LDAP_groupNameAttribute='cn'
+export LDAP_groupNameListFilter='(objectClass=groupOfUniqueNames)'
+export LDAP_groupNameSearchFilter='(&(objectClass=groupOfUniqueNames)(cn=?))'
+export LDAP_groupSearchBase='ou=groups,ou=system'
+export LDAP_userNameAttribute='uid'
+export LDAP_userNameListFilter='(objectClass=inetOrgPerson)'
+export LDAP_userNameSearchFilter='(&(objectClass=inetOrgPerson)(uid=?))'
+export RESP_INSTALL_APIM='{"message":null,"artifact":{"apimstoreAdminPassword":"admin","apimstoreAPIEndpoint":"https://192.168.100.7:9443","apimpublisherAdminPassword":"admin","apimpublisherAdminUser":"admin","apimpublisherAPIEndpoint":"https://192.168.100.7:9443","apimstoreAdminUser":"admin"}}'
+# Step8 create_idp_vm
+# Started at Sun Jan 17 16:42:54 UTC 2016
+# Finished at Sun Jan 17 16:44:03 UTC 2016
+export RESP_CREATE_IDP_VM='{"message":null,"artifact":{"idpvmendpoint":"192.168.100.8"}}'
+# Step9 install_idp
+# Started at Sun Jan 17 16:44:13 UTC 2016
+# Finished at Sun Jan 17 16:45:15 UTC 2016
+export IDP_IP='192.168.100.8'
+export RESP_INSTALL_IDP='{"message":null,"artifact":{"idpadminPassword":"admin","idpadminUser":"admin","idpwsdl":"https://192.168.100.8/services/TenantMgtService?wsdl"}}'
+# Step10 create_ossapi_vm
+# Started at Sun Jan 17 16:45:25 UTC 2016
+# Finished at Sun Jan 17 16:46:36 UTC 2016
+export RESP_CREATE_OSSAPI_VM='{"message":null,"artifact":{"ossapiVMEndpoint":"192.168.100.9"}}'
+# Step11 install_cf
+# Started at Sun Jan 17 16:46:46 UTC 2016
+# Finished at Sun Jan 17 16:59:10 UTC 2016
+export INCEPTION_IP='192.168.100.5'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.4:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export RESP_INSTALL_CF='{"message":"step2_exec_shell failed","artifact":null}'
+# Step11 install_cf
+# Started at Sun Jan 17 17:04:41 UTC 2016
+# Finished at Sun Jan 17 17:04:54 UTC 2016
+export INCEPTION_IP='192.168.100.5'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.4:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export RESP_INSTALL_CF='{"message":"step2_exec_shell failed","artifact":null}'
+# Step11 install_cf
+# Started at Sun Jan 17 17:05:30 UTC 2016
+# Finished at Sun Jan 17 18:07:47 UTC 2016
+export INCEPTION_IP='192.168.100.5'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.4:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export RESP_INSTALL_CF='{"message":null,"artifact":{"cfadminPassword":"cfadmin","cfadminUser":"admin","cfapiendpoint":"https://api.10.5.50.167.xip.io"}}'
+# Step12 install_ossapi
+# Started at Sun Jan 17 18:07:57 UTC 2016
+# Finished at Sun Jan 17 18:21:47 UTC 2016
+export OSSAPI_IP='192.168.100.9'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.4:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export CF_API_URL='https://api.10.5.50.167.xip.io'
+export CF_ADMIN_USER='admin'
+export CF_ADMIN_PASS='cfadmin'
+export RESP_INSTALL_OSSAPI='{"message":null,"artifact":{"ossAPIEndpoint":"http://192.168.100.9/v1"}}'
