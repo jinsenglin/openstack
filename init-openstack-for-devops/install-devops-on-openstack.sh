@@ -1,24 +1,24 @@
 #!/bin/bash
 
 # api call sequences
-# 	01. create_ldap_vm
-# 	02. install_ldap
+#	01. create_mysql_vm
+# 	02. create_ldap_vm
 #	03. create_inception_vm
-#	04. install_inception
-#	05. install_microbosh
-#	06. create_apim_vm
-#	07. install_apim
-#	08. create_idp_vm
-#	09. install_idp
-#	10. create_ossapi_vm
-#	11. install_cf
-#	12. install_ossapi
-#	13. create_ossui_vm	#MOVE to after create_ossapi_vm
-#	14. install_ossui
-#	15. create_mysql_vm	#MOVE to before create_apim_vm
-#	16. install_mysql	#MOVE 
-#	17. create_nginx_vm	#MOVE to after install_apim_vm
-#	18. install_nginx	#MOVE
+#	04. create_apim_vm
+#	05. create_idp_vm
+#	06. create_ossapi_vm
+#	07. create_ossui_vm
+#	08. create_nginx_vm
+#	09. install_mysql
+# 	10. install_ldap
+#	11. install_apim
+#	12. install_idp	
+#	13. install_nginx
+#	14. install_inception
+#	15. install_microbosh
+#	16. install_cf
+#	17. install_ossapi
+#	18. install_ossui
 
 set -ex
 
@@ -61,7 +61,32 @@ function step0() {
 }
 
 function step1() {
-  echo "# Step1 create_ldap_vm" >> install-devops-on-openstack.state
+  echo "# Step create_mysql_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_MYSQL_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_mysql_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_MYSQL_VM='$RESP_CREATE_MYSQL_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_MYSQL_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step2() {
+  echo "# Step create_ldap_vm" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_LDAP_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -85,33 +110,8 @@ function step1() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step2() {
-  echo "# Step2 install_ldap" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  LDAP_IP=$(echo $RESP_CREATE_LDAP_VM | jq '.artifact.ldapvmendpoint' | sed 's/"//g')
-  RESP_INSTALL_LDAP=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaas\": {
-    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
-  },
-  \"ldap\": {
-    \"ldapvmendpoint\": \"$LDAP_IP\"
-  }
-  }" $API_SERVER/task/install_ldap?api_key=apiKey&api_key=apiKey)
-  RESP_INSTALL_LDAP=$(echo $RESP_INSTALL_LDAP | sed 's/&amp;/\&/g')
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export LDAP_IP='$LDAP_IP'" >> install-devops-on-openstack.state
-  echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_INSTALL_LDAP" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
 function step3() {
-  echo "# Step3 create_inception_vm" >> install-devops-on-openstack.state
+  echo "# Step create_inception_vm" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_INCEPTION_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -136,68 +136,7 @@ function step3() {
 }
 
 function step4() {
-  echo "# Step4 install_inception" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
-  RESP_INSTALL_INCEPTION=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaas\": {
-    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
-  },
-  \"incepton\": {
-    \"inceptionVMEndpoint\": \"$INCEPTION_IP\"
-  }
-  }" $API_SERVER/task/install_inception?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
-  echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_INSTALL_INCEPTION" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step5() {
-  echo "# Step5 install_microbosh" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
-  RESP_INSTALL_MICROBOSH=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaas\": {
-    \"iaaSType\": \"openstack\",
-    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
-    \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-    \"openStackAPIKey\": \"$OpenStackAPIKey\",
-    \"openStackAuthURL\": \"$OpenStackAuthURL\",
-    \"openStackNetDNS\": \"$OpenStackNetDNS\",
-    \"openStackNetGateway\": \"$OpenStackNetGateway\",
-    \"openStackNetID\": \"$OpenStackNetID\",
-    \"openStackNetIPPrivateMicrobosh\": \"$OpenStackNetIPPrivateMicrobosh\",
-    \"openStackNetIPPublicMicrobosh\": \"$OpenStackNetIPPublicMicrobosh\",
-    \"openStackNetRange\": \"$OpenStackNetRange\",
-    \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-    \"openStackTenantName\": \"$OpenStackTenantName\",
-    \"openStackUserName\": \"$OpenStackUserName\"
-  },
-  \"incepton\": {
-    \"inceptionVMEndpoint\": \"$INCEPTION_IP\"
-  }
-  }" $API_SERVER/task/install_microbosh?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
-  echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_INSTALL_MICROBOSH" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step6() {
-  echo "# Step6 create_apim_vm" >> install-devops-on-openstack.state
+  echo "# Step create_apim_vm" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   RESP_CREATE_APIM_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
@@ -221,8 +160,158 @@ function step6() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
+function step5() {
+  echo "# Step create_idp_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_IDP_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_idp_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_IDP_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step6() {
+  echo "# Step create_ossapi_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_OSSAPI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_ossapi_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_OSSAPI_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+
 function step7() {
-  echo "# Step7 install_apim" >> install-devops-on-openstack.state
+  echo "# Step create_ossui_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_OSSUI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_ossui_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_OSSUI_VM='$RESP_CREATE_OSSUI_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_OSSUI_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step8() {
+  echo "# Step create_nginx_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_NGINX_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_nginx_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_NGINX_VM='$RESP_CREATE_NGINX_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_NGINX_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step9() {
+  echo "# Step install_mysql" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  MYSQL_IP=$(echo $RESP_CREATE_MYSQL_VM | jq '.artifact.mysqlVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_MYSQL=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"mysql\": {
+    \"mysqlVMEndpoint\": \"$MYSQL_IP\"
+  }
+  }" $API_SERVER/task/install_mysql?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export MYSQL_IP='$MYSQL_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_MYSQL='$RESP_INSTALL_MYSQL'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_MYSQL" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step10() {
+  echo "# Step install_ldap" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  LDAP_IP=$(echo $RESP_CREATE_LDAP_VM | jq '.artifact.ldapvmendpoint' | sed 's/"//g')
+  RESP_INSTALL_LDAP=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"ldap\": {
+    \"ldapvmendpoint\": \"$LDAP_IP\"
+  }
+  }" $API_SERVER/task/install_ldap?api_key=apiKey&api_key=apiKey)
+  RESP_INSTALL_LDAP=$(echo $RESP_INSTALL_LDAP | sed 's/&amp;/\&/g')
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export LDAP_IP='$LDAP_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_LDAP" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step11() {
+  echo "# Step install_apim" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   APIM_IP=$(echo $RESP_CREATE_APIM_VM | jq '.artifact.apimvmendpoint' | sed 's/"//g')
@@ -282,33 +371,8 @@ function step7() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step8() {
-  echo "# Step8 create_idp_vm" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  RESP_CREATE_IDP_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaaSType\": \"openstack\",
-  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-  \"openStackAPIKey\": \"$OpenStackAPIKey\",
-  \"openStackAuthURL\": \"$OpenStackAuthURL\",
-  \"openStackFlavorID\": \"2\",
-  \"openStackImageID\": \"$OpenStackImageID\",
-  \"openStackNetID\": \"$OpenStackNetID\",
-  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-  \"openStackTenantName\": \"$OpenStackTenantName\",
-  \"openStackUserName\": \"$OpenStackUserName\"
-  }" $API_SERVER/task/create_idp_vm?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_CREATE_IDP_VM" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step9() {
-  echo "# Step9 install_idp" >> install-devops-on-openstack.state
+function step12() {
+  echo "# Step install_idp" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   IDP_IP=$(echo $RESP_CREATE_IDP_VM | jq '.artifact.idpvmendpoint' | sed 's/"//g')
@@ -331,33 +395,93 @@ function step9() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step10() {
-  echo "# Step10 create_ossapi_vm" >> install-devops-on-openstack.state
+function step13() {
+  echo "# Step install_nginx" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
-  RESP_CREATE_OSSAPI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaaSType\": \"openstack\",
-  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-  \"openStackAPIKey\": \"$OpenStackAPIKey\",
-  \"openStackAuthURL\": \"$OpenStackAuthURL\",
-  \"openStackFlavorID\": \"2\",
-  \"openStackImageID\": \"$OpenStackImageID\",
-  \"openStackNetID\": \"$OpenStackNetID\",
-  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-  \"openStackTenantName\": \"$OpenStackTenantName\",
-  \"openStackUserName\": \"$OpenStackUserName\"
-  }" $API_SERVER/task/create_ossapi_vm?api_key=apiKey&api_key=apiKey)
+  NGINX_IP=$(echo $RESP_CREATE_NGINX_VM | jq '.artifact.nginxVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_NGINX=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"nginx\": {
+    \"nginxVMEndpoint\": \"$NGINX_IP\"
+  }
+  }" $API_SERVER/task/install_nginx?api_key=apiKey&api_key=apiKey)
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> install-devops-on-openstack.state
+  echo "export NGINX_IP='$NGINX_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_NGINX='$RESP_INSTALL_NGINX'" >> install-devops-on-openstack.state
   echo "" >> install-devops-on-openstack.state
 
-  message=$(echo "$RESP_CREATE_OSSAPI_VM" | jq '.message')
+  message=$(echo "$RESP_INSTALL_NGINX" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step11() {
-  echo "# Step11 install_cf" >> install-devops-on-openstack.state
+function step14() {
+  echo "# Step install_inception" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_INCEPTION=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"incepton\": {
+    \"inceptionVMEndpoint\": \"$INCEPTION_IP\"
+  }
+  }" $API_SERVER/task/install_inception?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_INCEPTION" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step15() {
+  echo "# Step install_microbosh" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_MICROBOSH=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSType\": \"openstack\",
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
+    \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+    \"openStackAPIKey\": \"$OpenStackAPIKey\",
+    \"openStackAuthURL\": \"$OpenStackAuthURL\",
+    \"openStackNetDNS\": \"$OpenStackNetDNS\",
+    \"openStackNetGateway\": \"$OpenStackNetGateway\",
+    \"openStackNetID\": \"$OpenStackNetID\",
+    \"openStackNetIPPrivateMicrobosh\": \"$OpenStackNetIPPrivateMicrobosh\",
+    \"openStackNetIPPublicMicrobosh\": \"$OpenStackNetIPPublicMicrobosh\",
+    \"openStackNetRange\": \"$OpenStackNetRange\",
+    \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+    \"openStackTenantName\": \"$OpenStackTenantName\",
+    \"openStackUserName\": \"$OpenStackUserName\"
+  },
+  \"incepton\": {
+    \"inceptionVMEndpoint\": \"$INCEPTION_IP\"
+  }
+  }" $API_SERVER/task/install_microbosh?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_MICROBOSH" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step16() {
+  echo "# Step install_cf" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   INCEPTION_IP=$(echo $RESP_CREATE_INCEPTION_VM | jq '.artifact.inceptionVMEndpoint' | sed 's/"//g')
@@ -416,8 +540,8 @@ function step11() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step12() {
-  echo "# Step12 install_ossapi" >> install-devops-on-openstack.state
+function step17() {
+  echo "# Step install_ossapi" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   OSSAPI_IP=$(echo $RESP_CREATE_OSSAPI_VM | jq '.artifact.ossapiVMEndpoint' | sed 's/"//g')
@@ -474,33 +598,9 @@ function step12() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step13() {
-  echo "# Step13 create_ossui_vm" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
 
-  RESP_CREATE_OSSUI_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaaSType\": \"openstack\",
-  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-  \"openStackAPIKey\": \"$OpenStackAPIKey\",
-  \"openStackAuthURL\": \"$OpenStackAuthURL\",
-  \"openStackFlavorID\": \"2\",
-  \"openStackImageID\": \"$OpenStackImageID\",
-  \"openStackNetID\": \"$OpenStackNetID\",
-  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-  \"openStackTenantName\": \"$OpenStackTenantName\",
-  \"openStackUserName\": \"$OpenStackUserName\"
-  }" $API_SERVER/task/create_ossui_vm?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export RESP_CREATE_OSSUI_VM='$RESP_CREATE_OSSUI_VM'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_CREATE_OSSUI_VM" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step14() {
-  echo "# Step14 install_ossui" >> install-devops-on-openstack.state
+function step18() {
+  echo "# Step install_ossui" >> install-devops-on-openstack.state
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   OSSUI_IP=$(echo $RESP_CREATE_OSSUI_VM | jq '.artifact.ossuiVMEndpoint' | sed 's/"//g')
@@ -528,108 +628,10 @@ function step14() {
   [ "$message" == "null" ] && return 0 || return 1
 }
 
-function step15() {
-  echo "# Step15 create_mysql_vm" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  RESP_CREATE_MYSQL_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaaSType\": \"openstack\",
-  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-  \"openStackAPIKey\": \"$OpenStackAPIKey\",
-  \"openStackAuthURL\": \"$OpenStackAuthURL\",
-  \"openStackFlavorID\": \"2\",
-  \"openStackImageID\": \"$OpenStackImageID\",
-  \"openStackNetID\": \"$OpenStackNetID\",
-  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-  \"openStackTenantName\": \"$OpenStackTenantName\",
-  \"openStackUserName\": \"$OpenStackUserName\"
-  }" $API_SERVER/task/create_mysql_vm?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export RESP_CREATE_MYSQL_VM='$RESP_CREATE_MYSQL_VM'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_CREATE_MYSQL_VM" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step16() {
-  echo "# Step16 install_mysql" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  MYSQL_IP=$(echo $RESP_CREATE_MYSQL_VM | jq '.artifact.mysqlVMEndpoint' | sed 's/"//g')
-  RESP_INSTALL_MYSQL=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaas\": {
-    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
-  },
-  \"mysql\": {
-    \"mysqlVMEndpoint\": \"$MYSQL_IP\"
-  }
-  }" $API_SERVER/task/install_mysql?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export MYSQL_IP='$MYSQL_IP'" >> install-devops-on-openstack.state
-  echo "export RESP_INSTALL_MYSQL='$RESP_INSTALL_MYSQL'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_INSTALL_MYSQL" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step17() {
-  echo "# Step17 create_nginx_vm" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  RESP_CREATE_NGINX_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaaSType\": \"openstack\",
-  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
-  \"openStackAPIKey\": \"$OpenStackAPIKey\",
-  \"openStackAuthURL\": \"$OpenStackAuthURL\",
-  \"openStackFlavorID\": \"2\",
-  \"openStackImageID\": \"$OpenStackImageID\",
-  \"openStackNetID\": \"$OpenStackNetID\",
-  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
-  \"openStackTenantName\": \"$OpenStackTenantName\",
-  \"openStackUserName\": \"$OpenStackUserName\"
-  }" $API_SERVER/task/create_nginx_vm?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export RESP_CREATE_NGINX_VM='$RESP_CREATE_NGINX_VM'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_CREATE_NGINX_VM" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
-function step18() {
-  echo "# Step18 install_nginx" >> install-devops-on-openstack.state
-  echo "# Started at $(date)" >> install-devops-on-openstack.state
-
-  NGINX_IP=$(echo $RESP_CREATE_NGINX_VM | jq '.artifact.nginxVMEndpoint' | sed 's/"//g')
-  RESP_INSTALL_NGINX=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
-  \"iaas\": {
-    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
-  },
-  \"nginx\": {
-    \"nginxVMEndpoint\": \"$NGINX_IP\"
-  }
-  }" $API_SERVER/task/install_nginx?api_key=apiKey&api_key=apiKey)
-
-  echo "# Finished at $(date)" >> install-devops-on-openstack.state
-  echo "export NGINX_IP='$NGINX_IP'" >> install-devops-on-openstack.state
-  echo "export RESP_INSTALL_NGINX='$RESP_INSTALL_NGINX'" >> install-devops-on-openstack.state
-  echo "" >> install-devops-on-openstack.state
-
-  message=$(echo "$RESP_INSTALL_NGINX" | jq '.message')
-  [ "$message" == "null" ] && return 0 || return 1
-}
-
 #main
 	step0
 	step1
-	sleep 30 && source install-devops-on-openstack.state && step2
+	sleep 10 && source install-devops-on-openstack.state && step2
 	sleep 10 && source install-devops-on-openstack.state && step3
 	sleep 10 && source install-devops-on-openstack.state && step4
 	sleep 10 && source install-devops-on-openstack.state && step5
