@@ -13,8 +13,12 @@
 #	10. create_ossapi_vm
 #	11. install_cf
 #	12. install_ossapi
-#	13. create_ossui_vm
+#	13. create_ossui_vm	#MOVE to after create_ossapi_vm
 #	14. install_ossui
+#	15. create_mysql_vm	#MOVE to before create_apim_vm
+#	16. install_mysql	#MOVE 
+#	17. create_nginx_vm	#MOVE to after install_apim_vm
+#	18. install_nginx	#MOVE
 
 set -ex
 
@@ -75,6 +79,7 @@ function step1() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_LDAP_VM='$RESP_CREATE_LDAP_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_LDAP_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -99,6 +104,7 @@ function step2() {
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export LDAP_IP='$LDAP_IP'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_LDAP='$RESP_INSTALL_LDAP'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_LDAP" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -123,6 +129,7 @@ function step3() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_INCEPTION_VM='$RESP_CREATE_INCEPTION_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_INCEPTION_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -146,6 +153,7 @@ function step4() {
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_INCEPTION='$RESP_INSTALL_INCEPTION'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_INCEPTION" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -182,6 +190,7 @@ function step5() {
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export INCEPTION_IP='$INCEPTION_IP'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_MICROBOSH='$RESP_INSTALL_MICROBOSH'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_MICROBOSH" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -206,6 +215,7 @@ function step6() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_APIM_VM='$RESP_CREATE_APIM_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_APIM_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -266,6 +276,7 @@ function step7() {
   echo "export LDAP_userNameListFilter='$LDAP_userNameListFilter'" >> install-devops-on-openstack.state
   echo "export LDAP_userNameSearchFilter='$LDAP_userNameSearchFilter'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_APIM='$RESP_INSTALL_APIM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_APIM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -290,6 +301,7 @@ function step8() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_IDP_VM='$RESP_CREATE_IDP_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_IDP_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -313,6 +325,7 @@ function step9() {
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export IDP_IP='$IDP_IP'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_IDP='$RESP_INSTALL_IDP'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_IDP" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -337,6 +350,7 @@ function step10() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_OSSAPI_VM='$RESP_CREATE_OSSAPI_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_OSSAPI_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -396,6 +410,7 @@ function step11() {
   echo "export LDAP_USERDN='$LDAP_USERDN'" >> install-devops-on-openstack.state
   echo "export LDAP_USERPASSWORD='$LDAP_USERPASSWORD'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_CF='$RESP_INSTALL_CF'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_CF" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -453,6 +468,7 @@ function step12() {
   echo "export CF_ADMIN_USER='$CF_ADMIN_USER'" >> install-devops-on-openstack.state
   echo "export CF_ADMIN_PASS='$CF_ADMIN_PASS'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_OSSAPI='$RESP_INSTALL_OSSAPI'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_OSSAPI" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -477,6 +493,7 @@ function step13() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export RESP_CREATE_OSSUI_VM='$RESP_CREATE_OSSUI_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_CREATE_OSSUI_VM" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
@@ -505,8 +522,107 @@ function step14() {
   echo "export OSSUI_IP='$OSSUI_IP'" >> install-devops-on-openstack.state
   echo "export OSSAPI_URL='$OSSAPI_URL'" >> install-devops-on-openstack.state
   echo "export RESP_INSTALL_OSSUI='$RESP_INSTALL_OSSUI'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
 
   message=$(echo "$RESP_INSTALL_OSSUI" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step15() {
+  echo "# Step15 create_mysql_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_MYSQL_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_mysql_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_MYSQL_VM='$RESP_CREATE_MYSQL_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_MYSQL_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step16() {
+  echo "# Step16 install_mysql" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  MYSQL_IP=$(echo $RESP_CREATE_MYSQL_VM | jq '.artifact.mysqlVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_MYSQL=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"mysql\": {
+    \"mysqlVMEndpoint\": \"$MYSQL_IP\"
+  }
+  }" $API_SERVER/task/install_mysql?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export MYSQL_IP='$MYSQL_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_MYSQL='$RESP_INSTALL_MYSQL'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_MYSQL" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step17() {
+  echo "# Step17 create_nginx_vm" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  RESP_CREATE_NGINX_VM=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaaSType\": \"openstack\",
+  \"iaaSVMSSHKeyName\": \"$IaaSVMSSHKeyName\",
+  \"openStackAPIKey\": \"$OpenStackAPIKey\",
+  \"openStackAuthURL\": \"$OpenStackAuthURL\",
+  \"openStackFlavorID\": \"2\",
+  \"openStackImageID\": \"$OpenStackImageID\",
+  \"openStackNetID\": \"$OpenStackNetID\",
+  \"openStackSecurityGroupID\": \"$OpenStackSecurityGroupID\",
+  \"openStackTenantName\": \"$OpenStackTenantName\",
+  \"openStackUserName\": \"$OpenStackUserName\"
+  }" $API_SERVER/task/create_nginx_vm?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export RESP_CREATE_NGINX_VM='$RESP_CREATE_NGINX_VM'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_CREATE_NGINX_VM" | jq '.message')
+  [ "$message" == "null" ] && return 0 || return 1
+}
+
+function step18() {
+  echo "# Step18 install_nginx" >> install-devops-on-openstack.state
+  echo "# Started at $(date)" >> install-devops-on-openstack.state
+
+  NGINX_IP=$(echo $RESP_CREATE_NGINX_VM | jq '.artifact.nginxVMEndpoint' | sed 's/"//g')
+  RESP_INSTALL_NGINX=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
+  \"iaas\": {
+    \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
+  },
+  \"nginx\": {
+    \"nginxVMEndpoint\": \"$NGINX_IP\"
+  }
+  }" $API_SERVER/task/install_nginx?api_key=apiKey&api_key=apiKey)
+
+  echo "# Finished at $(date)" >> install-devops-on-openstack.state
+  echo "export NGINX_IP='$NGINX_IP'" >> install-devops-on-openstack.state
+  echo "export RESP_INSTALL_NGINX='$RESP_INSTALL_NGINX'" >> install-devops-on-openstack.state
+  echo "" >> install-devops-on-openstack.state
+
+  message=$(echo "$RESP_INSTALL_NGINX" | jq '.message')
   [ "$message" == "null" ] && return 0 || return 1
 }
 
@@ -526,4 +642,8 @@ function step14() {
 	sleep 10 && source install-devops-on-openstack.state && step12
 	sleep 10 && source install-devops-on-openstack.state && step13
 	sleep 10 && source install-devops-on-openstack.state && step14
+	sleep 10 && source install-devops-on-openstack.state && step15
+	sleep 10 && source install-devops-on-openstack.state && step16
+	sleep 10 && source install-devops-on-openstack.state && step17
+	sleep 10 && source install-devops-on-openstack.state && step18
 
