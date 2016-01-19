@@ -44,7 +44,7 @@ function step0() {
   IaaSVMSSHAccount="ubuntu"
   OpenStackNetDNS="8.8.8.8"
   OpenStackNetGateway="192.168.100.1"
-  OpenStackNetIPPrivateMicrobosh="192.168.100.6"
+  OpenStackNetIPPrivateMicrobosh="192.168.100.100"
   OpenStackNetRange="192.168.100.0/24"
   OpenStackNetCFIPEnd="192.168.100.120"
   OpenStackNetCFIPReservedEnd="192.168.100.100"
