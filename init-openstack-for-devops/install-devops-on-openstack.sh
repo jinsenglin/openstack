@@ -545,6 +545,7 @@ function step17() {
   echo "# Started at $(date)" >> install-devops-on-openstack.state
 
   OSSAPI_IP=$(echo $RESP_CREATE_OSSAPI_VM | jq '.artifact.ossapiVMEndpoint' | sed 's/"//g')
+  OSSAPI_IP_EXT=$(echo $RESP_CREATE_OSSAPI_VM | jq '.artifact.externalIP' | sed 's/"//g')
   LDAP_SEARCHBASE=$(echo $RESP_INSTALL_LDAP | jq '.artifact.searchBase' | sed 's/"//g')
   LDAP_SEARCHFILTER=$(echo $RESP_INSTALL_LDAP | jq '.artifact.searchFilter' | sed 's/"//g')
   LDAP_URL=$(echo $RESP_INSTALL_LDAP | jq '.artifact.url' | sed 's/"//g')
@@ -556,11 +557,11 @@ function step17() {
   RESP_INSTALL_OSSAPI=$(curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{
   \"iaas\": {
     \"iaaSVMSSHAccount\": \"$IaaSVMSSHAccount\",
-    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\",
-    \"openStackNetIPPrivateMicrobosh\": \"$OpenStackNetIPPrivateMicrobosh\"
+    \"iaaSVMSSHKeyContent\": \"$IaaSVMSSHKeyContent\"
   },
   \"ossapi\": {
-    \"ossapiVMEndpoint\": \"$OSSAPI_IP\"
+    \"ossapiVMEndpoint\": \"$OSSAPI_IP\",
+    \"externalIP\": \"$OSSAPI_IP_EXT\"
   },
   \"ldap\": {
     \"searchBase\": \"$LDAP_SEARCHBASE\",
@@ -583,6 +584,7 @@ function step17() {
 
   echo "# Finished at $(date)" >> install-devops-on-openstack.state
   echo "export OSSAPI_IP='$OSSAPI_IP'" >> install-devops-on-openstack.state
+  echo "export OSSAPI_IP_EXT='$OSSAPI_IP_EXT'" >> install-devops-on-openstack.state
   echo "export LDAP_SEARCHBASE='$LDAP_SEARCHBASE'" >> install-devops-on-openstack.state
   echo "export LDAP_SEARCHFILTER='$LDAP_SEARCHFILTER'" >> install-devops-on-openstack.state
   echo "export LDAP_URL='$LDAP_URL'" >> install-devops-on-openstack.state
