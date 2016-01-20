@@ -631,21 +631,20 @@ function step18() {
 #main
 	step0
 	step1
-	sleep 10 && source install-devops-on-openstack.state && step2
-	sleep 10 && source install-devops-on-openstack.state && step3
-	sleep 10 && source install-devops-on-openstack.state && step4
-	sleep 10 && source install-devops-on-openstack.state && step5
-	sleep 10 && source install-devops-on-openstack.state && step6
-	sleep 10 && source install-devops-on-openstack.state && step7
-	sleep 10 && source install-devops-on-openstack.state && step8
-	sleep 10 && source install-devops-on-openstack.state && step9
-	sleep 10 && source install-devops-on-openstack.state && step10
-	sleep 10 && source install-devops-on-openstack.state && step11 
-	sleep 10 && source install-devops-on-openstack.state && step12
-	sleep 10 && source install-devops-on-openstack.state && step13
-	sleep 10 && source install-devops-on-openstack.state && step14
-	sleep 10 && source install-devops-on-openstack.state && step15
-	sleep 10 && source install-devops-on-openstack.state && step16
-	sleep 10 && source install-devops-on-openstack.state && step17
-	sleep 10 && source install-devops-on-openstack.state && step18
+	source install-devops-on-openstack.state && step2
+	source install-devops-on-openstack.state && step3
+	source install-devops-on-openstack.state && step4
+	source install-devops-on-openstack.state && step5
+	source install-devops-on-openstack.state && step6
+	source install-devops-on-openstack.state && step7
+	source install-devops-on-openstack.state && step8
+	source install-devops-on-openstack.state && step10
+	source install-devops-on-openstack.state && step11 
+	source install-devops-on-openstack.state && step12
+	source install-devops-on-openstack.state && step13
+	source install-devops-on-openstack.state && step14
+	source install-devops-on-openstack.state && step15
+	source install-devops-on-openstack.state && step16
+	source install-devops-on-openstack.state && step17
+	source install-devops-on-openstack.state && step18
 

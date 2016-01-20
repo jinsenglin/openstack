@@ -1,0 +1,120 @@
+# Step create_mysql_vm
+# Started at Tue Jan 19 13:34:53 UTC 2016
+# Finished at Tue Jan 19 13:36:08 UTC 2016
+export RESP_CREATE_MYSQL_VM='{"message":null,"artifact":{"mysqlVMEndpoint":"192.168.100.4"}}'
+
+# Step create_ldap_vm
+# Started at Tue Jan 19 13:36:08 UTC 2016
+# Finished at Tue Jan 19 13:37:18 UTC 2016
+export RESP_CREATE_LDAP_VM='{"message":null,"artifact":{"ldapvmendpoint":"192.168.100.5"}}'
+
+# Step create_inception_vm
+# Started at Tue Jan 19 13:37:18 UTC 2016
+# Finished at Tue Jan 19 13:38:27 UTC 2016
+export RESP_CREATE_INCEPTION_VM='{"message":null,"artifact":{"inceptionVMEndpoint":"192.168.100.6"}}'
+
+# Step create_apim_vm
+# Started at Tue Jan 19 13:38:27 UTC 2016
+# Finished at Tue Jan 19 13:39:37 UTC 2016
+export RESP_CREATE_APIM_VM='{"message":null,"artifact":{"apimvmendpoint":"192.168.100.7"}}'
+
+# Step create_idp_vm
+# Started at Tue Jan 19 13:39:37 UTC 2016
+# Finished at Tue Jan 19 13:40:47 UTC 2016
+export RESP_CREATE_IDP_VM='{"message":null,"artifact":{"idpvmendpoint":"192.168.100.8","externalIP":"10.5.50.180"}}'
+
+# Step create_ossapi_vm
+# Started at Tue Jan 19 13:40:47 UTC 2016
+# Finished at Tue Jan 19 13:41:57 UTC 2016
+export RESP_CREATE_OSSAPI_VM='{"message":null,"artifact":{"ossapiVMEndpoint":"192.168.100.9"}}'
+
+# Step create_ossui_vm
+# Started at Tue Jan 19 13:41:57 UTC 2016
+# Finished at Tue Jan 19 13:43:06 UTC 2016
+export RESP_CREATE_OSSUI_VM='{"message":null,"artifact":{"ossuiVMEndpoint":"192.168.100.10","externalIP":"10.5.50.181"}}'
+
+# Step create_nginx_vm
+# Started at Tue Jan 19 13:43:06 UTC 2016
+# Finished at Tue Jan 19 13:44:15 UTC 2016
+export RESP_CREATE_NGINX_VM='{"message":null,"artifact":{"nginxVMEndpoint":"192.168.100.11","externalIP":"10.5.50.182"}}'
+
+# Step install_ldap
+# Started at Tue Jan 19 13:44:15 UTC 2016
+# Finished at Tue Jan 19 13:50:19 UTC 2016
+export LDAP_IP='192.168.100.5'
+export RESP_INSTALL_LDAP='{"message":null,"artifact":{"groupNameSearchFilter":"(&(objectClass=groupOfUniqueNames)(cn=?))","groupNameAttribute":"cn","searchFilter":"uid={0}","userNameListFilter":"(objectClass=inetOrgPerson)","userNameAttribute":"uid","userNameSearchFilter":"(&(objectClass=inetOrgPerson)(uid=?))","groupSearchBase":"ou=groups,ou=system","groupNameListFilter":"(objectClass=groupOfUniqueNames)","userDN":"uid=admin,ou=system","userPassword":"secret","searchBase":"ou=users,ou=system","url":"ldap://192.168.100.5:10389/"}}'
+
+# Step install_apim
+# Started at Tue Jan 19 13:50:19 UTC 2016
+# Finished at Tue Jan 19 13:56:28 UTC 2016
+export APIM_IP='192.168.100.7'
+export LDAP_IP='192.168.100.5'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_URL='ldap://192.168.100.5:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export LDAP_groupNameAttribute='cn'
+export LDAP_groupNameListFilter='(objectClass=groupOfUniqueNames)'
+export LDAP_groupNameSearchFilter='(&(objectClass=groupOfUniqueNames)(cn=?))'
+export LDAP_groupSearchBase='ou=groups,ou=system'
+export LDAP_userNameAttribute='uid'
+export LDAP_userNameListFilter='(objectClass=inetOrgPerson)'
+export LDAP_userNameSearchFilter='(&(objectClass=inetOrgPerson)(uid=?))'
+export RESP_INSTALL_APIM='{"message":null,"artifact":{"apimstoreAPIEndpoint":"https://192.168.100.7:9443","apimpublisherAdminUser":"admin","apimpublisherAPIEndpoint":"https://192.168.100.7:9443","apimstoreAdminPassword":"admin","apimstoreAdminUser":"admin","apimpublisherAdminPassword":"admin"}}'
+
+# Step install_idp
+# Started at Tue Jan 19 13:56:28 UTC 2016
+# Finished at Tue Jan 19 13:57:37 UTC 2016
+export IDP_IP='192.168.100.8'
+export RESP_INSTALL_IDP='{"message":null,"artifact":{"idpadminPassword":"admin","idpwsdl":"https://192.168.100.8/services/TenantMgtService?wsdl","idpadminUser":"admin"}}'
+
+# Step install_nginx
+# Started at Tue Jan 19 13:57:37 UTC 2016
+# Finished at Tue Jan 19 14:00:01 UTC 2016
+export NGINX_IP='192.168.100.11'
+export RESP_INSTALL_NGINX='{"message":null,"artifact":{"nginxEndpoint":"http://192.168.100.11"}}'
+
+# Step install_inception
+# Started at Tue Jan 19 14:00:01 UTC 2016
+# Finished at Tue Jan 19 14:12:04 UTC 2016
+export INCEPTION_IP='192.168.100.6'
+export RESP_INSTALL_INCEPTION='{"message":null}'
+
+# Step install_microbosh
+# Started at Tue Jan 19 14:12:04 UTC 2016
+# Finished at Tue Jan 19 14:56:23 UTC 2016
+export INCEPTION_IP='192.168.100.6'
+export RESP_INSTALL_MICROBOSH='{"message":null}'
+
+# Step install_cf
+# Started at Tue Jan 19 14:56:23 UTC 2016
+# Finished at Tue Jan 19 16:10:25 UTC 2016
+export INCEPTION_IP='192.168.100.6'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.5:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export RESP_INSTALL_CF='{"message":null,"artifact":{"cfadminPassword":"cfadmin","cfadminUser":"admin","cfapiendpoint":"https://api.10.5.50.179.xip.io"}}'
+
+# Step install_ossapi
+# Started at Tue Jan 19 16:10:25 UTC 2016
+# Finished at Tue Jan 19 16:28:33 UTC 2016
+export OSSAPI_IP='192.168.100.9'
+export LDAP_SEARCHBASE='ou=users,ou=system'
+export LDAP_SEARCHFILTER='uid={0}'
+export LDAP_URL='ldap://192.168.100.5:10389/'
+export LDAP_USERDN='uid=admin,ou=system'
+export LDAP_USERPASSWORD='secret'
+export CF_API_URL='https://api.10.5.50.179.xip.io'
+export CF_ADMIN_USER='admin'
+export CF_ADMIN_PASS='cfadmin'
+export RESP_INSTALL_OSSAPI='{"message":null,"artifact":{"ossAPIEndpoint":"http://192.168.100.9:5000"}}'
+
+# Step install_ossui
+# Started at Tue Jan 19 16:28:33 UTC 2016
+# Finished at Tue Jan 19 16:29:57 UTC 2016
+export OSSUI_IP='192.168.100.10'
+export OSSAPI_URL='http://192.168.100.9:5000'
+export RESP_INSTALL_OSSUI='{"message":null,"artifact":{"ossUIEndpoint":"http://192.168.100.10/oss-ui/index.html"}}'
+
