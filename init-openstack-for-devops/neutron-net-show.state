@@ -1,0 +1,16 @@
++---------------------------+--------------------------------------+
+| Field                     | Value                                |
++---------------------------+--------------------------------------+
+| admin_state_up            | True                                 |
+| id                        | b8e79f28-ce66-40a7-ac31-fa189fa42535 |
+| mtu                       | 0                                    |
+| name                      | net04_ext                            |
+| provider:network_type     | local                                |
+| provider:physical_network |                                      |
+| provider:segmentation_id  |                                      |
+| router:external           | True                                 |
+| shared                    | False                                |
+| status                    | ACTIVE                               |
+| subnets                   | f4a46781-5de6-4dff-89a8-861355828d7e |
+| tenant_id                 | 1d3906bb18bf48ba8d8f05937f10f969     |
++---------------------------+--------------------------------------+
