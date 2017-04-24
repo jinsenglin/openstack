@@ -33,11 +33,17 @@ floating ip: $FIP
 ---
 
 private ips:
-* 192.168.100.190
-* 192.168.100.191
-* 192.168.100.192
-* 192.168.100.193
-* 192.168.100.194
-* 192.168.100.195
+* 192.168.100.190 (name: PIP1)
+* 192.168.100.191 (name: PIP2)
+* 192.168.100.192 (name: PIP3)
+* 192.168.100.193 (name: PIP4)
+* 192.168.100.194 (name: PIP5)
+* 192.168.100.195 (name: PIP6)
 
+private network name: $PN
+private subnet name: $PSN
+
+```bash
+openstack port create --network $PN --fixed-ip subnet=$PSN,ip-address=192.168.100.190 port1
+```
 ---
