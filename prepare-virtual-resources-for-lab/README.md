@@ -3,8 +3,8 @@
 Resources
 
 * 2 machines
-* 3 private ips (1 for vip)
 * 3 floating ip
+* 3 private ips (1 for vip)
 * 1 image (ubuntu 16)
 * 1 key pair
 * 1 security group (open all)
@@ -81,3 +81,21 @@ openstack floating ip create --port $PIP3ID --fixed-ip-address $PIP3 $EN
 FIP3=192.168.210.20
 FIP3ID=5d736e91-f0fb-45fb-8ec8-f3ebcd84e678
 ```
+
+---
+
+machines: $M1 $M2
+
+```
+M1=h01
+openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP2 --wait $M1
+M1ID=840e0e77-90b5-442b-835c-7c7d624401da
+
+M2=h02
+openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP3 --wait $M2
+M2ID=c5b2bebe-d574-412d-a76e-797078d685e8 
+```
+
+---
+
+
