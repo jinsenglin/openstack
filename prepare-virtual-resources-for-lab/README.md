@@ -106,6 +106,8 @@ add security group to machines
 
 # Keepalived Configuration
 
+`sudo apt update && sudo apt install -y keepalived`
+
 machine $M1 /etc/keepalived/keepalived.conf
 ```
 vrrp_instance VIP_1 {
