@@ -102,3 +102,57 @@ M2ID=c5b2bebe-d574-412d-a76e-797078d685e8
 
 add security group to machines
 
+---
+
+# Keepalived Configuration
+
+machine $M1 /etc/keepalived/keepalived.conf
+```
+vrrp_instance VIP_1 {
+    state MASTER
+    interface ens3
+    virtual_router_id 51
+    priority 250
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass supersecretpassword
+    }
+    virtual_ipaddress {
+        192.168.100.191
+    }
+}
+
+```
+
+NOTE: 192.168.100.191 === $PIP1
+
+machine $M2 /etc/keepalived/keepalived.conf
+
+```
+vrrp_instance VIP_1 {
+    state BACKUP
+    interface ens3
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass supersecretpassword
+    }
+    virtual_ipaddress {
+        192.168.100.191
+    }
+}
+
+```
+
+NOTE: 192.168.100.191 === $PIP1
+
+Commands:
+
+* systemctl restart keepalived
+* systemctl start keepalived
+* systemctl stop keepalived
+* ip a
+* ping $FIP1
