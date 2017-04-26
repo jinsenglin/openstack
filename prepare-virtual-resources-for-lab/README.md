@@ -109,6 +109,7 @@ add security group to machines
 `sudo apt update && sudo apt install -y keepalived`
 
 machine $M1 /etc/keepalived/keepalived.conf
+
 ```
 vrrp_instance VIP_1 {
     state MASTER
@@ -124,7 +125,6 @@ vrrp_instance VIP_1 {
         192.168.100.191
     }
 }
-
 ```
 
 NOTE: 192.168.100.191 === $PIP1
@@ -146,7 +146,6 @@ vrrp_instance VIP_1 {
         192.168.100.191
     }
 }
-
 ```
 
 NOTE: 192.168.100.191 === $PIP1
@@ -158,3 +157,113 @@ Commands:
 * systemctl stop keepalived
 * ip a
 * ping $FIP1
+
+---
+
+# Keepalived Configuration 2
+
+`sudo apt update && sudo apt install -y haproxy`
+
+machine $M1 /etc/keepalived/keepalived.conf
+
+```
+vrrp_script chk_haproxy {
+    script "killall -0 haproxy" # check the haproxy process
+    interval 2 # every 2 seconds
+}
+
+vrrp_instance VIP_1 {
+    state MASTER
+    interface ens3
+    virtual_router_id 51
+    priority 250
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass supersecretpassword
+    }
+    virtual_ipaddress {
+        192.168.100.191
+    }
+    track_script {
+        chk_haproxy
+    }
+}
+```
+
+NOTE: 192.168.100.191 === $PIP1
+
+machine $M2 /etc/keepalived/keepalived.conf
+
+```
+vrrp_script chk_haproxy {
+    script "killall -0 haproxy" # check the haproxy process
+    interval 2 # every 2 seconds
+}
+
+vrrp_instance VIP_1 {
+    state BACKUP
+    interface ens3
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass supersecretpassword
+    }
+    virtual_ipaddress {
+        192.168.100.191
+    }
+    track_script {
+        chk_haproxy
+    }
+}
+```
+
+NOTE: 192.168.100.191 === $PIP1
+
+Commands:
+
+* systemctl restart keepalived
+* systemctl start keepalived
+* systemctl stop keepalived
+* ip a
+* ping $FIP1
+
+---
+
+# HAProxy Configuration
+
+`sudo apt update && sudo apt install -y haproxy`
+
+Both machine $M1 and $M2, file /etc/default/haproxy
+
+```
+ENABLED=1
+```
+
+Both machine $M1 and $M2, file /etc/haproxy/haproxy.cfg
+
+```
+listen webfarm 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    balance roundrobin
+    option httpclose
+    option forwardfor
+    server webserver01 192.168.100.192:8080 check
+    server webserver02 192.168.100.193:8080 check
+```
+
+NOTE: 192.168.100.192 === $PIP2
+
+NOTE: 192.168.100.193 === $PIP3
+
+Commands:
+* systemctl restart haproxy
+* systemctl start haproxy
+* systemctl stop haproxy
+* curl http://$FIP1
+
+---
