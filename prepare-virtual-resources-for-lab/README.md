@@ -267,3 +267,9 @@ Commands:
 * curl http://$FIP1:8080
 
 ---
+
+# About $PIP4 $PIP5
+
+TODO
+
+NOTE: prepare another 2 machines for http servers
