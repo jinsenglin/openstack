@@ -264,6 +264,7 @@ Commands:
 * systemctl restart haproxy
 * systemctl start haproxy
 * systemctl stop haproxy
+* curl http://$FIP1:80/haproxy?stats
 * curl http://$FIP1:80
 
 ---
