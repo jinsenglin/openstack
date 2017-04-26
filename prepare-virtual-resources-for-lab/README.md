@@ -252,13 +252,13 @@ listen webfarm 0.0.0.0:80
     balance roundrobin
     option httpclose
     option forwardfor
-    server webserver01 192.168.100.192:8080 check
-    server webserver02 192.168.100.193:8080 check
+    server webserver01 192.168.100.194:80 check
+    server webserver02 192.168.100.195:80 check
 ```
 
-NOTE: 192.168.100.192 === $PIP2
+NOTE: 192.168.100.194 === $PIP4
 
-NOTE: 192.168.100.193 === $PIP3
+NOTE: 192.168.100.195 === $PIP5
 
 Commands:
 * systemctl restart haproxy
