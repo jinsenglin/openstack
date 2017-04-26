@@ -162,7 +162,7 @@ Commands:
 
 # Keepalived Configuration 2
 
-`sudo apt update && sudo apt install -y haproxy`
+`sudo apt update && sudo apt install -y keepalived`
 
 machine $M1 /etc/keepalived/keepalived.conf
 
