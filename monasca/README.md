@@ -39,6 +39,12 @@ parameters:
 
 * hypervisor_id
 
+Affected existing detection plugins:
+
+* ?
+
+https://github.com/openstack/monasca-agent/blob/master/docs/Plugins.md#detection-plugins
+
 # Spec for Enabling This New Checks
 
 ```
