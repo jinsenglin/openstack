@@ -43,6 +43,8 @@ Does it need the corresponding detection plugin?
 
 If yes, does it add a new detection plugin or modify an existing detection plugin? 
 
+If adding a new detection plugin, what is its type? Plugin vs. ArgsPlugin vs. ServicePlugin
+
 https://github.com/openstack/monasca-agent/blob/master/docs/Plugins.md#detection-plugins
 
 # Spec for Enabling This New Checks
