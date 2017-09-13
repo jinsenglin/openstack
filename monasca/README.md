@@ -31,9 +31,15 @@ mem overcommit ratio
 * value of target dimension: Nova
 * value of hostname dimension: as usual
 
-# Spec of New Metric Plugin
+# Spec of New Checks
 
-overcommit ratio
+checks name: overcommit_ratio
+
+parameters:
+
+* hypervisor_id
+
+# Spec for Enabling This New Checks
 
 ```
 # For Compute Node 1
