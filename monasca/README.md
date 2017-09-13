@@ -33,15 +33,15 @@ mem overcommit ratio
 
 # Spec of New Checks
 
-checks name: overcommit_ratio
+check plugin name: overcommit_ratio
 
 parameters:
 
 * hypervisor_id
 
-Does it need the corresponding check plugin?
+Does it need the corresponding detection plugin?
 
-If yes, does it add a new check plugin or modify an existing check plugin? 
+If yes, does it add a new detection plugin or modify an existing detection plugin? 
 
 https://github.com/openstack/monasca-agent/blob/master/docs/Plugins.md#detection-plugins
 
