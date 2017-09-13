@@ -39,9 +39,9 @@ parameters:
 
 * hypervisor_id
 
-Affected existing detection plugins:
+Does it need the corresponding check plugin?
 
-* ?
+If yes, does it add a new check plugin or modify an existing check plugin? 
 
 https://github.com/openstack/monasca-agent/blob/master/docs/Plugins.md#detection-plugins
 
