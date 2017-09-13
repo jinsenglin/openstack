@@ -14,3 +14,15 @@ Dimension Example
 
 * category: Others
 * target: Libvirt
+
+# Spec of New Metric
+
+* metric name: overcommit_ratio.cpu
+* value of category dimension: OpenStack
+* value of target dimension: Nova
+* value of hostname dimension: as usual
+
+* metric name: overcommit_ratio.mem
+* value of category dimension: OpenStack
+* value of target dimension: Nova
+* value of hostname dimension: as usual
