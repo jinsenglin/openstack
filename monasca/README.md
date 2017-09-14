@@ -3,6 +3,13 @@
 Reference:
 
 * https://github.com/openstack/monasca-agent/blob/master/docs/MonascaMetrics.md#naming-conventions
+* https://github.com/openstack/monasca-agent/blob/master/docs/Libvirt.md#aggregate-metrics
+
+Examples:
+
+* nova.vm.cpu.total_allocated
+* nova.vm.disk.total_allocated_gb
+* nova.vm.mem.total_allocated_mb
 
 # Metric Category
 
