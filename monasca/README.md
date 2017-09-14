@@ -63,15 +63,17 @@ parameters:
 
 * hypervisor_id
 
-Q1: What is its interface? AgentCheck vs. ServicesCheck
+Q1: New python script or hacking exiting python script?
 
-Q2: How does it submit metric? gauge() vs. increment() vs. decrement() vs. histogram() vs. rate()
+Q2: What is its interface? AgentCheck vs. ServicesCheck
 
-Q3: Does it need the corresponding detection plugin?
+Q3: How does it submit metric? gauge() vs. increment() vs. decrement() vs. histogram() vs. rate()
 
-Q4: If yes, does it add a new detection plugin or modify an existing detection plugin? 
+Q4: Does it need the corresponding detection plugin?
 
-Q5: If adding a new detection plugin, what is its parent class? Plugin vs. ArgsPlugin vs. ServicePlugin
+Q5: If yes, does it add a new detection plugin or modify an existing detection plugin? 
+
+Q6: If adding a new detection plugin, what is its parent class? Plugin vs. ArgsPlugin vs. ServicePlugin
 
 https://github.com/openstack/monasca-agent/blob/master/docs/Plugins.md#detection-plugins
 
