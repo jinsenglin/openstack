@@ -36,8 +36,8 @@ Reference:
 
 Dimension Example
 
-* category: Others
-* target: Libvirt
+* category: Others and target: Libvirt
+* category: OpenStack and target: Nova
 
 # Spec of New Metric
 
