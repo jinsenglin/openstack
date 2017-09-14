@@ -43,17 +43,17 @@ Dimension Example
 
 cpu overcommit ratio
 
-* metric name: overcommit_ratio.cpu
-* value of category dimension: OpenStack
-* value of target dimension: Nova
-* value of hostname dimension: as usual
+* metric name: nova.vm.cpu.overcommit_ratio
+* value of category dimension: Others
+* value of target dimension: Libvirt
+* value of hostname dimension
 
 mem overcommit ratio
 
-* metric name: overcommit_ratio.mem
-* value of category dimension: OpenStack
-* value of target dimension: Nova
-* value of hostname dimension: as usual
+* metric name: nova.vm.mem.overcommit_ratio
+* value of category dimension: Others
+* value of target dimension: Libvirt
+* value of hostname dimension
 
 # Spec of New Checks
 
