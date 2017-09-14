@@ -1,3 +1,11 @@
+# Approach
+
+Method 1: No new metric, use frontend UI to apply the math expression on existing metric
+
+Method 2: A new metric, use backend engine to apply the math expression on existing metric
+
+Method 3: A new metric, use backend agent to generate new metric
+
 # Metric Naming Convention
 
 Reference:
