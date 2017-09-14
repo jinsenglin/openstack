@@ -65,7 +65,7 @@ parameters:
 
 Q1: New python script or hacking exiting python script?
 
-Q2: What is its interface? AgentCheck vs. ServicesCheck
+Q2: If new python script, what is its interface? AgentCheck vs. ServicesCheck
 
 Q3: How does it submit metric? gauge() vs. increment() vs. decrement() vs. histogram() vs. rate()
 
