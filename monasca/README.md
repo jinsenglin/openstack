@@ -63,7 +63,7 @@ parameters:
 
 * hypervisor_id
 
-Q1: New python script or hacking exiting python script?
+Q1: New python script or hacking exiting python script (https://github.com/openstack/monasca-agent/blob/master/monasca_agent/collector/checks_d/libvirt.py)?
 
 Q2: If new python script, what is its interface? AgentCheck vs. ServicesCheck
 
