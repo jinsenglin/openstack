@@ -636,7 +636,7 @@ DATA
     sed -i "/^\[placement\]$/ a password = PLACEMENT_PASS" /etc/nova/nova.conf
 
     # Edit the /etc/nova/nova.conf file, [scheduler] section
-    sed -i "s|^#discover_hosts_in_cells_interval=-1|discover_hosts_in_cells_interval=10|" /etc/nova/nova.conf
+    sed -i "s|^#discover_hosts_in_cells_interval = -1|discover_hosts_in_cells_interval = 10|" /etc/nova/nova.conf
 
     # Edit the /etc/nova/nova.conf file, [neutron] section
     # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#controller-node
