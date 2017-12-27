@@ -342,3 +342,15 @@ echo "ping vm2 from vm1"
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 $SELFSERVICE_INSTANCE_2_PRIVATE_IP
 
 # --------------------------------------------------------------------------------------------
+
+echo "openstack usage list"
+openstack usage list
+
+<<output
+Usage from 2017-11-29 to 2017-12-28: 
++---------+---------+--------------+-----------+---------------+
+| Project | Servers | RAM MB-Hours | CPU Hours | Disk GB-Hours |
++---------+---------+--------------+-----------+---------------+
+| admin   |       2 |        38.85 |      0.61 |          0.61 |
++---------+---------+--------------+-----------+---------------+
+output
