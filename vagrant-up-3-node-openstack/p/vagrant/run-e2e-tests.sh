@@ -304,18 +304,6 @@ openstack network create  --share --external --provider-physical-network $FLAT_N
 echo "openstack subnet create :: CIDR 10.0.3.0/24"
 openstack subnet create --network $PROVIDER_NETWORK_NAME --allocation-pool start=10.0.3.230,end=10.0.3.250 --dns-nameserver 8.8.8.8 --gateway 10.0.3.1 --subnet-range 10.0.3.0/24 --no-dhcp $PROVIDER_NETWORK_NAME
 
-echo "openstack router create"
-openstack router create $ROUTER_NAME
-
-echo "openstack router set :: gateway to provider network"
-openstack router set $ROUTER_NAME --external-gateway $PROVIDER_NETWORK_NAME
-
-echo "openstack router show :: gateway provider network ip"
-ROUTER_IF_IP_PROVIDER=$(openstack router show $ROUTER_NAME -c external_gateway_info -f json | jq -r '.external_gateway_info' | jq '.external_fixed_ips' | jq -r '.[0].ip_address')
-
-echo "ping provider network ip"
-ping -c 1 $ROUTER_IF_IP_PROVIDER
-
 # --------------------------------------------------------------------------------------------
 
 echo "openstack flavor create"
@@ -328,6 +316,18 @@ source /root/demo-openrc
 
 # --------------------------------------------------------------------------------------------
 
+echo "openstack router create"
+openstack router create $ROUTER_NAME
+
+echo "openstack router set :: gateway to provider network"
+openstack router set $ROUTER_NAME --external-gateway $PROVIDER_NETWORK_NAME
+
+echo "openstack router show :: gateway provider network ip"
+ROUTER_IF_IP_PROVIDER=$(openstack router show $ROUTER_NAME -c external_gateway_info -f json | jq -r '.external_gateway_info' | jq '.external_fixed_ips' | jq -r '.[0].ip_address')
+
+echo "ping provider network ip"
+ping -c 1 $ROUTER_IF_IP_PROVIDER
+
 echo "openstack network create :: self-service network a.k.a. tenant network"
 openstack network create $SELFSERVICE_NETWORK_NAME
 
@@ -335,9 +335,7 @@ echo "openstack subnet create :: CIDR 10.10.10.0/24"
 openstack subnet create --network $SELFSERVICE_NETWORK_NAME --dns-nameserver 8.8.8.8 --gateway 10.10.10.1 --subnet-range 10.10.10.0/24 $SELFSERVICE_NETWORK_NAME
 
 echo "openstack router add subnet"
-source /root/admin-openrc # workaround
 openstack router add subnet $ROUTER_NAME $SELFSERVICE_NETWORK_NAME
-source /root/demo-openrc # workaround
 
 # --------------------------------------------------------------------------------------------
 
@@ -420,4 +418,4 @@ Deleting image : 8e4e8f31-20dc-4459-8220-e341227b0972
 Deleting project: e6efac67cc30405c8defce6154b5f6c6
 output
 
-echo "NOTE user 'demo', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' still exist."
+echo "NOTE user 'demo', router 'router', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' still exist."
