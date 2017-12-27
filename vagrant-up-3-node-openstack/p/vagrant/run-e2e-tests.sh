@@ -4,6 +4,7 @@ set -e
 
 # --------------------------------------------------------------------------------------------
 
+echo "source admin-openrc"
 source /root/admin-openrc
 
 # --------------------------------------------------------------------------------------------
@@ -289,7 +290,7 @@ PROVIDER_NETWORK_NAME=provider
 ROUTER_NAME=router
 ROUTER_IF_IP_PROVIDER=
 SELFSERVICE_NETWORK_NAME=selfservice
-ADMIN_DEFAULT_SECURITY_GROUP_ID=
+DEMO_DEFAULT_SECURITY_GROUP_ID=
 SELFSERVICE_INSTANCE_NAME=selfservice-instance
 SELFSERVICE_INSTANCE_FLOATING_IP=
 SELFSERVICE_INSTANCE_2_NAME=selfservice-instance-2
@@ -317,6 +318,16 @@ ping -c 1 $ROUTER_IF_IP_PROVIDER
 
 # --------------------------------------------------------------------------------------------
 
+echo "openstack flavor create"
+openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
+
+# --------------------------------------------------------------------------------------------
+
+echo "source demo-openrc"
+source /root/demo-openrc
+
+# --------------------------------------------------------------------------------------------
+
 echo "openstack network create :: self-service network a.k.a. tenant network"
 openstack network create $SELFSERVICE_NETWORK_NAME
 
@@ -324,28 +335,25 @@ echo "openstack subnet create :: CIDR 10.10.10.0/24"
 openstack subnet create --network $SELFSERVICE_NETWORK_NAME --dns-nameserver 8.8.8.8 --gateway 10.10.10.1 --subnet-range 10.10.10.0/24 $SELFSERVICE_NETWORK_NAME
 
 echo "openstack router add subnet"
+source /root/admin-openrc # workaround
 openstack router add subnet $ROUTER_NAME $SELFSERVICE_NETWORK_NAME
+source /root/demo-openrc # workaround
 
 # --------------------------------------------------------------------------------------------
 
-echo "openstack flavor create"
-openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
-
-# --------------------------------------------------------------------------------------------
-
-echo "openstack security group list :: admin project default security group id"
-ADMIN_DEFAULT_SECURITY_GROUP_ID=$(openstack security group list --project admin -c ID -f value)
+echo "openstack security group list :: demo project default security group id"
+DEMO_DEFAULT_SECURITY_GROUP_ID=$(openstack security group list -c ID -f value)
 
 echo "openstack security group rule create :: allow icmp by default"
-openstack security group rule create --proto icmp $ADMIN_DEFAULT_SECURITY_GROUP_ID
+openstack security group rule create --proto icmp $DEMO_DEFAULT_SECURITY_GROUP_ID
 
 echo "openstack security group rule create :: allow ssh by default"
-openstack security group rule create --proto tcp --dst-port 22 $ADMIN_DEFAULT_SECURITY_GROUP_ID
+openstack security group rule create --proto tcp --dst-port 22 $DEMO_DEFAULT_SECURITY_GROUP_ID
 
 # --------------------------------------------------------------------------------------------
 
 echo "openstack server create"
-openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $ADMIN_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
+openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
 
 echo "openstack server show"
 openstack server show $SELFSERVICE_INSTANCE_NAME # status ACTIVE
@@ -374,7 +382,7 @@ sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTA
 # --------------------------------------------------------------------------------------------
 
 echo "openstack server create :: vm2"
-openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $ADMIN_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_2_NAME
+openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_2_NAME
 
 echo "openstack server show :: vm2"
 openstack server show $SELFSERVICE_INSTANCE_2_NAME # status ACTIVE
@@ -387,6 +395,11 @@ sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTA
 
 # --------------------------------------------------------------------------------------------
 
+echo "source admin-openrc"
+source /root/admin-openrc
+
+# --------------------------------------------------------------------------------------------
+
 echo "openstack usage list"
 openstack usage list
 
@@ -395,6 +408,16 @@ Usage from 2017-11-29 to 2017-12-28:
 +---------+---------+--------------+-----------+---------------+
 | Project | Servers | RAM MB-Hours | CPU Hours | Disk GB-Hours |
 +---------+---------+--------------+-----------+---------------+
-| admin   |       2 |        38.85 |      0.61 |          0.61 |
+| demo    |       2 |         4.36 |      0.07 |          0.07 |
 +---------+---------+--------------+-----------+---------------+
 output
+
+echo "openstack project purge --project demo"
+openstack project purge --project demo
+
+<<output
+Deleting image : 8e4e8f31-20dc-4459-8220-e341227b0972
+Deleting project: e6efac67cc30405c8defce6154b5f6c6
+output
+
+echo "NOTE user 'demo', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' still exist."
