@@ -43,6 +43,7 @@ ROUTER_NAME=router
 ROUTER_IF_IP_PROVIDER=
 SELFSERVICE_NETWORK_NAME=selfservice
 ADMIN_DEFAULT_SECURITY_GROUP_ID=
+SELFSERVICE_INSTANCE_NAME=selfservice-instance
 
 # --------------------------------------------------------------------------------------------
 
@@ -82,7 +83,7 @@ openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
 
 # --------------------------------------------------------------------------------------------
 
-"openstack security group list :: admin project default security group id"
+echo "openstack security group list :: admin project default security group id"
 ADMIN_DEFAULT_SECURITY_GROUP_ID=$(openstack security group list --project admin -c ID -f value)
 
 echo "openstack security group rule create :: allow icmp by default"
@@ -92,3 +93,11 @@ echo "openstack security group rule create :: allow ssh by default"
 openstack security group rule create --proto tcp --dst-port 22 $ADMIN_DEFAULT_SECURITY_GROUP_ID
 
 # --------------------------------------------------------------------------------------------
+
+echo "openstack server create"
+openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $ADMIN_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
+
+echo "openstack server show"
+openstack server show $SELFSERVICE_INSTANCE_NAME # status ACTIVE
+
+# | fault                               | {u'message': u"Host 'os-compute' is not mapped to any cell", u'code': 400, u'created': u'2017-12-27T06:48:36Z'} |
