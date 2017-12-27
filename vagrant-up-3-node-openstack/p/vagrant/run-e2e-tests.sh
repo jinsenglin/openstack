@@ -418,3 +418,4 @@ Deleting image : 8e4e8f31-20dc-4459-8220-e341227b0972
 output
 
 echo "NOTE user 'demo', router 'router', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' will not be purged."
+echo "NOTE try this https://github.com/openstack/ospurge"
