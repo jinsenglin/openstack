@@ -42,6 +42,7 @@ PROVIDER_NETWORK_NAME=provider
 ROUTER_NAME=router
 ROUTER_IF_IP_PROVIDER=
 SELFSERVICE_NETWORK_NAME=selfservice
+ADMIN_DEFAULT_SECURITY_GROUP_ID=
 
 # --------------------------------------------------------------------------------------------
 
@@ -71,3 +72,23 @@ openstack network create $SELFSERVICE_NETWORK_NAME
 echo "openstack subnet create :: CIDR 10.10.10.0/24"
 openstack subnet create --network $SELFSERVICE_NETWORK_NAME --dns-nameserver 8.8.8.8 --gateway 10.10.10.1 --subnet-range 10.10.10.0/24 $SELFSERVICE_NETWORK_NAME
 
+echo "openstack router add subnet"
+openstack router add subnet $ROUTER_NAME $SELFSERVICE_NETWORK_NAME
+
+# --------------------------------------------------------------------------------------------
+
+echo "openstack flavor create"
+openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
+
+# --------------------------------------------------------------------------------------------
+
+"openstack security group list :: admin project default security group id"
+ADMIN_DEFAULT_SECURITY_GROUP_ID=$(openstack security group list --project admin -c ID -f value)
+
+echo "openstack security group rule create :: allow icmp by default"
+openstack security group rule create --proto icmp $ADMIN_DEFAULT_SECURITY_GROUP_ID
+
+echo "openstack security group rule create :: allow ssh by default"
+openstack security group rule create --proto tcp --dst-port 22 $ADMIN_DEFAULT_SECURITY_GROUP_ID
+
+# --------------------------------------------------------------------------------------------
