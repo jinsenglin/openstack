@@ -248,6 +248,8 @@ SELFSERVICE_NETWORK_NAME=selfservice
 ADMIN_DEFAULT_SECURITY_GROUP_ID=
 SELFSERVICE_INSTANCE_NAME=selfservice-instance
 SELFSERVICE_INSTANCE_FLOATING_IP=
+SELFSERVICE_INSTANCE_2_NAME=selfservice-instance-2
+SELFSERVICE_INSTANCE_2_PRIVATE_IP=
 
 # --------------------------------------------------------------------------------------------
 
@@ -324,5 +326,19 @@ sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTA
 
 echo "ping gateway 10.0.3.1 from self-service instance"
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 10.0.3.1
+
+# --------------------------------------------------------------------------------------------
+
+echo "openstack server create :: vm2"
+openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $ADMIN_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_2_NAME
+
+echo "openstack server show :: vm2"
+openstack server show $SELFSERVICE_INSTANCE_2_NAME # status ACTIVE
+
+echo "openstack server show :: vm2 private ip"
+SELFSERVICE_INSTANCE_2_PRIVATE_IP=$(openstack server show $SELFSERVICE_INSTANCE_2_NAME -c addresses -f value | awk -F '=' '{print $2}')
+
+echo "ping vm2 from vm1"
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 $SELFSERVICE_INSTANCE_2_PRIVATE_IP
 
 # --------------------------------------------------------------------------------------------
