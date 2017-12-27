@@ -20,11 +20,17 @@ tar -zxf etc.tgz etc/nova
 sed -i '/^#/ d' etc/glance/glance-registry.conf
 sed -i '/^$/ d' etc/glance/glance-registry.conf
 
+sed -i '/^#/ d' etc/glance/glance-api.conf
+sed -i '/^$/ d' etc/glance/glance-api.conf
+
 sed -i '/^#/ d' etc/keystone/keystone.conf
 sed -i '/^$/ d' etc/keystone/keystone.conf
 
 sed -i '/^#/ d' etc/neutron/neutron.conf
 sed -i '/^$/ d' etc/neutron/neutron.conf
+
+sed -i '/^#/ d' etc/neutron/plugins/ml2/ml2_conf.ini
+sed -i '/^$/ d' etc/neutron/plugins/ml2/ml2_conf.ini
 
 sed -i '/^#/ d' etc/nova/nova.conf
 sed -i '/^$/ d' etc/nova/nova.conf
