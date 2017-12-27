@@ -14,6 +14,8 @@ vagrant up --provision-with download os-compute
 vagrant ssh os-controller -c "sudo /vagrant/bootstrap-os-controller.sh configure"
 vagrant ssh os-network -c "sudo /vagrant/bootstrap-os-network.sh configure"
 vagrant ssh os-compute -c "sudo /vagrant/bootstrap-os-compute.sh configure"
+
+vagrant ssh os-controller -c "sudo /vagrant/run-e2e-tests.sh"
 ```
 
 ---
