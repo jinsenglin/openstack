@@ -11,6 +11,8 @@ source /root/admin-openrc
 echo "nova-status upgrade check"
 nova-status upgrade check
 
+# ref https://docs.openstack.org/ocata/install-guide-ubuntu/nova-verify.html
+
 # --------------------------------------------------------------------------------------------
 
 echo "openstack module list"
@@ -27,6 +29,9 @@ openstack endpoint list
 
 echo "openstack catalog list"
 openstack catalog list
+
+echo "openstack availability zone list"
+openstack availability zone list
 
 echo "openstack host list"
 openstack host list
