@@ -410,12 +410,11 @@ Usage from 2017-11-29 to 2017-12-28:
 +---------+---------+--------------+-----------+---------------+
 output
 
-echo "openstack project purge --project demo"
-openstack project purge --project demo
+echo "openstack project purge --keep-project --project demo"
+openstack project purge --keep-project --project demo
 
 <<output
 Deleting image : 8e4e8f31-20dc-4459-8220-e341227b0972
-Deleting project: e6efac67cc30405c8defce6154b5f6c6
 output
 
 echo "NOTE user 'demo', router 'router', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' still exist."
