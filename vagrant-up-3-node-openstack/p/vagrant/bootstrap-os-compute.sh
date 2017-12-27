@@ -20,6 +20,9 @@ pwd | tee -a $LOG          # where: /home/vagrant
 CACHE=/vagrant/cache
 [ -d $CACHE ] || mkdir -p $CACHE 
 
+ARCHIVE=/vagrant/archive
+[ -d $ARCHIVE ] || mkdir -p $ARCHIVE
+
 function use_public_apt_server() {
     apt install -y software-properties-common
     add-apt-repository cloud-archive:pike
@@ -255,6 +258,14 @@ function configure_neutron() {
     # https://www.centos.bz/2012/04/linux-sysctl-conf/
 }
 
+function archive_deb_pkg_list() {
+    apt list --installed > $ARCHIVE/os-compute/apt/selection.txt
+}
+
+function archive_etc_tarball() {
+    tar -czf $ARCHIVE/os-compute/etc.tgz /etc
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -268,10 +279,12 @@ function main() {
                 install_ntp
                 download_nova
                 download_neutron
+                archive_deb_pkg_list
                 ;;
             configure)
                 configure_nova
                 configure_neutron
+                archive_etc_tarball
                 ;;
             *)
                 echo "unknown mode"

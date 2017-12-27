@@ -20,6 +20,9 @@ pwd | tee -a $LOG          # where: /home/vagrant
 CACHE=/vagrant/cache
 [ -d $CACHE ] || mkdir -p $CACHE 
 
+ARCHIVE=/vagrant/archive
+[ -d $ARCHIVE ] || mkdir -p $ARCHIVE
+
 function use_public_apt_server() {
     apt install -y software-properties-common
     add-apt-repository cloud-archive:pike
@@ -728,6 +731,14 @@ DATA
     # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 }
 
+function archive_deb_pkg_list() {
+    apt list --installed > $ARCHIVE/os-controller/apt/selection.txt
+}
+
+function archive_etc_tarball() {
+    tar -czf $ARCHIVE/os-controller/etc.tgz /etc
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -748,6 +759,7 @@ function main() {
                 download_nova
                 download_neutron
 #                download_lbaas
+                archive_deb_pkg_list
                 ;;
             configure)
                 configure_keystone
@@ -755,6 +767,7 @@ function main() {
                 configure_nova
                 configure_neutron
 #                configure_lbaas
+                archive_etc_tarball
                 ;;
             *)
                 echo "unknown mode"
