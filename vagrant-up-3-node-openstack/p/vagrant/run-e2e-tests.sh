@@ -185,6 +185,50 @@ openstack hypervisor list
 +----+---------------------+-----------------+-----------+-------+
 output
 
+echo "openstack compute service list"
+openstack compute service list
+
+<<output
++----+------------------+---------------+----------+---------+-------+----------------------------+
+| ID | Binary           | Host          | Zone     | Status  | State | Updated At                 |
++----+------------------+---------------+----------+---------+-------+----------------------------+
+|  3 | nova-conductor   | os-controller | internal | enabled | up    | 2017-12-27T08:42:43.213965 |
+|  4 | nova-scheduler   | os-controller | internal | enabled | up    | 2017-12-27T08:42:42.514304 |
+|  5 | nova-consoleauth | os-controller | internal | enabled | up    | 2017-12-27T08:42:42.008214 |
+|  6 | nova-compute     | os-compute    | nova     | enabled | up    | 2017-12-27T08:42:36.236375 |
++----+------------------+---------------+----------+---------+-------+----------------------------+
+output
+
+echo "openstack network agent list"
+openstack network agent list
+
+<<output
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+| ID                                   | Agent Type         | Host       | Availability Zone | Alive | State | Binary                    |
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+| 250df0cb-bc10-40a8-8f52-7ebad1dc3fd5 | L3 agent           | os-network | nova              | :-)   | UP    | neutron-l3-agent          |
+| 4a5431c9-b42a-4a16-a849-a329f16d4c49 | Open vSwitch agent | os-network | None              | :-)   | UP    | neutron-openvswitch-agent |
+| 7ad20298-fc88-4444-8418-c3254d676a1c | DHCP agent         | os-network | nova              | :-)   | UP    | neutron-dhcp-agent        |
+| d149024c-2444-40d2-96f7-b7cf6ee3f882 | Open vSwitch agent | os-compute | None              | :-)   | UP    | neutron-openvswitch-agent |
+| d47f173a-41af-48a1-9b21-7368f5c5a81b | Metadata agent     | os-network | None              | :-)   | UP    | neutron-metadata-agent    |
++--------------------------------------+--------------------+------------+-------------------+-------+-------+---------------------------+
+output
+
+echo "openstack network service provider list"
+openstack network service provider list
+
+<<output
++---------------+-------------+---------+
+| Service Type  | Name        | Default |
++---------------+-------------+---------+
+| L3_ROUTER_NAT | single_node | False   |
+| L3_ROUTER_NAT | ha          | False   |
+| L3_ROUTER_NAT | dvrha       | False   |
+| L3_ROUTER_NAT | dvr         | False   |
++---------------+-------------+---------+
+output
+
+
 echo "openstack domain list"
 openstack domain list
 
