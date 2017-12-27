@@ -247,6 +247,7 @@ ROUTER_IF_IP_PROVIDER=
 SELFSERVICE_NETWORK_NAME=selfservice
 ADMIN_DEFAULT_SECURITY_GROUP_ID=
 SELFSERVICE_INSTANCE_NAME=selfservice-instance
+SELFSERVICE_INSTANCE_FLOATING_IP=
 
 # --------------------------------------------------------------------------------------------
 
@@ -303,4 +304,25 @@ openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVIC
 echo "openstack server show"
 openstack server show $SELFSERVICE_INSTANCE_NAME # status ACTIVE
 
-# | fault                               | {u'message': u"Host 'os-compute' is not mapped to any cell", u'code': 400, u'created': u'2017-12-27T06:48:36Z'} |
+echo "openstack floating ip create"
+openstack floating ip create $PROVIDER_NETWORK_NAME
+
+echo "openstack floating ip list :: self-service instance floating ip"
+SELFSERVICE_INSTANCE_FLOATING_IP=$( openstack floating ip list -c "Floating IP Address" -f json | jq -r '.[0]["Floating IP Address"]' )
+
+echo "openstack server add floating ip"
+openstack server add floating ip $SELFSERVICE_INSTANCE_NAME $SELFSERVICE_INSTANCE_FLOATING_IP
+
+echo "ping self-service instance floating ip"
+ping -c 1 $SELFSERVICE_INSTANCE_FLOATING_IP
+
+echo "ssh login self-service instance :: print hostname"
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP hostname
+
+echo "ping gateway 10.10.10.1 from self-service instance"
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 10.10.10.1
+
+echo "ping gateway 10.0.3.1 from self-service instance"
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 10.0.3.1
+
+# --------------------------------------------------------------------------------------------
