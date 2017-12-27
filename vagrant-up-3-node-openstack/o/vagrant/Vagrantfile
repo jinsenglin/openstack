@@ -1,0 +1,74 @@
+BOX = "bento/ubuntu-16.04"
+BOX_VERSION = "2.3.8"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "os-controller" do |d|
+    d.vm.box = BOX
+    d.vm.box_version = BOX_VERSION
+    d.vm.box_check_update = false
+    d.vm.hostname = "os-controller"
+    d.vm.network "private_network", ip: "10.0.0.11"
+    d.vm.network "private_network", ip: "10.0.1.11"
+    d.vm.network "private_network", ip: "10.0.3.11"
+    d.vm.network "private_network", ip: "10.0.4.11"
+    d.vm.provider "virtualbox" do |p|
+      p.cpus = "2"
+      p.memory = "4096"
+      p.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
+    end
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-controller.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-controller.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-controller.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-controller.sh", run: "never"
+  end
+
+  config.vm.define "os-network" do |d|
+    d.vm.box = BOX
+    d.vm.box_version = BOX_VERSION
+    d.vm.box_check_update = false
+    d.vm.hostname = "os-network"
+    d.vm.network "private_network", ip: "10.0.0.21"
+    d.vm.network "private_network", ip: "10.0.1.21"
+    d.vm.network "private_network", ip: "10.0.3.21", auto_config: false
+    d.vm.network "private_network", ip: "10.0.4.21"
+    d.vm.provider "virtualbox" do |p|
+      p.cpus = "1"
+      p.memory = "2048"
+      p.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
+    end
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-network.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-network.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-network.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-network.sh", run: "never"
+  end
+
+  config.vm.define "os-compute" do |d|
+    d.vm.box = BOX
+    d.vm.box_version = BOX_VERSION
+    d.vm.box_check_update = false
+    d.vm.hostname = "os-compute"
+    d.vm.network "private_network", ip: "10.0.0.31"
+    d.vm.network "private_network", ip: "10.0.1.31"
+    d.vm.network "private_network", ip: "10.0.3.31"
+    d.vm.network "private_network", ip: "10.0.4.31"
+    d.vm.provider "virtualbox" do |p|
+      p.cpus = "2"
+      p.memory = "4096"
+      p.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
+    end
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-compute.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-compute.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-compute.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-compute.sh", run: "never"
+  end
+
+end

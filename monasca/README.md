@@ -65,6 +65,8 @@ parameters:
 
 Q1: New python script or hacking exiting python script (https://github.com/openstack/monasca-agent/blob/master/monasca_agent/collector/checks_d/libvirt.py)?
 
+NOTE: If hacking exiting python script, is the permission suitable? nova vs. admin
+
 Q2: If new python script, what is its interface? AgentCheck vs. ServicesCheck
 
 Q3: How does it submit metric? gauge() vs. increment() vs. decrement() vs. histogram() vs. rate()
