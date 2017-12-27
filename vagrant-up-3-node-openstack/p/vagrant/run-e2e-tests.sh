@@ -351,7 +351,7 @@ openstack security group rule create --proto tcp --dst-port 22 $DEMO_DEFAULT_SEC
 # --------------------------------------------------------------------------------------------
 
 echo "openstack server create"
-openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
+openstack server create --wait --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
 
 echo "openstack server show"
 openstack server show $SELFSERVICE_INSTANCE_NAME # status ACTIVE
@@ -380,7 +380,7 @@ sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTA
 # --------------------------------------------------------------------------------------------
 
 echo "openstack server create :: vm2"
-openstack server create --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_2_NAME
+openstack server create --wait --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_2_NAME
 
 echo "openstack server show :: vm2"
 openstack server show $SELFSERVICE_INSTANCE_2_NAME # status ACTIVE
@@ -411,10 +411,10 @@ Usage from 2017-11-29 to 2017-12-28:
 output
 
 echo "openstack project purge --keep-project --project demo"
-openstack project purge --keep-project --project demo
+openstack project purge --keep-project --dry-run --project demo
 
 <<output
 Deleting image : 8e4e8f31-20dc-4459-8220-e341227b0972
 output
 
-echo "NOTE user 'demo', router 'router', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' still exist."
+echo "NOTE user 'demo', router 'router', network 'selfservice', subnet 'selfservice', security group belong to 'demo', server belong to 'demo' will not be purged."
