@@ -8,6 +8,11 @@ source /root/admin-openrc
 
 # --------------------------------------------------------------------------------------------
 
+echo "nova-status upgrade check"
+nova-status upgrade check
+
+# --------------------------------------------------------------------------------------------
+
 echo "openstack module list"
 openstack module list
 
@@ -20,8 +25,14 @@ openstack service list
 echo "openstack endpoint list"
 openstack endpoint list
 
+echo "openstack catalog list"
+openstack catalog list
+
 echo "openstack host list"
 openstack host list
+
+echo "openstack hypervisor list"
+openstack hypervisor list
 
 echo "openstack domain list"
 openstack domain list
