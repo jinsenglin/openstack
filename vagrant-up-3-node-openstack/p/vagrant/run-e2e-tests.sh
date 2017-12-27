@@ -13,40 +13,76 @@ nova-status upgrade check
 
 # ref https://docs.openstack.org/ocata/install-guide-ubuntu/nova-verify.html
 
+<<output
+output
+
 # --------------------------------------------------------------------------------------------
 
 echo "openstack module list"
 openstack module list
 
+<<output
+output
+
 echo "openstack region list"
 openstack region list
+
+<<output
+output
 
 echo "openstack service list"
 openstack service list
 
+<<output
+output
+
 echo "openstack endpoint list"
 openstack endpoint list
+
+<<output
+output
 
 echo "openstack catalog list"
 openstack catalog list
 
+<<output
+output
+
 echo "openstack availability zone list"
 openstack availability zone list
+
+<<output
+output
 
 echo "openstack host list"
 openstack host list
 
+<<output
+output
+
 echo "openstack hypervisor list"
 openstack hypervisor list
+
+<<output
+output
 
 echo "openstack domain list"
 openstack domain list
 
+<<output
+output
+
 echo "openstack project list"
 openstack project list
 
+<<output
+output
+
 echo "openstack user list"
 openstack user list
+
+<<output
+output
 
 echo "openstack role list"
 openstack role list
