@@ -66,15 +66,15 @@ function install_python() {
     PYTHON_VERSION=2.7.11-1
     PYTHON_PIP_VERSION=8.1.1-2ubuntu0.4
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
-    #apt-get install -y python python-pip
+    #apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
+    apt-get install -y python python-pip
 }
 
 function install_ntp() {
     CHRONY_VERSION=2.1.1-1
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y chrony=$CHRONY_VERSION
-    #apt-get install -y chrony
+    #apt-get install -y chrony=$CHRONY_VERSION
+    apt-get install -y chrony
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -99,8 +99,8 @@ function install_sqldb() {
     MARIADB_SERVER_VERSION=10.0.31-0ubuntu0.16.04.2
     PYTHON_PYMSQL_VERSION=0.7.9-2~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y mariadb-server=$MARIADB_SERVER_VERSION python-pymysql=$PYTHON_PYMSQL_VERSION
-    #apt-get install -y mariadb-server python-pymysql
+    #apt-get install -y mariadb-server=$MARIADB_SERVER_VERSION python-pymysql=$PYTHON_PYMSQL_VERSION
+    apt-get install -y mariadb-server python-pymysql
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -132,8 +132,8 @@ DATA
 function install_mq() {
     RABBITMQ_SERVER_VERSION=3.5.7-1ubuntu0.16.04.2
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y rabbitmq-server=$RABBITMQ_SERVER_VERSION
-    #apt-get install -y rabbitmq-server
+    #apt-get install -y rabbitmq-server=$RABBITMQ_SERVER_VERSION
+    apt-get install -y rabbitmq-server
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -156,8 +156,8 @@ function install_memcached() {
     MEMCACHED_VERSION=1.4.25-2ubuntu1.2
     PYTHON_MEMCACHE_VERSION=1.57-1
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y memcached=$MEMCACHED_VERSION python-memcache=$PYTHON_MEMCACHE_VERSION
-    #apt-get install -y memcached python-memcache
+    #apt-get install -y memcached=$MEMCACHED_VERSION python-memcache=$PYTHON_MEMCACHE_VERSION
+    apt-get install -y memcached python-memcache
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -177,8 +177,8 @@ function install_memcached() {
 function install_openstack_cli() {
     PYTHON_OPENSTACKCLIENT_VERSION=3.8.1-0ubuntu3~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y python-openstackclient=$PYTHON_OPENSTACKCLIENT_VERSION
-    #apt install -y python-openstackclient
+    #apt install -y python-openstackclient=$PYTHON_OPENSTACKCLIENT_VERSION
+    apt install -y python-openstackclient
 
     cat > /root/admin-openrc <<DATA
 export OS_USERNAME=admin
@@ -207,8 +207,8 @@ DATA
 function download_keystone() {
     KEYSTONE_VERSION=2:11.0.3-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y keystone=$KEYSTONE_VERSION
-    #apt-get install -y keystone
+    #apt-get install -y keystone=$KEYSTONE_VERSION
+    apt-get install -y keystone
 }
 
 function configure_keystone() {
@@ -276,8 +276,8 @@ DATA
 function download_glance() {
     GLANCE_VERSION=2:14.0.0-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y glance=$GLANCE_VERSION
-    #apt-get install -y glance
+    #apt-get install -y glance=$GLANCE_VERSION
+    apt-get install -y glance
 }
 
 function configure_glance() {
@@ -356,10 +356,10 @@ function download_neutron() {
     NEUTRON_SERVER_VERSION=2:10.0.3-0ubuntu1~cloud0
     NEUTRON_PLUGIN_ML2_VERSION=2:10.0.3-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y neutron-server=$NEUTRON_SERVER_VERSION \
-                   neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION
-    #apt install -y neutron-server \
-    #               neutron-plugin-ml2
+    #apt install -y neutron-server=$NEUTRON_SERVER_VERSION \
+    #               neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION
+    apt install -y neutron-server \
+                   neutron-plugin-ml2
 }
 
 function configure_neutron() {
@@ -531,8 +531,8 @@ function download_nova() {
     NOVA_SCHEDULER_VERSION=2:15.0.7-0ubuntu1~cloud0
     NOVA_PLACEMENT_API_VERSION=2:15.0.7-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y nova-api=$NOVA_API_VERSION nova-conductor=$NOVA_CONDUCTOR_VERSION nova-consoleauth=$NOVA_CONSOLEAUTH_VERSION nova-novncproxy=$NOVA_NOVNCPROXY_VERSION nova-scheduler=$NOVA_SCHEDULER_VERSION nova-placement-api=$NOVA_PLACEMENT_API_VERSION
-    #apt-get install -y nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler nova-placement-api
+    #apt-get install -y nova-api=$NOVA_API_VERSION nova-conductor=$NOVA_CONDUCTOR_VERSION nova-consoleauth=$NOVA_CONSOLEAUTH_VERSION nova-novncproxy=$NOVA_NOVNCPROXY_VERSION nova-scheduler=$NOVA_SCHEDULER_VERSION nova-placement-api=$NOVA_PLACEMENT_API_VERSION
+    apt-get install -y nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler nova-placement-api
 }
 
 function configure_nova() {
@@ -684,8 +684,8 @@ DATA
 function download_lbaas() {
     NEUTRON_LBAAS_VERSION=2:10.0.1-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y python-neutron-lbaas=$NEUTRON_LBAAS_VERSION
-    #apt install -y python-neutron-lbaas=
+    #apt install -y python-neutron-lbaas=$NEUTRON_LBAAS_VERSION
+    apt install -y python-neutron-lbaas=
 
     # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 }
@@ -747,14 +747,14 @@ function main() {
                 download_glance
                 download_nova
                 download_neutron
-                download_lbaas
+#                download_lbaas
                 ;;
             configure)
                 configure_keystone
                 configure_glance
                 configure_nova
                 configure_neutron
-                configure_lbaas
+#                configure_lbaas
                 ;;
             *)
                 echo "unknown mode"

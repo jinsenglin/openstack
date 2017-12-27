@@ -68,15 +68,15 @@ function install_python() {
     PYTHON_VERSION=2.7.11-1
     PYTHON_PIP_VERSION=8.1.1-2ubuntu0.4
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
-    #apt-get install -y python python-pip
+    #apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
+    apt-get install -y python python-pip
 }
 
 function install_ntp() {
     CHRONY_VERSION=2.1.1-1
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y chrony=$CHRONY_VERSION
-    #apt-get install -y chrony
+    #apt-get install -y chrony=$CHRONY_VERSION
+    apt-get install -y chrony
 
     # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # #
 
@@ -106,16 +106,16 @@ function download_neutron() {
     NEUTRON_DHCP_AGENT_VERSION=2:10.0.3-0ubuntu1~cloud0
     NEUTRON_METADATA_AGENT_VERSION=2:10.0.3-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION \
-                   neutron-openvswitch-agent=$NEUTRON_OPENVSWITCH_AGENT_VERSION \
-                   neutron-l3-agent=$NEUTRON_L3_AGENT_VERSION \
-                   neutron-dhcp-agent=$NEUTRON_DHCP_AGENT_VERSION \
-                   neutron-metadata-agent=$NEUTRON_METADATA_AGENT_VERSION
-#    apt install -y neutron-plugin-ml2 \
-#                   neutron-openvswitch-agent \
-#                   neutron-l3-agent \
-#                   neutron-dhcp-agent \
-#                   neutron-metadata-agent
+    #apt install -y neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION \
+    #               neutron-openvswitch-agent=$NEUTRON_OPENVSWITCH_AGENT_VERSION \
+    #               neutron-l3-agent=$NEUTRON_L3_AGENT_VERSION \
+    #               neutron-dhcp-agent=$NEUTRON_DHCP_AGENT_VERSION \
+    #               neutron-metadata-agent=$NEUTRON_METADATA_AGENT_VERSION
+    apt install -y neutron-plugin-ml2 \
+                   neutron-openvswitch-agent \
+                   neutron-l3-agent \
+                   neutron-dhcp-agent \
+                   neutron-metadata-agent
 }
 
 function configure_neutron() {
@@ -226,8 +226,8 @@ function configure_neutron() {
 function download_lbaas() {
     NEUTRON_LBAAS_AGENT_VERSION=2:10.0.1-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y neutron-lbaasv2-agent=$NEUTRON_LBAAS_AGENT_VERSION
-    #apt install -y python-neutron-lbaas=
+    #apt install -y neutron-lbaasv2-agent=$NEUTRON_LBAAS_AGENT_VERSION
+    apt install -y python-neutron-lbaas=
 
     # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 }
@@ -264,11 +264,11 @@ function main() {
                 install_python
                 install_ntp
                 download_neutron
-                download_lbaas
+#                download_lbaas
                 ;;
             configure)
                 configure_neutron
-                configure_lbaas
+#                configure_lbaas
                 ;;
             *)
                 echo "unknown mode"
