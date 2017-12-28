@@ -75,6 +75,7 @@ openstack limits show --absolute
 
 ```
 openstack volume create --size 1 1GB-HDD
-openstack volume show 1GB-HDD # status ACTIVE
+openstack volume show 1GB-HDD # status available
 openstack server add volume --device /dev/vdb $SELFSERVICE_INSTANCE_NAME 1GB-HDD
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ls -l /dev/vdb
 ```
