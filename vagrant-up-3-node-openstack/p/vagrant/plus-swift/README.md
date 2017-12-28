@@ -25,5 +25,15 @@ vagrant up --provision-with bootstrap os-object
 Verify object service
 
 ```
-?
+swift stat
+
+openstack container create container1
+
+echo FILE > FILE
+openstack object create container1 FILE
+
+openstack object list container1
+
+rm FILE
+openstack object save container1 FILE
 ```
