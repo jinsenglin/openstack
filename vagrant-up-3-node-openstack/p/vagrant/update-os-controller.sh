@@ -82,7 +82,40 @@ function download_swift() {
 }
 
 function configure_swift() {
-    :
+     # Create the user
+    source /root/admin-openrc
+    openstack user create --domain default --password SWIFT_PASS swift
+
+    # Associate the user with the admin role and the service project
+    source /root/admin-openrc
+    openstack role add --project service --user swift admin
+
+    # Create the service entity
+    source /root/admin-openrc
+    openstack service create --name swift --description "OpenStack Object Storage" object-store
+
+    # Create the service api endpoint
+    source /root/admin-openrc
+    openstack endpoint create --region RegionOne object-store public http://os-controller:8080/v1/AUTH_%\(project_id\)s
+    openstack endpoint create --region RegionOne object-store internal http://os-controller:8080/v1/AUTH_%\(project_id\)s
+    openstack endpoint create --region RegionOne object-store admin http://os-controller:8080/v1
+
+    # Create the /etc/swift directory
+    [ -d /etc/swift ] || mkdir /etc/swift
+
+    # Download /etc/swift/proxy-server.conf
+    curl -o /etc/swift/proxy-server.conf https://git.openstack.org/cgit/openstack/swift/plain/etc/proxy-server.conf-sample?h=stable/pike
+
+    # Edit the /etc/swift/proxy-server.conf file, [DEFAULT] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [pipeline:main] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [app:proxy-server] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [filter:keystoneauth] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [filter:authtoken] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [filter:cache] section TODO
+
+    # Create and distribute initial rings TODO
+
+    # Finalize installation TODO
 }
 
 function main() {

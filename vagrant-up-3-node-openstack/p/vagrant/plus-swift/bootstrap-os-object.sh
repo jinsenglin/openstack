@@ -117,7 +117,52 @@ function download_swift() {
 }
 
 function configure_swift() {
-    :
+    # Format the /dev/sdb and /dev/sdc devices as XFS
+    mkfs.xfs /dev/sdb
+    mkfs.xfs /dev/sdc
+
+    # Create the mount point directory structure
+    mkdir -p /srv/node/sdb
+    mkdir -p /srv/node/sdc
+
+    # Edit the /etc/fstab file TODO
+
+    # Mount the devices
+    mount /srv/node/sdb
+    mount /srv/node/sdc
+
+    # Create or edit the /etc/rsyncd.conf file TODO
+
+    # Edit the /etc/default/rsync file and enable the rsync service TODO
+
+    # Start the rsync service
+    service rsync start
+
+    # Download /etc/swift/account-server.conf TODO
+
+    # Download /etc/swift/container-server.conf TODO
+
+    # Download /etc/swift/object-server.conf TODO
+
+    # Edit the /etc/swift/account-server.conf file, [DEFAULT] section TODO
+    # Edit the /etc/swift/account-server.conf file, [pipeline:main] section TODO
+    # Edit the /etc/swift/account-server.conf file, [filter:recon] section TODO
+
+    # Edit the /etc/swift/container-server.conf file, [DEFAULT] section TODO
+    # Edit the /etc/swift/container-server.conf file, [pipeline:main] section TODO
+    # Edit the /etc/swift/container-server.conf file, [filter:recon] section TODO
+
+    # Edit the /etc/swift/object-server.conf file, [DEFAULT] section TODO
+    # Edit the /etc/swift/object-server.conf file, [pipeline:main] section TODO
+    # Edit the /etc/swift/object-server.conf file, [filter:recon] section TODO
+
+    # Ensure proper ownership of the mount point directory structure
+    chown -R swift:swift /srv/node
+
+    # Create the recon directory and ensure proper ownership of it
+    mkdir -p /var/cache/swift
+    chown -R root:swift /var/cache/swift
+    chmod -R 775 /var/cache/swift
 }
 
 function main() {
