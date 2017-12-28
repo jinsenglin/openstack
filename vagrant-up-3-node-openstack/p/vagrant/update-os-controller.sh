@@ -2,6 +2,8 @@
 
 set -e
 
+ENV_MGMT_OS_CONTROLLER_IP="10.0.0.11"
+
 function download_cinder() {
     apt-get install -y cinder-api cinder-scheduler
 }
@@ -36,17 +38,35 @@ DATA
     openstack endpoint create --region RegionOne volumev3 internal http://os-controller:8776/v3/%\(project_id\)s
     openstack endpoint create --region RegionOne volumev3 admin http://os-controller:8776/v3/%\(project_id\)s
 
-    # Edit the /etc/cinder/cinder.conf file, [database] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [oslo_concurrency] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [database] section
+    crudini --set /etc/cinder/cinder.conf database connection "mysql+pymysql://cinder:CINDER_DBPASS@os-controller/cinder"
+
+    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section
+    crudini --set /etc/cinder/cinder.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@os-controller"
+    crudini --set /etc/cinder/cinder.conf DEFAULT auth_strategy "keystone"
+    crudini --set /etc/cinder/cinder.conf DEFAULT my_ip "$ENV_MGMT_OS_CONTROLLER_IP"
+
+    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_uri "http://os-controller:5000"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_url "http://os-controller:35357"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken memcached_servers "os-controller:11211"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_type "password"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken project_domain_name "default"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken user_domain_name "default"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken project_name "service"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken username "cinder"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken password "CINDER_PASS"
+
+    # Edit the /etc/cinder/cinder.conf file, [oslo_concurrency] section
+    crudini --set /etc/cinder/cinder.conf oslo_concurrency lock_path "/var/lib/cinder/tmp"
 
     # Populate the database
     su -s /bin/sh -c "cinder-manage db sync" cinder
 
     # =========================================================================================================== #
 
-    # Edit the /etc/nova/nova.conf file, [cinder] section TODO
+    # Edit the /etc/nova/nova.conf file, [cinder] section
+    crudini --set /etc/nova/nova.conf cinder os_region_name "RegionOne"
 
     # Restart the Compute API service
     service nova-api restart
