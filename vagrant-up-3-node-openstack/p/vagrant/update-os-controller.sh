@@ -77,7 +77,8 @@ DATA
 }
 
 function download_swift() {
-    :
+    #apt-get install -y swift swift-proxy python-swiftclient python-keystoneclient python-keystonemiddleware
+    apt-get install -y swift swift-proxy python-swiftclient
 }
 
 function configure_swift() {
