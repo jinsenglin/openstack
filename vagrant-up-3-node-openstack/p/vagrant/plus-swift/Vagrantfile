@@ -1,0 +1,35 @@
+BOX = "bento/ubuntu-16.04"
+BOX_VERSION = "2.3.8"
+DEV_SDB = "./.vagrant/3gb-sdb.vdi"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "os-object" do |d|
+    d.vm.box = BOX
+    d.vm.box_version = BOX_VERSION
+    d.vm.box_check_update = false
+    d.vm.hostname = "os-object"
+    d.vm.network "private_network", ip: "10.0.0.61"
+    d.vm.network "private_network", ip: "10.0.1.61"
+    d.vm.network "private_network", ip: "10.0.3.61"
+    d.vm.network "private_network", ip: "10.0.4.61"
+    d.vm.provider "virtualbox" do |p|
+      p.cpus = "1"
+      p.memory = "512"
+      p.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
+
+      unless File.exist?(DEV_SDB)
+        p.customize ['createhd', '--filename', DEV_SDB, '--variant', 'Fixed', '--size', 3 * 1024]
+      end
+      p.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', DEV_SDB]
+    end
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-object.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-object.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-object.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-object.sh", run: "never"
+  end
+
+end
