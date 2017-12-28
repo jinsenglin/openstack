@@ -12,7 +12,7 @@ vagrant ssh gw-client -c "sudo /vagrant/run-e2e-tests.sh"
 
 # Plus
 
-Boostrap gateway
+Bootstrap gateway
 
 ```
 vagrant up --provision-with boostrap gw
