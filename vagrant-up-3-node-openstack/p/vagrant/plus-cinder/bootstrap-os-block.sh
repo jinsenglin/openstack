@@ -64,6 +64,7 @@ DATA
 
 function download_cinder() {
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y cinder-volume
 }
 
 function configure_cinder() {

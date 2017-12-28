@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     d.vm.box = BOX
     d.vm.box_version = BOX_VERSION
     d.vm.box_check_update = false
-    d.vm.hostname = "gw"
+    d.vm.hostname = "gw-client"
     d.vm.network "private_network", ip: "10.0.0.42"
     d.vm.network "private_network", ip: "10.0.1.42"
     d.vm.network "private_network", ip: "10.0.3.42"
