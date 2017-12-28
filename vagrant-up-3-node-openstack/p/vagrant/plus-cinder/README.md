@@ -71,7 +71,9 @@ openstack limits show --absolute
 | totalBackupsUsed         |     0 |
 | totalGigabytesUsed       |     0 |
 +--------------------------+-------+
+```
 
+```
 openstack volume create --size 1 1GB-HDD
 openstack volume show 1GB-HDD # status ACTIVE
 openstack server add volume --device /dev/vdb $SELFSERVICE_INSTANCE_NAME 1GB-HDD
