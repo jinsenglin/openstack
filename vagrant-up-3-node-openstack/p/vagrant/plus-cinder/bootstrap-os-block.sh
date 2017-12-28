@@ -6,6 +6,7 @@ ENV_MGMT_NETWORK="10.0.0.0/24"
 ENV_MGMT_OS_CONTROLLER_IP="10.0.0.11"
 ENV_MGMT_OS_NETWORK_IP="10.0.0.21"
 ENV_MGMT_OS_COMPUTE_IP="10.0.0.31"
+ENV_MGMT_OS_BLOCK_IP="10.0.0.51"
 
 ENV_TUNNEL_NETWORK="10.0.1.0/24"
 ENV_TUNNEL_OS_CONTROLLER_IP="10.0.1.11"
@@ -107,14 +108,44 @@ function download_cinder() {
 }
 
 function configure_cinder() {
-    # Create the LVM physical volume /dev/sdb TODO
-    # Create the LVM volume group cinder-volumes TODO
-    # Edit the /etc/lvm/lvm.conf file TODO
+    # Create the LVM physical volume /dev/sdb
+    pvcreate /dev/sdb
 
-    # Edit the /etc/cinder/cinder.conf file, [database] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section TODO
-    # Edit the /etc/cinder/cinder.conf file, [lvm] section TODO
+    # Create the LVM volume group cinder-volumes
+    vgcreate cinder-volumes /dev/sdb
+
+    # Edit the /etc/lvm/lvm.conf file
+    sed -i '/^devices {$/ a filter = [ "a/sdb/", "r/.*/"]' /etc/lvm/lvm.conf
+
+    # Edit the /etc/cinder/cinder.conf file, [database] section
+    crudini --set /etc/cinder/cinder.conf database connection "mysql+pymysql://cinder:CINDER_DBPASS@os-controller/cinder"
+    
+    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section
+    crudini --set /etc/cinder/cinder.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@os-controller"
+    crudini --set /etc/cinder/cinder.conf DEFAULT auth_strategy "keystone"
+    crudini --set /etc/cinder/cinder.conf DEFAULT my_ip "$ENV_MGMT_OS_BLOCK_IP"
+    crudini --set /etc/cinder/cinder.conf DEFAULT enabled_backends "lvm"
+    crudini --set /etc/cinder/cinder.conf DEFAULT glance_api_servers "http://os-controller:9292"
+
+    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_uri "http://os-controller:5000"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_url "http://os-controller:35357"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken memcached_servers "os-controller:11211"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_type "password"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken project_domain_name "default"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken user_domain_name "default"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken project_name "service"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken username "cinder"
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken password "CINDER_PASS"
+
+    # Edit the /etc/cinder/cinder.conf file, [lvm] section
+    crudini --set /etc/cinder/cinder.conf lvm volume_driver "cinder.volume.drivers.lvm.LVMVolumeDriver"
+    crudini --set /etc/cinder/cinder.conf lvm volume_group "cinder-volumes"
+    crudini --set /etc/cinder/cinder.conf lvm iscsi_protocol "iscsi"
+    crudini --set /etc/cinder/cinder.conf lvm iscsi_helper "tgtadm"
+
+    # Edit the /etc/cinder/cinder.conf file, [oslo_concurrency] section
+    crudini --set /etc/cinder/cinder.conf oslo_concurrency lock_path "/var/lib/cinder/tmp"
 
     # Restart the Block Storage volume service including its dependencies
     service tgt restart
