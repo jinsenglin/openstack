@@ -285,6 +285,7 @@ output
 
 # --------------------------------------------------------------------------------------------
 
+FLAT_NETWORK_GW=10.0.3.1
 FLAT_NETWORK_NAME=external
 PROVIDER_NETWORK_NAME=provider
 ROUTER_NAME=router
@@ -302,7 +303,7 @@ echo "openstack network create :: flat provider network"
 openstack network create  --share --external --provider-physical-network $FLAT_NETWORK_NAME --provider-network-type flat $PROVIDER_NETWORK_NAME
 
 echo "openstack subnet create :: CIDR 10.0.3.0/24"
-openstack subnet create --network $PROVIDER_NETWORK_NAME --allocation-pool start=10.0.3.230,end=10.0.3.250 --dns-nameserver 8.8.8.8 --gateway 10.0.3.1 --subnet-range 10.0.3.0/24 --no-dhcp $PROVIDER_NETWORK_NAME
+openstack subnet create --network $PROVIDER_NETWORK_NAME --allocation-pool start=10.0.3.230,end=10.0.3.250 --dns-nameserver 8.8.8.8 --gateway $FLAT_NETWORK_GW --subnet-range 10.0.3.0/24 --no-dhcp $PROVIDER_NETWORK_NAME
 
 # --------------------------------------------------------------------------------------------
 
@@ -371,11 +372,16 @@ ping -c 1 $SELFSERVICE_INSTANCE_FLOATING_IP
 echo "ssh login self-service instance :: print hostname"
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP hostname
 
-echo "ping gateway 10.10.10.1 from self-service instance"
+echo "ping self-service network gateway 10.10.10.1 from self-service instance"
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 10.10.10.1
 
-echo "ping gateway 10.0.3.1 from self-service instance"
-sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 10.0.3.1
+echo "ping provider network gateway $FLAT_NETWORK_GW from self-service instance"
+sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 $FLAT_NETWORK_GW
+
+if [ $FLAT_NETWORK_GW == '10.0.3.41' ]; then
+    echo "ping 8.8.8.8 from self-service instance"
+    sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP ping -c 1 8.8.8.8
+fi
 
 # --------------------------------------------------------------------------------------------
 
