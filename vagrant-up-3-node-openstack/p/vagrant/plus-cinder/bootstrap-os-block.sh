@@ -101,6 +101,10 @@ function install_ntp() {
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-ntp-other.html
 }
 
+function install_lvm() {
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y lvm2 thin-provisioning-tools
+}
 
 function download_cinder() {
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
@@ -163,6 +167,7 @@ function main() {
                 install_utilities
                 install_python
                 install_ntp
+                install_lvm
                 download_cinder
                 ;;
             configure)
