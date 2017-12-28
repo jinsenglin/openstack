@@ -107,7 +107,18 @@ function download_cinder() {
 }
 
 function configure_cinder() {
-    :
+    # Create the LVM physical volume /dev/sdb TODO
+    # Create the LVM volume group cinder-volumes TODO
+    # Edit the /etc/lvm/lvm.conf file TODO
+
+    # Edit the /etc/cinder/cinder.conf file, [database] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [lvm] section TODO
+
+    # Restart the Block Storage volume service including its dependencies
+    service tgt restart
+    service cinder-volume restart
 }
 
 function main() {
