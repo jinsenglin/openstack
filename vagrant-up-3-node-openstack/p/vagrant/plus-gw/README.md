@@ -12,7 +12,13 @@ vagrant ssh gw-client -c "sudo /vagrant/run-e2e-tests.sh"
 
 # Plus
 
-In run-e2e-tests.sh, AS-IS `FLAT_NETWORK_GW=10.0.3.1`, TO-BE `FLAT_NETWORK_GW=10.0.3.41`
+Boostrap gateway
+
+```
+vagrant up --provision-with boostrap gw
+```
+
+In ../run-e2e-tests.sh, AS-IS `FLAT_NETWORK_GW=10.0.3.1`, TO-BE `FLAT_NETWORK_GW=10.0.3.41`
 
 Create provider network which uses this gateway
 
