@@ -8,7 +8,6 @@ vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-ci
 vagrant ssh os-block -c "sudo /vagrant/bootstrap-os-block.sh configure"
 ```
 
-
 # Plus
 
 Update os-controller
@@ -72,4 +71,8 @@ openstack limits show --absolute
 | totalBackupsUsed         |     0 |
 | totalGigabytesUsed       |     0 |
 +--------------------------+-------+
+
+openstack volume create --size 1 1GB-HDD
+openstack volume show 1GB-HDD # status ACTIVE
+openstack server add volume --device /dev/vdb $SELFSERVICE_INSTANCE_NAME 1GB-HDD
 ```
