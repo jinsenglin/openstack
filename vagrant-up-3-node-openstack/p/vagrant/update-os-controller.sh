@@ -7,7 +7,53 @@ function download_cinder() {
 }
 
 function configure_cinder() {
-    :
+    # Create the database
+    mysql <<DATA
+CREATE DATABASE cinder;
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'CINDER_DBPASS';
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'CINDER_DBPASS';
+DATA
+
+     # Create the user
+    source /root/admin-openrc
+    openstack user create --domain default --password CINDER_PASS cinder
+
+    # Associate the user with the admin role and the service project
+    source /root/admin-openrc
+    openstack role add --project service --user cinder admin
+
+    # Create the service entity
+    source /root/admin-openrc
+    openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
+    openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+
+    # Create the service api endpoint
+    source /root/admin-openrc
+    openstack endpoint create --region RegionOne volumev2 public http://os-controller:8776/v2/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev2 internal http://os-controller:8776/v2/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev2 admin http://os-controller:8776/v2/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev3 public http://os-controller:8776/v3/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev3 internal http://os-controller:8776/v3/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev3 admin http://os-controller:8776/v3/%\(project_id\)s
+
+    # Edit the /etc/cinder/cinder.conf file, [database] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [DEFAULT] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [keystone_authtoken] section TODO
+    # Edit the /etc/cinder/cinder.conf file, [oslo_concurrency] section TODO
+
+    # Populate the database
+    su -s /bin/sh -c "cinder-manage db sync" cinder
+
+    # =========================================================================================================== #
+
+    # Edit the /etc/nova/nova.conf file, [cinder] section TODO
+
+    # Restart the Compute API service
+    service nova-api restart
+
+    # Restart the Block Storage services
+    service cinder-scheduler restart
+    service apache2 restart
 }
 
 function download_swift() {
