@@ -5,6 +5,9 @@ set -e
 ENV_MGMT_OS_CONTROLLER_IP="10.0.0.11"
 ENV_MGMT_OS_OBJECT_IP="10.0.0.61"
 
+CACHE=/vagrant/cache
+[ -d $CACHE ] || mkdir -p $CACHE 
+
 function download_cinder() {
     apt-get install -y cinder-api cinder-scheduler
 }
@@ -107,7 +110,7 @@ function configure_swift() {
     [ -d /etc/swift ] || mkdir /etc/swift
 
     # Create /etc/swift/proxy-server.conf
-    cp plus-swift/sample.conf/proxy-server.conf /etc/swift/proxy-server.conf
+    cp /vagrant/plus-swift/sample.conf/proxy-server.conf /etc/swift/proxy-server.conf
 
     # Edit the /etc/swift/proxy-server.conf file, [DEFAULT] section
     crudini --set /etc/swift/proxy-server.conf DEFAULT bind_port "8080"
@@ -173,7 +176,6 @@ function configure_swift() {
     # Create container ring :: Rebalance the ring
     swift-ring-builder container.builder rebalance
 
-
     # Create object ring :: Create the base object.builder file
     swift-ring-builder object.builder create 10 1 1
 
@@ -187,7 +189,11 @@ function configure_swift() {
     # Create object ring :: Rebalance the ring
     swift-ring-builder object.builder rebalance
 
-    # Copy the account.ring.gz, container.ring.gz, and object.ring.gz files to the /etc/swift directory on each storage node and any additional nodes running the proxy service TODO
+    # Copy the account.ring.gz, container.ring.gz, and object.ring.gz files to the /etc/swift directory on each storage node and any additional nodes running the proxy service
+    [ -d /vagrant/plus-swift/cache ] || mkdir /vagrant/plus-swift/cache
+    cp account.ring.gz /vagrant/plus-swift/cache/
+    cp container.ring.gz /vagrant/plus-swift/cache/
+    cp object.ring.gz /vagrant/plus-swift/cache/
 
     # Change back to previous directory
     cd -
@@ -195,7 +201,7 @@ function configure_swift() {
     # [ PART III ] - Finalize installation
 
     # Create the /etc/swift/swift.conf file
-    cp plus-swift/sample.conf/swift.conf /etc/swift/swift.conf
+    cp /vagrant/plus-swift/sample.conf/swift.conf /etc/swift/swift.conf
 
     # Edit the /etc/swift/swift.conf file, [swift-hash] section
     crudini --set /etc/swift/swift.conf swift-hash swift_hash_path_suffix "HASH_PATH_SUFFIX"
@@ -205,15 +211,16 @@ function configure_swift() {
     crudini --set /etc/swift/swift.conf storage-policy:0 name "Policy-0"
     crudini --set /etc/swift/swift.conf storage-policy:0 default "yes"
 
-    # Copy the swift.conf file to the /etc/swift directory on each storage node and any additional nodes running the proxy service TODO
+    # Copy the swift.conf file to the /etc/swift directory on each storage node and any additional nodes running the proxy service
+    [ -d /vagrant/plus-swift/cache ] || mkdir /vagrant/plus-swift/cache
+    cp /etc/swift/swift.conf /vagrant/plus-swift/cache/
 
-    # On all nodes, ensure proper ownership of the configuration directory TODO
+    # On all nodes, ensure proper ownership of the configuration directory
+    chown -R root:swift /etc/swift
 
     # Restart the Object Storage proxy service including its dependencies
     service memcached restart
     service swift-proxy restart
-
-    # On the storage nodes, start the Object Storage services TODO
 }
 
 function download_barbican() {

@@ -1,3 +1,7 @@
+# Status
+
+LookupError: No section 'object-server' (prefixed by 'app' or 'application' or 'composite' or 'composit' or 'pipeline' or 'filter-app') found in config /etc/swift/container-server.conf
+
 # Usage
 
 ```

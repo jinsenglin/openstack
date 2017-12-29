@@ -127,27 +127,55 @@ function configure_swift() {
     mkdir -p /srv/node/sdb
     mkdir -p /srv/node/sdc
 
-    # Edit the /etc/fstab file TODO
+    # Edit the /etc/fstab file
+    echo "/dev/sdb /srv/node/sdb xfs noatime,nodiratime,nobarrier,logbufs=8 0 2" >> /etc/fstab
+    echo "/dev/sdc /srv/node/sdc xfs noatime,nodiratime,nobarrier,logbufs=8 0 2" >> /etc/fstab
 
     # Mount the devices
     mount /srv/node/sdb
     mount /srv/node/sdc
 
-    # Create or edit the /etc/rsyncd.conf file TODO
+    # Create or edit the /etc/rsyncd.conf file
+    cat > /etc/rsyncd.conf <<DATA
+uid = swift
+gid = swift
+log file = /var/log/rsyncd.log
+pid file = /var/run/rsyncd.pid
+address = $ENV_MGMT_OS_OBJECT_IP
 
-    # Edit the /etc/default/rsync file and enable the rsync service TODO
+[account]
+max connections = 2
+path = /srv/node/
+read only = False
+lock file = /var/lock/account.lock
+
+[container]
+max connections = 2
+path = /srv/node/
+read only = False
+lock file = /var/lock/container.lock
+
+[object]
+max connections = 2
+path = /srv/node/
+read only = False
+lock file = /var/lock/object.lock
+DATA
+
+    # Edit the /etc/default/rsync file and enable the rsync service
+    sed -i 's/RSYNC_ENABLE=false/RSYNC_ENABLE=true/' /etc/default/rsync
 
     # Start the rsync service
     service rsync start
 
     # Download /etc/swift/account-server.conf
-    cp sample.conf/account-server.conf /etc/swift/account-server.conf
+    cp /vagrant/sample.conf/account-server.conf /etc/swift/account-server.conf
 
     # Download /etc/swift/container-server.conf
-    cp sample.conf/container-server.conf /etc/swift/container-server.conf
+    cp /vagrant/sample.conf/container-server.conf /etc/swift/container-server.conf
 
     # Download /etc/swift/object-server.conf
-    cp sample.conf/object-server.conf /etc/swift/object-server.conf
+    cp /vagrant/sample.conf/object-server.conf /etc/swift/object-server.conf
 
     # Edit the /etc/swift/account-server.conf file, [DEFAULT] section
     crudini --set  /etc/swift/account-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
@@ -203,9 +231,21 @@ function configure_swift() {
     chown -R root:swift /var/cache/swift
     chmod -R 775 /var/cache/swift
 
-    # [ PART II ]
+    # [ PART II ] - Copy the account.ring.gz, container.ring.gz, and object.ring.gz files to the /etc/swift directory on each storage node
+    cp $CACHE/account.ring.gz /etc/swift/
+    cp $CACHE/container.ring.gz /etc/swift/
+    cp $CACHE/object.ring.gz /etc/swift/
 
-    # Finalize installation TODO
+    # [ PART III ] - Finalize installation
+
+    # Copy the swift.conf file to the /etc/swift directory on each storage node
+    cp $CACHE/swift.conf /etc/swift/
+
+    # On all nodes, ensure proper ownership of the configuration directory
+    chown -R root:swift /etc/swift
+
+    # On the storage nodes, start the Object Storage services
+    swift-init all start
 }
 
 function main() {
