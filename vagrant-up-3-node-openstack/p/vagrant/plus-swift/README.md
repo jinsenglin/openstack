@@ -19,13 +19,39 @@ vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part6"
 Update os-controller
 
 ```
-vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh plus-swift" 
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh download-swift"
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part1"
 ```
 
 Bootstrap os-object
 
 ```
-vagrant up --provision-with bootstrap os-object
+vagrant up --provision-with download os-object
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part2"
+```
+
+Update os-controller
+
+```
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part3"
+```
+
+Update os-object
+
+```
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part4"
+```
+
+Update os-controller
+
+```
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part5"
+```
+
+Update os-object
+
+```
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part6"
 ```
 
 Verify object service
