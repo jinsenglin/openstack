@@ -33,6 +33,8 @@ Vagrant.configure("2") do |config|
     curl -sSL https://get.docker.io | bash
     docker --version # 17.12.0-ce
 
+    # Register docker-engine in systemd ? TODO
+
     # Start docker
     systemctl start docker
 
@@ -68,7 +70,13 @@ Vagrant.configure("2") do |config|
     # Generate the password using kolla-genpwd. Results are saved in /etc/kolla/passwords.yml
     kolla-genpwd
 
+    # ? TODO
+    kolla-ansible -i all-in-one bootstrap-servers # failed
+
     # =================================
+
+    # Pull the Docker image
+    kolla-ansible pull # failed
  
   SHELL
 end
