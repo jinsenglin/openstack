@@ -1,3 +1,7 @@
+# Status
+
+Failed to restart openstack-barbican-api.service: Unit openstack-barbican-api.service not found.
+
 # Plus
 
 Update os-controller
