@@ -1,21 +1,17 @@
-# Status
-
-LookupError: No section 'object-server' (prefixed by 'app' or 'application' or 'composite' or 'composit' or 'pipeline' or 'filter-app') found in config /etc/swift/container-server.conf
-
 # Usage
 
 ```
 vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh download-swift"
 vagrant up --provision-with download os-object
 
-vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART I
-vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART I
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part1"
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part2"
 
-vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART II
-vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART II
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part3"
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part4"
 
-vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART III
-vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART III
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift-part5"
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure-part6"
 ```
 
 # Plus

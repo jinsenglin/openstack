@@ -116,7 +116,7 @@ function download_swift() {
     apt-get install -y swift swift-account swift-container swift-object
 }
 
-function configure_swift() {
+function configure_swift_part1() {
     # [ PART I ]
 
     # Format the /dev/sdb and /dev/sdc devices as XFS
@@ -230,12 +230,16 @@ DATA
     mkdir -p /var/cache/swift
     chown -R root:swift /var/cache/swift
     chmod -R 775 /var/cache/swift
+}
 
+function configure_swift_part2() {
     # [ PART II ] - Copy the account.ring.gz, container.ring.gz, and object.ring.gz files to the /etc/swift directory on each storage node
     cp $CACHE/account.ring.gz /etc/swift/
     cp $CACHE/container.ring.gz /etc/swift/
     cp $CACHE/object.ring.gz /etc/swift/
+}
 
+function configure_swift_part3() {
     # [ PART III ] - Finalize installation
 
     # Copy the swift.conf file to the /etc/swift directory on each storage node
@@ -263,8 +267,14 @@ function main() {
                 install_rsync
                 download_swift
                 ;;
-            configure)
-                configure_swift
+            configure-part2)
+                configure_swift_part1
+                ;;
+            configure-part4)
+                configure_swift_part2
+                ;;
+            configure-part6)
+                configure_swift_part3
                 ;;
             *)
                 echo "unknown mode"

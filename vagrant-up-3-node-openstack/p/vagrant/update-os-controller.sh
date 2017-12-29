@@ -85,7 +85,7 @@ function download_swift() {
     apt-get install -y swift swift-proxy python-swiftclient
 }
 
-function configure_swift() {
+function configure_swift_part1() {
     # [ PART I ]
 
      # Create the user
@@ -144,7 +144,9 @@ function configure_swift() {
     # Edit the /etc/swift/proxy-server.conf file, [filter:cache] section
     crudini --set /etc/swift/proxy-server.conf filter:cache use "egg:swift#memcache"
     crudini --set /etc/swift/proxy-server.conf filter:cache memcache_servers "os-controller:11211"
+}
 
+function configure_swift_part2() {
     # [ PART II ] - Create and distribute initial rings
 
     # Change to the /etc/swift directory
@@ -197,7 +199,9 @@ function configure_swift() {
 
     # Change back to previous directory
     cd -
+}
     
+function configure_swift_part3() {
     # [ PART III ] - Finalize installation
 
     # Create the /etc/swift/swift.conf file
@@ -298,12 +302,14 @@ function main() {
             download-swift)
                 download_swift
                 ;;
-            configure-swift)
-                configure_swift
+            configure-swift-part1)
+                configure_swift_part1
                 ;;
-            plus-swift)
-                download_swift
-                configure_swift
+            configure-swift-part3)
+                configure_swift_part2
+                ;;
+            configure-swift-part5)
+                configure_swift_part3
                 ;;
             download-barbican)
                 download_barbican
