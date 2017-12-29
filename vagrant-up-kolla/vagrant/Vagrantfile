@@ -13,8 +13,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "bootstrap", type: "shell", inline: <<-SHELL
+    # Update /etc/hosts
+    echo "10.0.2.15 os-kolla" >> /etc/hosts
+    
     yum update -y
-
+ 
     # Install pip
     yum install -y epel-release
     yum install -y python-pip
@@ -24,17 +27,18 @@ Vagrant.configure("2") do |config|
     yum install -y python-devel libffi-devel gcc openssl-devel
     yum install -y ansible
     pip install -U ansible
-    ansible --version # 2.2.1.0
+    ansible --version # 2.4.2.0
 
     # Install docker
     curl -sSL https://get.docker.io | bash
-    docker --version # 17.03.0-ce
+    docker --version # 17.12.0-ce
 
-    # Register docker-engine in systemd TODO
+    # Start docker
+    systemctl start docker
 
     # Install docker-py
     yum install -y python-docker-py
-    pip install -U docker-py # ?
+    pip install -U docker-py # 1.10.6
 
     # Install ntp
     yum install -y ntp
@@ -42,11 +46,9 @@ Vagrant.configure("2") do |config|
     systemctl start ntpd.service
     ntpq -p
 
-    # Stop libvirtd
-    systemctl stop libvirtd.service
-    systemctl disable libvirtd.service
-
-    # Update /etc/hosts TODO
-    
+    # Stop libvirtd if exists
+    #systemctl stop libvirtd.service
+    #systemctl disable libvirtd.service
+   
   SHELL
 end
