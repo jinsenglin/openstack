@@ -285,6 +285,94 @@ DATA
     service apache2 restart
 }
 
+function download_heat() {
+    apt-get install -y heat-api heat-api-cfn heat-engine
+}
+
+function configure_heat() {
+    # Create the database
+    mysql <<DATA
+CREATE DATABASE heat;
+GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' IDENTIFIED BY 'HEAT_DBPASS';
+GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'%' IDENTIFIED BY 'HEAT_DBPASS';
+DATA
+
+    # Create the user
+    source /root/admin-openrc
+    openstack user create --domain default --password HEAT_PASS heat
+
+    # Associate the user with the admin role and the service project
+    source /root/admin-openrc
+    openstack role add --project service --user heat admin
+
+    # Create the service entity
+    openstack service create --name heat --description "Orchestration" orchestration
+    openstack service create --name heat-cfn --description "Orchestration"  cloudformation
+
+    # Create the service api endpoint
+    openstack endpoint create --region RegionOne orchestration public http://os-controller:8004/v1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne orchestration internal http://os-controller:8004/v1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne orchestration admin http://os-controller:8004/v1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne cloudformation public http://os-controller:8000/v1
+    openstack endpoint create --region RegionOne cloudformation internal http://os-controller:8000/v1
+    openstack endpoint create --region RegionOne cloudformation admin http://os-controller:8000/v1
+
+    # NOTE Orchestration requires additional information in the Identity service to manage stacks.
+
+    # Create the heat domain
+    openstack domain create --description "Stack projects and users" heat
+
+    # Create the heat_domain_admin user to manage projects and users in the heat domain
+    openstack user create --domain heat --password HEAT_DOMAIN_PASS heat_domain_admin
+
+    # Add the admin role to the heat_domain_admin user in the heat domain to enable administrative stack management privileges by the heat_domain_admin user
+    openstack role add --domain heat --user-domain heat --user heat_domain_admin admin
+
+    # Create the heat_stack_owner role
+    openstack role create heat_stack_owner
+
+    # Add the heat_stack_owner role to the demo project and user to enable stack management by the demo user
+    openstack role add --project demo --user demo heat_stack_owner
+
+    # NOTE You must add the heat_stack_owner role to each user that manages stacks.
+
+    # Create the heat_stack_user role
+    openstack role create heat_stack_user
+
+    # NOTE The Orchestration service automatically assigns the heat_stack_user role to users that it creates during stack deployment. By default, this role restricts API <Application Programming Interface (API)> operations. To avoid conflicts, do not add this role to users with the heat_stack_owner role.
+
+    # Edit the /etc/heat/heat.conf file, [database] section
+
+    # Edit the /etc/heat/heat.conf file, [DEFAULT] section
+    crudini --set /etc/barbican/barbican.conf DEFAULT sql_connection "mysql+pymysql://barbican:BARBICAN_DBPASS@os-controller/barbican"
+
+    # Edit the /etc/heat/heat.conf file, [keystone_authtoken] section
+    crudini --set /etc/heat/heat.conf keystone_authtoken auth_uri "http://os-controller:5000"
+    crudini --set /etc/heat/heat.conf keystone_authtoken auth_url "http://os-controller:35357"
+    crudini --set /etc/heat/heat.conf keystone_authtoken memcached_servers "os-controller:11211"
+    crudini --set /etc/heat/heat.conf keystone_authtoken auth_type "password"
+    crudini --set /etc/heat/heat.conf keystone_authtoken project_domain_name "default"
+    crudini --set /etc/heat/heat.conf keystone_authtoken user_domain_name "default"
+    crudini --set /etc/heat/heat.conf keystone_authtoken project_name "service"
+    crudini --set /etc/heat/heat.conf keystone_authtoken username "barbican"
+    crudini --set /etc/heat/heat.conf keystone_authtoken password "BARBICAN_PASS"
+
+    # Edit the /etc/heat/heat.conf file, [trustee] section
+    # Edit the /etc/heat/heat.conf file, [clients_keystone] section
+    # Edit the /etc/heat/heat.conf file, [ec2authtoken] section
+
+    # Populate the database
+    su -s /bin/sh -c "heat-manage db_sync" heat
+
+    # Restart the Orchestration services
+    service heat-api restart
+    service heat-api-cfn restart
+    service heat-engine restart
+}
+
+
+
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -320,6 +408,16 @@ function main() {
             plus-barbican)
                 download_barbican
                 configure_barbican
+                ;;
+            download-heat)
+                download_heat
+                ;;
+            configure-heat)
+                configure_heat
+                ;;
+            plus-heat)
+                download_heat
+                configure_heat
                 ;;
             *)
                 echo "unknown mode"
