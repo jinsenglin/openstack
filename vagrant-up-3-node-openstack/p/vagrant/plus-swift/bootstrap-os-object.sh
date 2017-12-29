@@ -208,15 +208,15 @@ DATA
     crudini --set  /etc/swift/container-server.conf filter:recon recon_cache_path "/var/cache/swift"
 
     # Edit the /etc/swift/object-server.conf file, [DEFAULT] section
-    crudini --set  /etc/swift/container-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
-    crudini --set  /etc/swift/container-server.conf DEFAULT bind_port "6200"
-    crudini --set  /etc/swift/container-server.conf DEFAULT user "swift"
-    crudini --set  /etc/swift/container-server.conf DEFAULT swift_dir "/etc/swift"
-    crudini --set  /etc/swift/container-server.conf DEFAULT devices "/srv/node"
-    crudini --set  /etc/swift/container-server.conf DEFAULT mount_check "True"
+    crudini --set  /etc/swift/object-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
+    crudini --set  /etc/swift/object-server.conf DEFAULT bind_port "6200"
+    crudini --set  /etc/swift/object-server.conf DEFAULT user "swift"
+    crudini --set  /etc/swift/object-server.conf DEFAULT swift_dir "/etc/swift"
+    crudini --set  /etc/swift/object-server.conf DEFAULT devices "/srv/node"
+    crudini --set  /etc/swift/object-server.conf DEFAULT mount_check "True"
 
     # Edit the /etc/swift/object-server.conf file, [pipeline:main] section
-    crudini --set  /etc/swift/container-server.conf pipeline:main pipeline "healthcheck recon object-server"
+    crudini --set  /etc/swift/object-server.conf pipeline:main pipeline "healthcheck recon object-server"
 
     # Edit the /etc/swift/object-server.conf file, [filter:recon] section
     crudini --set  /etc/swift/object-server.conf filter:recon use "egg:swift#recon"
