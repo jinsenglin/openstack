@@ -3,6 +3,7 @@
 set -e
 
 ENV_MGMT_OS_CONTROLLER_IP="10.0.0.11"
+ENV_MGMT_OS_OBJECT_IP="10.0.0.61"
 
 function download_cinder() {
     apt-get install -y cinder-api cinder-scheduler
@@ -141,13 +142,57 @@ function configure_swift() {
     crudini --set /etc/swift/proxy-server.conf filter:cache use "egg:swift#memcache"
     crudini --set /etc/swift/proxy-server.conf filter:cache memcache_servers "os-controller:11211"
 
-    # [ PART II ]
+    # [ PART II ] - Create and distribute initial rings
 
-    # Create and distribute initial rings TODO
+    # Change to the /etc/swift directory
+    cd /etc/swift
+
+    # Create account ring :: Create the base account.builder file
+    swift-ring-builder account.builder create 10 1 1
+
+    # Create account ring :: Add each storage node to the ring
+    swift-ring-builder account.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6202 --device sdb --weight 100
+    swift-ring-builder account.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6202 --device sdc --weight 100
+
+    # Create account ring :: Verify the ring contents
+    swift-ring-builder account.builder
+
+    # Create account ring :: Rebalance the ring
+    swift-ring-builder account.builder rebalance
+
+    # Create container ring :: Create the base container.builder file
+    swift-ring-builder container.builder create 10 1 1
+
+    # Create container ring :: Add each storage node to the ring
+    swift-ring-builder container.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6201 --device sdb --weight 100
+    swift-ring-builder container.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6201 --device sdc --weight 100
+
+    # Create container ring :: Verify the ring contents
+    swift-ring-builder container.builder
+
+    # Create container ring :: Rebalance the ring
+    swift-ring-builder container.builder rebalance
+
+
+    # Create object ring :: Create the base object.builder file
+    swift-ring-builder object.builder create 10 1 1
+
+    # Create object ring :: Add each storage node to the ring
+    swift-ring-builder object.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6200 --device sdb --weight 100
+    swift-ring-builder object.builder add --region 1 --zone 1 --ip $ENV_MGMT_OS_OBJECT_IP --port 6200 --device sdc --weight 100
+
+    # Create object ring :: Verify the ring contents
+    swift-ring-builder object.builder
+
+    # Create object ring :: Rebalance the ring
+    swift-ring-builder object.builder rebalance
+
+    # Distribute ring configuration files TODO
+
+    # Change back to previous directory
+    cd -
     
-    # [ PART III ]
-
-    # Finalize installation TODO
+    # [ PART III ] - Finalize installation TODO
 }
 
 function main() {
