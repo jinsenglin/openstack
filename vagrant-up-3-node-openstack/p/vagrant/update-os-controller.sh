@@ -216,6 +216,28 @@ function configure_swift() {
     # On the storage nodes, start the Object Storage services TODO
 }
 
+function download_barbican() {
+    apt-get install -y barbican-api barbican-keystone-listener barbican-worker
+}
+
+function configure_barbican() {
+    # Create the database TODO
+    # Create the user TODO
+    # Associate the user with the admin role and the service project TODO
+    # Create new role 'creator' TODO
+    # Associate the user with the creator role and the service project TODO
+    # Create the service entity TODO
+    # Create the service api endpoint TODO
+    # Edit the /etc/barbican/barbican.conf file, [DEFAULT] section TODO
+    # Edit the /etc/barbican/barbican.conf file, [keystone_authtoken] section TODO
+
+    # Populate the database
+    su -s /bin/sh -c "barbican-manage db upgrade" barbican
+
+    # Restart the Key Manager services
+    service openstack-barbican-api restart
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -239,6 +261,16 @@ function main() {
             plus-swift)
                 download_swift
                 configure_swift
+                ;;
+            download-barbican)
+                download_barbican
+                ;;
+            configure-barbican)
+                configure_barbican
+                ;;
+            plus-barbican)
+                download_barbican
+                configure_barbican
                 ;;
             *)
                 echo "unknown mode"
