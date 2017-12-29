@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
 [Service]
 MountFlags=shared
 ExecStart=
-ExecStart=/usr/bin/docker daemon - 1400s
+ExecStart=/usr/bin/dockerd
 EOF
     systemctl daemon-reload
     systemctl restart docker
@@ -76,13 +76,13 @@ EOF
     # Generate the password using kolla-genpwd. Results are saved in /etc/kolla/passwords.yml
     kolla-genpwd
 
-    # ? TODO
-    kolla-ansible -i all-in-one bootstrap-servers # failed
+    # To quickly prepare hosts, playbook bootstrap-servers can be used.
+    kolla-ansible -i all-in-one bootstrap-servers # TODO failed : overwrite my /etc/systemd/system/docker.service.d/kolla.conf !!!
 
     # =================================
 
     # Pull the Docker image
-    kolla-ansible pull # failed
+    kolla-ansible pull # TODO
  
   SHELL
 end
