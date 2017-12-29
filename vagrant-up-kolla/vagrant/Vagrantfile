@@ -49,6 +49,26 @@ Vagrant.configure("2") do |config|
     # Stop libvirtd if exists
     #systemctl stop libvirtd.service
     #systemctl disable libvirtd.service
-   
+
+    # =================================
+
+    # Install kolla-ansible
+    pip install kolla-ansible # 5.0.1
+
+    # Copy globals.yml and passwords.yml to /etc/kolla/
+    cp -r /usr/share/kolla-ansible/etc_examples/kolla /etc/kolla/
+  
+    # Copy the inventory file to the current directory
+    cp /usr/share/kolla-ansible/ansible/inventory/* .
+
+    # To configure the interface, edit /etc/kolla/globals.yml
+    sed -i 's/^#network_interface: "eth0"$/network_interface: "eth0"/' /etc/kolla/globals.yml
+    sed -i 's/^#neutron_external_interface: "eth1"$/neutron_external_interface: "eth1"/' /etc/kolla/globals.yml
+
+    # Generate the password using kolla-genpwd. Results are saved in /etc/kolla/passwords.yml
+    kolla-genpwd
+
+    # =================================
+ 
   SHELL
 end
