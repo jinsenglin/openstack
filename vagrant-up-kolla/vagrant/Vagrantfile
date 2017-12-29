@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/centos-7.2"
+  config.vm.box_version = "2.3.1"
+  config.vm.box_check_update = false
+  config.vm.hostname = "os-kolla"
+
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+  end
+
+  config.vm.provision "bootstrap", type: "shell", inline: <<-SHELL
+    yum update -y
+
+    # Install pip
+    yum install -y epel-release
+    yum install -y python-pip
+    pip install -U pip
+
+    # Install ansible
+    yum install -y python-devel libffi-devel gcc openssl-devel
+    yum install -y ansible
+    pip install -U ansible
+    ansible --version # 2.2.1.0
+
+    # Install docker
+    curl -sSL https://get.docker.io | bash
+    docker --version # 17.03.0-ce
+
+    # Register docker-engine in systemd TODO
+
+    # Install docker-py
+    yum install -y python-docker-py
+    pip install -U docker-py # ?
+
+    # Install ntp
+    yum install -y ntp
+    systemctl enable ntpd.service
+    systemctl start ntpd.service
+    ntpq -p
+
+    # Stop libvirtd
+    systemctl stop libvirtd.service
+    systemctl disable libvirtd.service
+
+    # Update /etc/hosts TODO
+    
+  SHELL
+end
