@@ -270,7 +270,8 @@ DATA
     su -s /bin/sh -c "barbican-manage db upgrade" barbican
 
     # Restart the Key Manager services
-    service openstack-barbican-api restart
+    # service openstack-barbican-api restart # deprecated
+    service apache2 restart
 }
 
 function main() {
