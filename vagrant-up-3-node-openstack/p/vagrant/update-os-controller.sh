@@ -82,6 +82,8 @@ function download_swift() {
 }
 
 function configure_swift() {
+    # [ PART I ]
+
      # Create the user
     source /root/admin-openrc
     openstack user create --domain default --password SWIFT_PASS swift
@@ -103,17 +105,47 @@ function configure_swift() {
     # Create the /etc/swift directory
     [ -d /etc/swift ] || mkdir /etc/swift
 
-    # Download /etc/swift/proxy-server.conf
-    curl -o /etc/swift/proxy-server.conf https://git.openstack.org/cgit/openstack/swift/plain/etc/proxy-server.conf-sample?h=stable/pike
+    # Create /etc/swift/proxy-server.conf
+    cp plus-swift/sample.conf/proxy-server.conf /etc/swift/proxy-server.conf
 
-    # Edit the /etc/swift/proxy-server.conf file, [DEFAULT] section TODO
-    # Edit the /etc/swift/proxy-server.conf file, [pipeline:main] section TODO
-    # Edit the /etc/swift/proxy-server.conf file, [app:proxy-server] section TODO
-    # Edit the /etc/swift/proxy-server.conf file, [filter:keystoneauth] section TODO
-    # Edit the /etc/swift/proxy-server.conf file, [filter:authtoken] section TODO
-    # Edit the /etc/swift/proxy-server.conf file, [filter:cache] section TODO
+    # Edit the /etc/swift/proxy-server.conf file, [DEFAULT] section
+    crudini --set /etc/swift/proxy-server.conf DEFAULT bind_port "8080"
+    crudini --set /etc/swift/proxy-server.conf DEFAULT user "swift"
+    crudini --set /etc/swift/proxy-server.conf DEFAULT swift_dir "/etc/swift"
+
+    # Edit the /etc/swift/proxy-server.conf file, [pipeline:main] section
+    crudini --set /etc/swift/proxy-server.conf pipeline:main pipeline "catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server"
+
+    # Edit the /etc/swift/proxy-server.conf file, [app:proxy-server] section
+    crudini --set /etc/swift/proxy-server.conf app:proxy-server use "egg:swift#proxy"
+    crudini --set /etc/swift/proxy-server.conf app:proxy-server account_autocreate "True"
+
+    # Edit the /etc/swift/proxy-server.conf file, [filter:keystoneauth] section
+    crudini --set /etc/swift/proxy-server.conf filter:keystoneauth use "egg:swift#keystoneauth"
+    crudini --set /etc/swift/proxy-server.conf filter:keystoneauth operator_roles "admin,user"
+
+    # Edit the /etc/swift/proxy-server.conf file, [filter:authtoken] section
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken paste.filter_factory "keystonemiddleware.auth_token:filter_factory"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken auth_uri "http://os-controller:5000"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken auth_url "http://os-controller:35357"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken memcached_servers "os-controller:11211"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken auth_type "password"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken project_domain_id "default"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken user_domain_id "default"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken project_name "service"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken username "swift"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken password "SWIFT_PASS"
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken delay_auth_decision "True"
+
+    # Edit the /etc/swift/proxy-server.conf file, [filter:cache] section
+    crudini --set /etc/swift/proxy-server.conf filter:cache use "egg:swift#memcache"
+    crudini --set /etc/swift/proxy-server.conf filter:cache memcache_servers "os-controller:11211"
+
+    # [ PART II ]
 
     # Create and distribute initial rings TODO
+    
+    # [ PART III ]
 
     # Finalize installation TODO
 }
