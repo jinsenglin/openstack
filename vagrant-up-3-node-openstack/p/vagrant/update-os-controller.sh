@@ -342,10 +342,10 @@ DATA
     # NOTE The Orchestration service automatically assigns the heat_stack_user role to users that it creates during stack deployment. By default, this role restricts API <Application Programming Interface (API)> operations. To avoid conflicts, do not add this role to users with the heat_stack_owner role.
 
     # Edit the /etc/heat/heat.conf file, [database] section
-    crudini --set /etc/heat/heat.conf database connection "mysql+pymysql://heat:HEAT_DBPASS@controller/heat"
+    crudini --set /etc/heat/heat.conf database connection "mysql+pymysql://heat:HEAT_DBPASS@os-controller/heat"
 
     # Edit the /etc/heat/heat.conf file, [DEFAULT] section
-    crudini --set /etc/heat/heat.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@controller"
+    crudini --set /etc/heat/heat.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@os-controller"
     crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url "http://os-controller:8000"
     crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url "http://os-controller:8000/v1/waitcondition"
     crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin "heat_domain_admin"
