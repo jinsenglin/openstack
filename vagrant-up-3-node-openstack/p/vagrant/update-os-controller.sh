@@ -221,15 +221,50 @@ function download_barbican() {
 }
 
 function configure_barbican() {
-    # Create the database TODO
-    # Create the user TODO
-    # Associate the user with the admin role and the service project TODO
-    # Create new role 'creator' TODO
-    # Associate the user with the creator role and the service project TODO
-    # Create the service entity TODO
-    # Create the service api endpoint TODO
-    # Edit the /etc/barbican/barbican.conf file, [DEFAULT] section TODO
-    # Edit the /etc/barbican/barbican.conf file, [keystone_authtoken] section TODO
+    # Create the database
+    mysql <<DATA
+CREATE DATABASE barbican;
+GRANT ALL PRIVILEGES ON barbican.* TO 'barbican'@'localhost' IDENTIFIED BY 'BARBICAN_DBPASS';
+GRANT ALL PRIVILEGES ON barbican.* TO 'barbican'@'%' IDENTIFIED BY 'BARBICAN_DBPASS';
+DATA
+
+    # Create the user
+    source /root/admin-openrc
+    openstack user create --domain default --password BARBICAN_PASS barbican
+
+    # Associate the user with the admin role and the service project
+    source /root/admin-openrc
+    openstack role add --project service --user barbican admin
+
+    # Create new role 'creator'
+    source /root/admin-openrc
+    openstack role create creator
+
+    # Associate the user with the creator role and the service project
+    openstack role add --project service --user barbican creator
+
+    # Create the service entity
+    openstack service create --name barbican --description "Key Manager" key-manager
+
+    # Create the service api endpoint
+    openstack endpoint create --region RegionOne key-manager public http://os-controller:9311
+    openstack endpoint create --region RegionOne key-manager internal http://os-controller:9311
+    openstack endpoint create --region RegionOne key-manager admin http://os-controller:9311
+
+    # Edit the /etc/barbican/barbican.conf file, [DEFAULT] section
+    crudini --set /etc/barbican/barbican.conf DEFAULT sql_connection "mysql+pymysql://barbican:BARBICAN_DBPASS@os-controller/barbican"
+    crudini --set /etc/barbican/barbican.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@os-controller"
+
+    # Edit the /etc/barbican/barbican.conf file, [keystone_authtoken] section
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken auth_uri "http://os-controller:5000"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken auth_url "http://os-controller:35357"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken memcached_servers "os-controller:11211"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken auth_type "password"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken project_domain_name "default"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken user_domain_name "default"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken project_name "service"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken username "barbican"
+    crudini --set /etc/barbican/barbican.conf keystone_authtoken password "BARBICAN_PASS"
 
     # Populate the database
     su -s /bin/sh -c "barbican-manage db upgrade" barbican
