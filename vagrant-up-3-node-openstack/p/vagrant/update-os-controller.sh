@@ -187,12 +187,33 @@ function configure_swift() {
     # Create object ring :: Rebalance the ring
     swift-ring-builder object.builder rebalance
 
-    # Distribute ring configuration files TODO
+    # Copy the account.ring.gz, container.ring.gz, and object.ring.gz files to the /etc/swift directory on each storage node and any additional nodes running the proxy service TODO
 
     # Change back to previous directory
     cd -
     
-    # [ PART III ] - Finalize installation TODO
+    # [ PART III ] - Finalize installation
+
+    # Create the /etc/swift/swift.conf file
+    cp plus-swift/sample.conf/swift.conf /etc/swift/swift.conf
+
+    # Edit the /etc/swift/swift.conf file, [swift-hash] section
+    crudini --set /etc/swift/swift.conf swift-hash swift_hash_path_suffix "HASH_PATH_SUFFIX"
+    crudini --set /etc/swift/swift.conf swift-hash swift_hash_path_prefix "HASH_PATH_PREFIX"
+
+    # Edit the /etc/swift/swift.conf file, [storage-policy:0] section
+    crudini --set /etc/swift/swift.conf storage-policy:0 name "Policy-0"
+    crudini --set /etc/swift/swift.conf storage-policy:0 default "yes"
+
+    # Copy the swift.conf file to the /etc/swift directory on each storage node and any additional nodes running the proxy service TODO
+
+    # On all nodes, ensure proper ownership of the configuration directory TODO
+
+    # Restart the Object Storage proxy service including its dependencies
+    service memcached restart
+    service swift-proxy restart
+
+    # On the storage nodes, start the Object Storage services TODO
 }
 
 function main() {
