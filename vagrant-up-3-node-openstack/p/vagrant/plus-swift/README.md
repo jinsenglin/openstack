@@ -8,8 +8,14 @@ LookupError: No section 'object-server' (prefixed by 'app' or 'application' or '
 vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh download-swift"
 vagrant up --provision-with download os-object
 
-vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift"
-vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure"
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART I
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART I
+
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART II
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART II
+
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh configure-swift" # PART III
+vagrant ssh os-object -c "sudo /vagrant/bootstrap-os-object.sh configure" # PART III
 ```
 
 # Plus
