@@ -117,6 +117,8 @@ function download_swift() {
 }
 
 function configure_swift() {
+    # [ PART I ]
+
     # Format the /dev/sdb and /dev/sdc devices as XFS
     mkfs.xfs /dev/sdb
     mkfs.xfs /dev/sdc
@@ -138,23 +140,60 @@ function configure_swift() {
     # Start the rsync service
     service rsync start
 
-    # Download /etc/swift/account-server.conf TODO
+    # Download /etc/swift/account-server.conf
+    cp sample.conf/account-server.conf /etc/swift/account-server.conf
 
-    # Download /etc/swift/container-server.conf TODO
+    # Download /etc/swift/container-server.conf
+    cp sample.conf/container-server.conf /etc/swift/container-server.conf
 
-    # Download /etc/swift/object-server.conf TODO
+    # Download /etc/swift/object-server.conf
+    cp sample.conf/object-server.conf /etc/swift/object-server.conf
 
-    # Edit the /etc/swift/account-server.conf file, [DEFAULT] section TODO
-    # Edit the /etc/swift/account-server.conf file, [pipeline:main] section TODO
-    # Edit the /etc/swift/account-server.conf file, [filter:recon] section TODO
+    # Edit the /etc/swift/account-server.conf file, [DEFAULT] section
+    crudini --set  /etc/swift/account-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
+    crudini --set  /etc/swift/account-server.conf DEFAULT bind_port "6202"
+    crudini --set  /etc/swift/account-server.conf DEFAULT user "swift"
+    crudini --set  /etc/swift/account-server.conf DEFAULT swift_dir "/etc/swift"
+    crudini --set  /etc/swift/account-server.conf DEFAULT devices "/srv/node"
+    crudini --set  /etc/swift/account-server.conf DEFAULT mount_check "True"
 
-    # Edit the /etc/swift/container-server.conf file, [DEFAULT] section TODO
-    # Edit the /etc/swift/container-server.conf file, [pipeline:main] section TODO
-    # Edit the /etc/swift/container-server.conf file, [filter:recon] section TODO
+    # Edit the /etc/swift/account-server.conf file, [pipeline:main] section
+    crudini --set  /etc/swift/account-server.conf pipeline:main pipeline "healthcheck recon account-server"
 
-    # Edit the /etc/swift/object-server.conf file, [DEFAULT] section TODO
-    # Edit the /etc/swift/object-server.conf file, [pipeline:main] section TODO
-    # Edit the /etc/swift/object-server.conf file, [filter:recon] section TODO
+    # Edit the /etc/swift/account-server.conf file, [filter:recon] section
+    crudini --set  /etc/swift/account-server.conf filter:recon use "egg:swift#recon"
+    crudini --set  /etc/swift/account-server.conf filter:recon recon_cache_path "/var/cache/swift"
+
+    # Edit the /etc/swift/container-server.conf file, [DEFAULT] section
+    crudini --set  /etc/swift/container-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
+    crudini --set  /etc/swift/container-server.conf DEFAULT bind_port "6201"
+    crudini --set  /etc/swift/container-server.conf DEFAULT user "swift"
+    crudini --set  /etc/swift/container-server.conf DEFAULT swift_dir "/etc/swift"
+    crudini --set  /etc/swift/container-server.conf DEFAULT devices "/srv/node"
+    crudini --set  /etc/swift/container-server.conf DEFAULT mount_check "True"
+
+    # Edit the /etc/swift/container-server.conf file, [pipeline:main] section
+    crudini --set  /etc/swift/container-server.conf pipeline:main pipeline "healthcheck recon container-server"
+
+    # Edit the /etc/swift/container-server.conf file, [filter:recon] section
+    crudini --set  /etc/swift/container-server.conf filter:recon use "egg:swift#recon"
+    crudini --set  /etc/swift/container-server.conf filter:recon recon_cache_path "/var/cache/swift"
+
+    # Edit the /etc/swift/object-server.conf file, [DEFAULT] section
+    crudini --set  /etc/swift/container-server.conf DEFAULT bind_ip "$ENV_MGMT_OS_OBJECT_IP"
+    crudini --set  /etc/swift/container-server.conf DEFAULT bind_port "6200"
+    crudini --set  /etc/swift/container-server.conf DEFAULT user "swift"
+    crudini --set  /etc/swift/container-server.conf DEFAULT swift_dir "/etc/swift"
+    crudini --set  /etc/swift/container-server.conf DEFAULT devices "/srv/node"
+    crudini --set  /etc/swift/container-server.conf DEFAULT mount_check "True"
+
+    # Edit the /etc/swift/object-server.conf file, [pipeline:main] section
+    crudini --set  /etc/swift/container-server.conf pipeline:main pipeline "healthcheck recon object-server"
+
+    # Edit the /etc/swift/object-server.conf file, [filter:recon] section
+    crudini --set  /etc/swift/object-server.conf filter:recon use "egg:swift#recon"
+    crudini --set  /etc/swift/object-server.conf filter:recon recon_cache_path "/var/cache/swift"
+    crudini --set  /etc/swift/object-server.conf filter:recon recon_lock_path "/var/lock"
 
     # Ensure proper ownership of the mount point directory structure
     chown -R swift:swift /srv/node
@@ -163,6 +202,10 @@ function configure_swift() {
     mkdir -p /var/cache/swift
     chown -R root:swift /var/cache/swift
     chmod -R 775 /var/cache/swift
+
+    # [ PART II ]
+
+    # Finalize installation TODO
 }
 
 function main() {
