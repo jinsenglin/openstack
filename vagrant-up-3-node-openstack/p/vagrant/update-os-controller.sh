@@ -342,9 +342,15 @@ DATA
     # NOTE The Orchestration service automatically assigns the heat_stack_user role to users that it creates during stack deployment. By default, this role restricts API <Application Programming Interface (API)> operations. To avoid conflicts, do not add this role to users with the heat_stack_owner role.
 
     # Edit the /etc/heat/heat.conf file, [database] section
+    crudini --set /etc/heat/heat.conf database connection "mysql+pymysql://heat:HEAT_DBPASS@controller/heat"
 
     # Edit the /etc/heat/heat.conf file, [DEFAULT] section
-    crudini --set /etc/barbican/barbican.conf DEFAULT sql_connection "mysql+pymysql://barbican:BARBICAN_DBPASS@os-controller/barbican"
+    crudini --set /etc/heat/heat.conf DEFAULT transport_url "rabbit://openstack:RABBIT_PASS@controller"
+    crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url "http://os-controller:8000"
+    crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url "http://os-controller:8000/v1/waitcondition"
+    crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin "heat_domain_admin"
+    crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin_password "HEAT_DOMAIN_PASS"
+    crudini --set /etc/heat/heat.conf DEFAULT stack_user_domain_name "heat"
 
     # Edit the /etc/heat/heat.conf file, [keystone_authtoken] section
     crudini --set /etc/heat/heat.conf keystone_authtoken auth_uri "http://os-controller:5000"
@@ -354,12 +360,21 @@ DATA
     crudini --set /etc/heat/heat.conf keystone_authtoken project_domain_name "default"
     crudini --set /etc/heat/heat.conf keystone_authtoken user_domain_name "default"
     crudini --set /etc/heat/heat.conf keystone_authtoken project_name "service"
-    crudini --set /etc/heat/heat.conf keystone_authtoken username "barbican"
-    crudini --set /etc/heat/heat.conf keystone_authtoken password "BARBICAN_PASS"
+    crudini --set /etc/heat/heat.conf keystone_authtoken username "heat"
+    crudini --set /etc/heat/heat.conf keystone_authtoken password "HEAT_PASS"
 
     # Edit the /etc/heat/heat.conf file, [trustee] section
+    crudini --set /etc/heat/heat.conf trustee auth_type "password"
+    crudini --set /etc/heat/heat.conf trustee auth_url "http://os-controller:35357"
+    crudini --set /etc/heat/heat.conf trustee username "heat"
+    crudini --set /etc/heat/heat.conf trustee password "HEAT_PASS"
+    crudini --set /etc/heat/heat.conf trustee user_domain_name "default"
+
     # Edit the /etc/heat/heat.conf file, [clients_keystone] section
+    crudini --set /etc/heat/heat.conf clients_keystone auth_uri "http://os-controller:35357"
+
     # Edit the /etc/heat/heat.conf file, [ec2authtoken] section
+    crudini --set /etc/heat/heat.conf ec2authtoken auth_uri "http://os-controller:5000/v3"
 
     # Populate the database
     su -s /bin/sh -c "heat-manage db_sync" heat
@@ -369,9 +384,6 @@ DATA
     service heat-api-cfn restart
     service heat-engine restart
 }
-
-
-
 
 function main() {
     while [ $# -gt 0 ];
