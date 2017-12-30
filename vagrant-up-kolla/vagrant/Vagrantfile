@@ -54,7 +54,7 @@ EOF
     # =================================
 
     # Install kolla-ansible
-    pip install kolla-ansible==5.0.1
+    pip install kolla-ansible==5.0.1 # TODO try 4.0.0
 
     # Copy globals.yml and passwords.yml to /etc/kolla/
     cp -r /usr/local/share/kolla-ansible/etc_examples/kolla /etc/kolla/
