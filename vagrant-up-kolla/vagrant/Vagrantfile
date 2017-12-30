@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/centos-7.2"
-  config.vm.box_version = "2.3.1"
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.box_version = "2.3.8"
   config.vm.box_check_update = false
   config.vm.hostname = "os-kolla"
 
@@ -16,73 +16,66 @@ Vagrant.configure("2") do |config|
     # Update /etc/hosts
     echo "10.0.2.15 os-kolla" >> /etc/hosts
     
-    yum update -y
+    apt-get update -y
  
     # Install pip
-    yum install -y epel-release
-    yum install -y python-pip
+    apt-get install -y python-pip
     pip install -U pip
+    pip --version # 9.0.1
 
     # Install ansible
-    yum install -y python-devel libffi-devel gcc openssl-devel
-    yum install -y ansible
-    pip install -U ansible
-    ansible --version # 2.4.2.0
+    pip install ansible==2.2.1.0
 
     # Install docker
-    curl -sSL https://get.docker.io | bash
-    docker --version # 17.12.0-ce
+    apt-get install -y docker.io
+    apt-get update && apt-get install -y curl apt-transport-https
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    cat <<EOF >/etc/apt/sources.list.d/docker.list
+deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
+EOF
+    apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+    systemctl status docker
 
     # Register docker-engine in systemd
     mkdir -p /etc/systemd/system/docker.service.d
     tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
 [Service]
 MountFlags=shared
-ExecStart=
-ExecStart=/usr/bin/dockerd
 EOF
     systemctl daemon-reload
     systemctl restart docker
 
     # Install docker-py
-    yum install -y python-docker-py
-    pip install -U docker-py # 1.10.6
+    pip install docker-py==1.10.6
 
     # Install ntp
-    yum install -y ntp
-    systemctl enable ntpd.service
-    systemctl start ntpd.service
-    ntpq -p
-
-    # Stop libvirtd if exists
-    #systemctl stop libvirtd.service
-    #systemctl disable libvirtd.service
+    apt-get install -y ntp
 
     # =================================
 
     # Install kolla-ansible
-    pip install kolla-ansible # 5.0.1
+    pip install kolla-ansible==5.0.1
 
     # Copy globals.yml and passwords.yml to /etc/kolla/
-    cp -r /usr/share/kolla-ansible/etc_examples/kolla /etc/kolla/
+    cp -r /usr/local/share/kolla-ansible/etc_examples/kolla /etc/kolla/
   
     # Copy the inventory file to the current directory
-    cp /usr/share/kolla-ansible/ansible/inventory/* .
+    cp /usr/local/share/kolla-ansible/ansible/inventory/* .
 
     # To configure the interface, edit /etc/kolla/globals.yml
-    sed -i 's/^#network_interface: "eth0"$/network_interface: "eth0"/' /etc/kolla/globals.yml
-    sed -i 's/^#neutron_external_interface: "eth1"$/neutron_external_interface: "eth1"/' /etc/kolla/globals.yml
+    sed -i 's/^#network_interface: "eth0"$/network_interface: "enp0s3"/' /etc/kolla/globals.yml
+    sed -i 's/^#neutron_external_interface: "eth1"$/neutron_external_interface: "enp0s8"/' /etc/kolla/globals.yml
 
     # Generate the password using kolla-genpwd. Results are saved in /etc/kolla/passwords.yml
     kolla-genpwd
 
     # To quickly prepare hosts, playbook bootstrap-servers can be used.
-    kolla-ansible -i all-in-one bootstrap-servers # TODO failed : overwrite my /etc/systemd/system/docker.service.d/kolla.conf !!!
+    kolla-ansible -i all-in-one bootstrap-servers
 
     # =================================
-
-    # Pull the Docker image
-    kolla-ansible pull # TODO
- 
+#
+#    # Pull the Docker image
+#    kolla-ansible pull # TODO
+# 
   SHELL
 end
