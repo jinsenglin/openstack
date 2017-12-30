@@ -54,7 +54,7 @@ EOF
     # =================================
 
     # Install kolla-ansible
-    pip install kolla-ansible==5.0.1 # TODO try 4.0.0
+    pip install kolla-ansible==4.0.0 # ocata
 
     # Copy globals.yml and passwords.yml to /etc/kolla/
     cp -r /usr/local/share/kolla-ansible/etc_examples/kolla /etc/kolla/
@@ -88,6 +88,31 @@ EOF
 
     # Pull the Docker image
     kolla-ansible pull # failed TODO
-# 
+    docker images
+
+    # ?
+    # kolla_internal_vip_address: "10.0.2.16"
+
+    # ?
+    # virt_type = qemu
+
+    # ?
+    # kolla-ansible prechecks -i all-in-one
+
+    # ?
+    # kolla-ansible deploy -i all-in-one
+    # docker ps
+
+    # ?
+    # kolla-ansible post-deploy
+    # . /etc/kolla/admin-openrc.sh
+    # env | grep OS_
+
+    # =================================
+
+    # ?
+    # pip install python-openstackclient
+    # openstack service list
+
   SHELL
 end
