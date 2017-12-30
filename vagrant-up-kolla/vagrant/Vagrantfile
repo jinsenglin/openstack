@@ -45,8 +45,8 @@ EOF
     systemctl daemon-reload
     systemctl restart docker
 
-    # Install docker-py
-    pip install docker-py==1.10.6
+    # Install docker-py (REF https://github.com/docker/compose/issues/4344)
+    pip uninstall docker docker-py ; pip install docker==2.0.1
 
     # Install ntp
     apt-get install -y ntp
@@ -73,9 +73,21 @@ EOF
     kolla-ansible -i all-in-one bootstrap-servers
 
     # =================================
-#
-#    # Pull the Docker image
-#    kolla-ansible pull # TODO
+
+    # Update docker-engine in systemd
+    tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
+[Service]
+MountFlags=shared
+ExecStart=
+ExecStart=/usr/bin/docker daemon \
+ -H fd:// \
+ --mtu 1400
+EOF
+    systemctl daemon-reload
+    systemctl restart docker
+
+    # Pull the Docker image
+    kolla-ansible pull # failed TODO
 # 
   SHELL
 end
