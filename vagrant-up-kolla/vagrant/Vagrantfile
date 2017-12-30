@@ -87,32 +87,39 @@ EOF
     systemctl restart docker
 
     # Pull the Docker image
-    kolla-ansible pull # failed TODO
+    kolla-ansible pull
     docker images
 
-    # ?
-    # kolla_internal_vip_address: "10.0.2.16"
+    # Update /etc/kolla/globals.yml
+    sed -i 's/^kolla_internal_vip_address: "10.10.10.254"$/kolla_internal_vip_address: "10.0.2.16"/' /etc/kolla/globals.yml
 
-    # ?
-    # virt_type = qemu
+    # Specify qemu for virtualization
+    mkdir -p /etc/kolla/config/nova
+    cat << EOF > /etc/kolla/config/nova/nova-compute.conf
+[libvirt]
+virt_type = qemu
+cpu_mode = none
+EOF
 
-    # ?
-    # kolla-ansible prechecks -i all-in-one
+    # Precheck
+    kolla-ansible prechecks -i all-in-one
 
-    # ?
-    # kolla-ansible deploy -i all-in-one
-    # docker ps
+    # Deploy
+    kolla-ansible deploy -i all-in-one
+    docker ps
 
-    # ?
-    # kolla-ansible post-deploy
-    # . /etc/kolla/admin-openrc.sh
-    # env | grep OS_
+    # In order to use the newly constructed environment, we create a shell to set variables etc.
+    kolla-ansible post-deploy
 
     # =================================
 
-    # ?
-    # pip install python-openstackclient
-    # openstack service list
+    # Verify I
+    . /etc/kolla/admin-openrc.sh
+    env | grep OS_
+
+    # Verify II
+    pip install python-openstackclient
+    openstack service list
 
   SHELL
 end
