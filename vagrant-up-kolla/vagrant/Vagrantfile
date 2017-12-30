@@ -120,6 +120,7 @@ EOF
     # Verify II
     pip install python-openstackclient
     openstack service list
+    openstack server create --flavor m1.extra_tiny --image cirros vm01
 
   SHELL
 end
