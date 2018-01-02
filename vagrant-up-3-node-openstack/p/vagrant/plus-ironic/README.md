@@ -11,17 +11,20 @@ REF https://docs.openstack.org/ironic/mitaka/drivers/vbox.html
 REF https://dtantsur.github.io/talks/pike-ironic-deploy-deep-dive/#/
 
 ```
+# Start the VirtualBox web service with null authentication
+VBoxManage setproperty websrvauthlibrary null
 vboxwebsrv --host 0.0.0.0
 ```
 
 ```
-# https://pypi.python.org/pypi/pyremotevbox/
 pip install pyremotevbox==0.5.0
+pip install ZSI
 ```
 
 ```
-import pyremotevbox
-host = pyremotevbox.VirtualBoxHost('10.0.2.2')
+# http://www.echojb.com/network/2017/05/06/375676.html
+import pyremotevbox.vbox as vbox
+host = vbox.VirtualBoxHost(host='10.0.2.2')
 bm1 = host.find_vm('minikube')
 bm1.get_power_status()
 
