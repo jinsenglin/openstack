@@ -13,3 +13,17 @@ REF https://dtantsur.github.io/talks/pike-ironic-deploy-deep-dive/#/
 ```
 vboxwebsrv --host 0.0.0.0
 ```
+
+```
+# https://pypi.python.org/pypi/pyremotevbox/
+pip install pyremotevbox==0.5.0
+```
+
+```
+import pyremotevbox
+host = pyremotevbox.VirtualBoxHost('10.0.2.2')
+bm1 = host.find_vm('minikube')
+bm1.get_power_status()
+
+# 'PoweredOff'
+```
