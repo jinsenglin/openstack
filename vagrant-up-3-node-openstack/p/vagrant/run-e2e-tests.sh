@@ -356,7 +356,7 @@ openstack security group rule create --proto tcp --dst-port 22 $DEMO_DEFAULT_SEC
 # --------------------------------------------------------------------------------------------
 
 echo "openstack server create"
-openstack server create --wait --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID $SELFSERVICE_INSTANCE_NAME
+openstack server create --wait --flavor m1.nano --image cirros --nic net-id=$SELFSERVICE_NETWORK_NAME --security-group $DEMO_DEFAULT_SECURITY_GROUP_ID --key-name $KEYPAIR_NAME $SELFSERVICE_INSTANCE_NAME
 
 echo "openstack server show"
 openstack server show $SELFSERVICE_INSTANCE_NAME # status ACTIVE
@@ -373,7 +373,10 @@ openstack server add floating ip $SELFSERVICE_INSTANCE_NAME $SELFSERVICE_INSTANC
 echo "ping self-service instance floating ip"
 ping -c 1 $SELFSERVICE_INSTANCE_FLOATING_IP
 
-echo "ssh login self-service instance :: print hostname"
+echo "ssh login self-service instance :: print hostname via private key"
+ssh -i /vagrant/sample.data/id_rsa -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP hostname
+
+echo "ssh login self-service instance :: print hostname vis password"
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTANCE_FLOATING_IP hostname
 
 echo "ping self-service network gateway 10.10.10.1 from self-service instance"
