@@ -288,6 +288,7 @@ output
 FLAT_NETWORK_GW=10.0.3.1
 FLAT_NETWORK_NAME=external
 PROVIDER_NETWORK_NAME=provider
+KEYPAIR_NAME=keypair
 ROUTER_NAME=router
 ROUTER_IF_IP_PROVIDER=
 SELFSERVICE_NETWORK_NAME=selfservice
@@ -316,6 +317,9 @@ echo "source demo-openrc"
 source /root/demo-openrc
 
 # --------------------------------------------------------------------------------------------
+
+echo "openstack keypair create"
+openstack keypair create --public-key /vagrant/sample.data/id_rsa.pub $KEYPAIR_NAME
 
 echo "openstack router create"
 openstack router create $ROUTER_NAME
