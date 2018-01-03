@@ -396,6 +396,46 @@ CREATE DATABASE ironic CHARACTER SET utf8;
 GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'localhost' IDENTIFIED BY 'IRONIC_DBPASSWORD';
 GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'%' IDENTIFIED BY 'IRONIC_DBPASSWORD';
 DATA
+    # configure_ironic_identity
+    # configure_ironic_compute
+    # configure_ironic_networking
+    # configure_ironic_image
+    # configure_ironic_cleaning
+    # configure_ironic_tenant_networks
+    # configure_ironic_new_image
+    # configure_ironic_new_flavor
+}
+
+function configure_ironic_identity() {
+    :
+}
+
+function configure_ironic_compute() {
+    :
+}
+
+function configure_ironic_networking() {
+    :
+}
+
+function configure_ironic_image() {
+    :
+}
+
+function configure_ironic_cleaning() {
+    :
+}
+
+function configure_ironic_tenant_networks() {
+    :
+}
+
+function configure_ironic_new_image() {
+    :
+}
+
+function configure_ironic_new_flavor() {
+    :
 }
 
 function main() {
