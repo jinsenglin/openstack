@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function download_ironic() {
-    :
+    apt-get install -y ironic-api ironic-conductor
 }
 
 function configure_ironic() {
