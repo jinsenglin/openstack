@@ -386,11 +386,16 @@ DATA
 }
 
 function download_ironic() {
-    :
+    apt-get install -y python-ironicclient
 }
 
 function configure_ironic() {
-    :
+    # Create the database
+    mysql <<DATA
+CREATE DATABASE ironic;
+GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'localhost' IDENTIFIED BY 'IRONIC_DBPASSWORD';
+GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'%' IDENTIFIED BY 'IRONIC_DBPASSWORD';
+DATA
 }
 
 function main() {
