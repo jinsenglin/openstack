@@ -423,7 +423,7 @@ Usage from 2017-11-29 to 2017-12-28:
 +---------+---------+--------------+-----------+---------------+
 output
 
-echo "openstack project purge --keep-project --project demo"
+echo "openstack project purge --keep-project --dry-run --project demo"
 openstack project purge --keep-project --dry-run --project demo
 
 <<output
