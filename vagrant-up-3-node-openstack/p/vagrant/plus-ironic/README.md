@@ -21,7 +21,7 @@ Prepare a virtualbox machine for baremetal node
 Verify bare metal service
 
 ```
-?
+ironic driver-list
 ```
 
 # REF
@@ -37,6 +37,8 @@ REF https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux_opens
 REF https://docs.openstack.org/ironic/mitaka/drivers/vbox.html
 
 REF https://dtantsur.github.io/talks/pike-ironic-deploy-deep-dive/#/
+
+REF https://docs.openstack.org/ironic/latest/install/enabling-drivers.html
 
 ```
 # Start the VirtualBox web service with null authentication

@@ -58,6 +58,13 @@ function configure_ironic_conductor() {
     crudini --set /etc/ironic/ironic.conf keystone_authtoken username "ironic"
     crudini --set /etc/ironic/ironic.conf keystone_authtoken password "IRONIC_PASSWORD"
 
+    # Configure enabled drivers and hardware types TODO
+    crudini --set /etc/ironic/cinder.conf DEFAULT enabled_drivers "pxe_vbox"
+    crudini --set /etc/ironic/cinder.conf DEFAULT enabled_hardware_types "ipmi"
+    crudini --set /etc/ironic/cinder.conf DEFAULT enabled_boot_interfaces "pxe"
+    crudini --set /etc/ironic/cinder.conf DEFAULT enabled_deploy_interfaces "iscsi"
+    crudini --set /etc/ironic/cinder.conf DEFAULT enabled_network_interfaces "flat,neutron"
+
     # Restart the ironic-conductor service
     service ironic-conductor restart
 }
