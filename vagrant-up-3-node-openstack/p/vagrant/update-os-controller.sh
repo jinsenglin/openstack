@@ -385,6 +385,14 @@ DATA
     service heat-engine restart
 }
 
+function download_ironic() {
+    :
+}
+
+function configure_ironic() {
+    :
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -430,6 +438,16 @@ function main() {
             plus-heat)
                 download_heat
                 configure_heat
+                ;;
+            download-ironic)
+                download_ironic
+                ;;
+            configure-ironic)
+                configure_ironic
+                ;;
+            plus-ironic)
+                download_ironic
+                configure_ironic
                 ;;
             *)
                 echo "unknown mode"

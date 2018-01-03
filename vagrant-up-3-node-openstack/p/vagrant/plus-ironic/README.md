@@ -1,3 +1,31 @@
+# Plus
+
+Update os-controller
+
+```
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh plus-ironic"
+```
+
+Update os-compute
+
+```
+vagrant ssh os-compute -c "sudo /vagrant/update-os-compute.sh plus-ironic"
+```
+
+Prepare a virtualbox machine for baremetal node
+
+```
+?
+```
+
+Verify bare metal service
+
+```
+?
+```
+
+# REF
+
 REF https://www.ibm.com/developerworks/cn/cloud/library/cl-cn-virtualboxironic/index.html
 
 REF https://docs.openstack.org/ironic/latest/
