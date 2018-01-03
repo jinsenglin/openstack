@@ -392,7 +392,7 @@ function download_ironic() {
 function configure_ironic() {
     # Create the database
     mysql <<DATA
-CREATE DATABASE ironic;
+CREATE DATABASE ironic CHARACTER SET utf8;
 GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'localhost' IDENTIFIED BY 'IRONIC_DBPASSWORD';
 GRANT ALL PRIVILEGES ON ironic.* TO 'ironic'@'%' IDENTIFIED BY 'IRONIC_DBPASSWORD';
 DATA
