@@ -1,3 +1,21 @@
+# Plus
+
+Update os-controller
+
+```
+vagrant ssh os-controller -c "sudo /vagrant/update-os-controller.sh plus-neutron-lbaasv2-haproxy"
+```
+
+Update os-network
+
+```
+vagrant ssh os-network -c "sudo /vagrant/update-os-network.sh plus-neutron-lbaasv2-haproxy"
+```
+
+Verify lbaas service
+
+---
+
 REF https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 
 REF https://kairen.gitbooks.io/openstack-ubuntu/content/deployments/ubuntu/neutron/lbaas.html

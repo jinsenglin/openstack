@@ -438,6 +438,24 @@ function configure_ironic_new_flavor() {
     :
 }
 
+function download_neutron_lbaasv2_haproxy() {
+    apt-get install -y python-neutron-lbaas
+}
+
+function configure_neutron_lbaasv2_haproxy() {
+    # Edit the /etc/neutron/neutron.conf file, [DEFAULT] section
+    crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins $(crudini --get /etc/neutron/neutron.conf DEFAULT service_plugins),neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
+    
+    # Edit the /etc/neutron/neutron_lbaas.conf file, [service_providers] section
+    crudini --set /etc/neutron/neutron_lbaas.conf service_providers service_provider LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+    
+    # Run the neutron-lbaas database migration
+    neutron-db-manage --subproject neutron-lbaas upgrade head
+    
+    # Restart the neutron-server service
+    service neutron-server restart
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -493,6 +511,16 @@ function main() {
             plus-ironic)
                 download_ironic
                 configure_ironic
+                ;;
+            download-neutron-lbaasv2-haproxy)
+                download_neutron_lbaasv2_haproxy
+                ;;
+            configure-neutron-lbaasv2-haproxy)
+                configure_neutron_lbaasv2_haproxy
+                ;;
+            plus-neutron-lbaasv2-haproxy)
+                download_neutron_lbaasv2_haproxy
+                configure_neutron_lbaasv2_haproxy
                 ;;
             *)
                 echo "unknown mode"
