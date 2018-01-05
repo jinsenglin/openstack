@@ -20,6 +20,10 @@ neutron firewall-rule-create --name fw-rule1 --protocol tcp --destination-port 2
 neutron firewall-policy-create --firewall-rules fw-rule1 fw-policy1
 
 neutron firewall-create --name fw1 fw-policy1
+
+neutron firewall-update --router $ROUTER_NAME fw1
 ```
 
 REF https://docs.openstack.org/ocata/networking-guide/fwaas-v1-scenario.html
+
+REF https://docs.hpcloud.com/hos-1.0/helion/networking/fwaas.html
