@@ -49,4 +49,6 @@ neutron lbaas-pool-create --name test-lb-pool-http --lb-algorithm ROUND_ROBIN --
 
 neutron lbaas-member-create --subnet private-subnet --address $vm1 --protocol-port 80 test-lb-pool-http
 neutron lbaas-member-create --subnet private-subnet --address $vm2 --protocol-port 80 test-lb-pool-http
+
+neutron lbaas-healthmonitor-create --delay 5 --max-retries 2 --timeout 10 --type HTTP --pool test-lb-pool-http
 ```
