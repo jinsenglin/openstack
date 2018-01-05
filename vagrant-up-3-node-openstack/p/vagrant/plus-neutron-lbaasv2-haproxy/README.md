@@ -28,7 +28,6 @@ neutron lbaas-member-create --subnet $SELFSERVICE_NETWORK_NAME --address $SELFSE
 neutron lbaas-healthmonitor-create --delay 5 --max-retries 2 --timeout 10 --type TCP --pool test-lb-pool-ssh
 
 openstack floating ip create --port d0eb5111-2ad9-4d17-acfe-7ee4439bc83c $PROVIDER_NETWORK_NAME # NOTE d0eb5111-2ad9-4d17-acfe-7ee4439bc83c is the port id of the load balancer
-
 ping 10.0.3.231 # NOTE 10.0.3.231 is the returend floating ip
 
 sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@10.0.3.231 hostname # selfservice-instance
