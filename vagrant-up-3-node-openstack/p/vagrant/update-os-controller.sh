@@ -463,7 +463,10 @@ function download_neutron_fwaasv2() {
 function configure_neutron_fwaasv2() {
     # Edit the /etc/neutron/neutron.conf file, [DEFAULT] section
     crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins $(crudini --get /etc/neutron/neutron.conf DEFAULT service_plugins),firewall_v2
-    
+
+    # Edit the /etc/neutron/neutron.conf file, [service_providers] section
+    crudini --set /etc/neutron/neutron.conf service_providers service_provider FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default
+ 
 #    # Edit the /etc/neutron/fwaas_driver.ini file, [fwaas] section
 #    crudini --set /etc/neutron/fwaas_driver.ini fwaas agent_version v2
 #    crudini --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver
