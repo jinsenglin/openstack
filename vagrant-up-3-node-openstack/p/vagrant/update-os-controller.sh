@@ -467,13 +467,13 @@ function configure_neutron_fwaasv2() {
     # Edit the /etc/neutron/neutron.conf file, [service_providers] section
     crudini --set /etc/neutron/neutron.conf service_providers service_provider FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default
  
-#    # Edit the /etc/neutron/fwaas_driver.ini file, [fwaas] section
-#    crudini --set /etc/neutron/fwaas_driver.ini fwaas agent_version v2
-#    crudini --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver
-#    crudini --set /etc/neutron/fwaas_driver.ini fwaas enabled True
+    # Edit the /etc/neutron/fwaas_driver.ini file, [fwaas] section
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas agent_version v2
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas enabled True
 
-#    # Edit the /etc/neutron/l3_agent.ini file, [AGENT] section
-#    crudini --set /etc/neutron/l3_agent.ini AGENT extensions = fwaas
+    # Edit the /etc/neutron/l3_agent.ini file, [AGENT] section
+    crudini --set /etc/neutron/l3_agent.ini AGENT extensions = fwaas
    
     # Run the neutron-fwaas database migration
     neutron-db-manage --subproject neutron-fwaas upgrade head
