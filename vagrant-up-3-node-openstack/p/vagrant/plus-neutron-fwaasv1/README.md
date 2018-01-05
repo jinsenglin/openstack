@@ -1,7 +1,3 @@
-# Status
-
-TBD
-
 # Plus
 
 Update os-controller
@@ -19,11 +15,11 @@ vagrant ssh os-network -c "sudo /vagrant/update-os-network.sh plus-neutron-fwaas
 Verify fwaas service
 
 ```
-neutron firewall-rule-create --name fw-policy1 --protocol tcp --destination-port 22 --action deny
+neutron firewall-rule-create --name fw-rule1 --protocol tcp --destination-port 22 --action deny
 
 neutron firewall-policy-create --firewall-rules fw-rule1 fw-policy1
 
-neutron firewall-create FIREWALL_POLICY_UUID
+neutron firewall-create --name fw1 fw-policy1
 ```
 
 REF https://docs.openstack.org/ocata/networking-guide/fwaas-v1-scenario.html
