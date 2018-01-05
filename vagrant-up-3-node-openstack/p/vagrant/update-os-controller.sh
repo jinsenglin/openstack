@@ -482,6 +482,37 @@ function configure_neutron_fwaasv2() {
     service neutron-server restart
 }
 
+function download_neutron_fwaasv1() {
+    :
+}
+
+function configure_neutron_fwaasv1() {
+    # Edit the /etc/neutron/neutron.conf file, [DEFAULT] section
+    crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins $(crudini --get /etc/neutron/neutron.conf DEFAULT service_plugins),firewall
+
+    # Edit the /etc/neutron/neutron.conf file, [service_providers] section
+    crudini --set /etc/neutron/neutron.conf service_providers service_provider FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default
+
+    # Edit the /etc/neutron/neutron.conf file, [fwaas] section
+    crudini --set /etc/neutron/neutron.conf fwaas agent_version v1
+    crudini --set /etc/neutron/neutron.conf fwaas driver iptables
+    crudini --set /etc/neutron/neutron.conf fwaas enabled True
+    crudini --set /etc/neutron/neutron.conf fwaas conntrack_driver conntrack
+ 
+    # Edit the /etc/neutron/fwaas_driver.ini file, [fwaas] section
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas enabled True
+
+    # Edit the /etc/neutron/l3_agent.ini file, [AGENT] section
+    crudini --set /etc/neutron/l3_agent.ini AGENT extensions = fwaas
+   
+    # Run the neutron-fwaas database migration
+    neutron-db-manage --subproject neutron-fwaas upgrade head
+ 
+    # Restart the neutron-server service
+    service neutron-server restart
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -557,6 +588,16 @@ function main() {
             plus-neutron-fwaasv2)
                 download_neutron_fwaasv2
                 configure_neutron_fwaasv2
+                ;;
+            download-neutron-fwaasv1)
+                download_neutron_fwaasv1
+                ;;
+            configure-neutron-fwaasv1)
+                configure_neutron_fwaasv1
+                ;;
+            plus-neutron-fwaasv1)
+                download_neutron_fwaasv1
+                configure_neutron_fwaasv1
                 ;;
             *)
                 echo "unknown mode"
