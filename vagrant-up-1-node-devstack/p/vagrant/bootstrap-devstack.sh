@@ -19,8 +19,10 @@ function main() {
     do
         case $1 in
             download)
+                download
                 ;;
             configure)
+                configure
                 ;;
             *)
                 echo "unknown mode"
