@@ -1,0 +1,28 @@
+BOX = "bento/ubuntu-16.04"
+BOX_VERSION = "2.3.8"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "devstack" do |d|
+    d.vm.box = BOX
+    d.vm.box_version = BOX_VERSION
+    d.vm.box_check_update = false
+    d.vm.hostname = "devstack"
+    d.vm.network "private_network", ip: "10.0.0.11"
+    d.vm.network "private_network", ip: "10.0.1.11"
+    d.vm.network "private_network", ip: "10.0.3.11"
+    d.vm.network "private_network", ip: "10.0.4.11"
+    d.vm.provider "virtualbox" do |p|
+      p.cpus = "1"
+      p.memory = "2048"
+      p.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
+    end
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-devstack.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-devstack.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-devstack.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-devstack.sh", run: "never"
+  end
+
+end
