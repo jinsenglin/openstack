@@ -2,7 +2,8 @@
 
 set -e
 
-DEVSTACK_PIN_VERSION=9884f60ea44130b8f415924c7b7654bb17f83ab1 
+DEVSTACK_PIN_VERSION=9884f60ea44130b8f415924c7b7654bb17f83ab1
+DEVSTACK_LOCAL_CONF=local.conf.v1
 
 function download() {
     apt-get update
@@ -13,7 +14,7 @@ function download() {
 function configure() {
     cd devstack
     git checkout $DEVSTACK_PIN_VERSION
-    cp samples/local.conf .
+    cp $DEVSTACK_LOCAL_CONF .
     ./stack.sh
 }
 
