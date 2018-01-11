@@ -12,5 +12,13 @@ openstack project list
 ```
 
 sample local.conf
+
 * https://www.sebastien-han.fr/blog/2013/08/16/best-localrc-for-devstack/
 * https://assafmuller.com/2015/04/06/multinode-dvr-devstack/
+
+openstack system unit file see `/etc/systemd/system/multi-user.target.wants`
+
+devstack logs
+
+* stack.sh log see /opt/stack/logs
+* openstack log see systemctl status OS-SYSTEMD-UNIT-FILE
