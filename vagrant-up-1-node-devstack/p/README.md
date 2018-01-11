@@ -38,7 +38,7 @@ devstack logs
 
 issues
 
-1
+when using zeromq, stack.sh hangs at here:
 
 ```
 2018-01-11 07:57:54.121 | +lib/neutron_plugins/services/l3:_neutron_configure_router_v6:376  openstack --os-cloud devstack-admin --os-region RegionOne router add subnet 86980c2a-9a67-4af6-a875-382715d0b635 0e64347a-9148-46f3-8b9b-66e139428c8f
