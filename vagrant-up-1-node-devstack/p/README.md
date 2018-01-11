@@ -1,4 +1,8 @@
+# devstack version
+
 branch stable/pike commit 9884f60ea44130b8f415924c7b7654bb17f83ab1
+
+# openrc file
 
 admin-openrc
 
@@ -11,16 +15,22 @@ openstack service list
 openstack project list
 ```
 
+# local.conf file
+
 sample local.conf
 
 * https://www.sebastien-han.fr/blog/2013/08/16/best-localrc-for-devstack/
 * https://assafmuller.com/2015/04/06/multinode-dvr-devstack/
+
+# local.conf option
 
 message queue options
 
 * zeromq
 * qpid
 * rabbit
+
+# no more screen
 
 openstack system unit file see `/etc/systemd/system/multi-user.target.wants`, e.g.
 
@@ -31,12 +41,14 @@ openstack system unit file see `/etc/systemd/system/multi-user.target.wants`, e.
 * devstack@q-l3.service
 * devstack@q-meta.service
 
+# log file
+
 devstack logs
 
 * stack.sh log see /opt/stack/logs
 * openstack log see systemctl status OS-SYSTEMD-UNIT-FILE
 
-issues
+# issue
 
 when using zeromq, stack.sh hangs at here:
 
@@ -49,4 +61,18 @@ can not use `vagrant ssh after rebooting`
 ```
 # workaround
 ssh -i .vagrant/machines/devstack/virtualbox/private_key vagrant@10.0.0.11
+```
+
+# hacking
+
+file: /usr/local/lib/python2.7/dist-packages/keystone.egg-link
+
+```
+/opt/stack/keystone
+```
+
+file: /usr/local/lib/python2.7/dist-packages/neutron.egg-link
+
+```
+/opt/stack/neutron
 ```
