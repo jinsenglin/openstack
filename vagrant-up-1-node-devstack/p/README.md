@@ -10,3 +10,6 @@ source devstack/openrc admin
 openstack service list
 openstack project list
 ```
+
+sample local.conf
+* https://www.sebastien-han.fr/blog/2013/08/16/best-localrc-for-devstack/

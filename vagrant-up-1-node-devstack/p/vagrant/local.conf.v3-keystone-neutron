@@ -27,7 +27,7 @@
 # values for them by ``stack.sh``and they will be added to ``local.conf``.
 ADMIN_PASSWORD=nomoresecret
 DATABASE_PASSWORD=stackdb
-#RABBIT_PASSWORD=stackqueue
+RABBIT_PASSWORD=stackqueue
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 
 # ``HOST_IP`` and ``HOST_IPV6`` should be set manually for best results if
@@ -103,4 +103,31 @@ LOGDAYS=2
 # ----------------
 
 disable_all_services
-enable_service mysql key neutron q-svc q-agt q-dhcp q-l3 q-meta
+enable_service mysql key rabbit neutron q-svc q-agt q-dhcp q-l3 q-meta
+
+#[[post-config|$NEUTRON_CONF]]
+#[DEFAULT]
+#
+#[[post-config|$Q_PLUGIN_CONF_FILE]]
+#[ml2]
+#type_drivers=flat,vlan,vxlan
+#tenant_network_types=vxlan
+#mechanism_drivers=openvswitch,l2population
+#
+#[ml2_type_vxlan]
+#vni_ranges=1000:1999
+#
+#[ovs]
+#local_ip=$HOST_IP
+#
+#[agent]
+#tunnel_types=vxlan
+#l2_population=True
+#
+#[[post-config|$Q_L3_CONF_FILE]]
+#[DEFAULT]
+#router_delete_namespaces=True
+#
+#[[post-config|$Q_DHCP_CONF_FILE]]
+#[DEFAULT]
+#dhcp_delete_namespaces=True
