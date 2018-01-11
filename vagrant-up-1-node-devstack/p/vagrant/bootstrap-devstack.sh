@@ -55,6 +55,15 @@ function preparetopoweroff() {
     systemctl disable devstack@q-meta.service
 }
 
+function startall() {
+    systemctl start devstack@keystone.service
+    systemctl start devstack@q-svc.service
+    systemctl start devstack@q-agt.service
+    systemctl start devstack@q-dhcp.service
+    systemctl start devstack@q-l3.service
+    systemctl start devstack@q-meta.service  
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
