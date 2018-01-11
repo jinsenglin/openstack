@@ -39,13 +39,20 @@ function unstackall() {
     # run `service rabbitmq-server start`
 }
 
-function stopall() {
-    su stack -c 'systemctl stop devstack@keystone.service'
-    su stack -c 'systemctl stop devstack@q-svc.service'
-    su stack -c 'systemctl stop devstack@q-agt.service'
-    su stack -c 'systemctl stop devstack@q-dhcp.service'
-    su stack -c 'systemctl stop devstack@q-l3.service'
-    su stack -c 'systemctl stop devstack@q-meta.service'
+function preparetopoweroff() {
+    systemctl stop devstack@keystone.service
+    systemctl stop devstack@q-svc.service
+    systemctl stop devstack@q-agt.service
+    systemctl stop devstack@q-dhcp.service
+    systemctl stop devstack@q-l3.service
+    systemctl stop devstack@q-meta.service
+
+    systemctl disable devstack@keystone.service
+    systemctl disable devstack@q-svc.service
+    systemctl disable devstack@q-agt.service
+    systemctl disable devstack@q-dhcp.service
+    systemctl disable devstack@q-l3.service
+    systemctl disable devstack@q-meta.service
 }
 
 function main() {
@@ -61,8 +68,11 @@ function main() {
             restack)
                 restack
                 ;;
-            stopall)
-                stopall
+            unstack-all)
+                unstackall
+                ;;
+            prepare-to-power-off)
+                preparetopoweroff
                 ;;
             *)
                 echo "unknown mode"
