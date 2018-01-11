@@ -23,6 +23,17 @@ function configure() {
     su stack -c './stack.sh'
 }
 
+function restack() {
+    cd devstack
+    su stack -c './unstack.sh'
+    su stack -c './stack.sh'
+}
+
+function stopall() {
+    cd devstack
+    su stack -c './unstack.sh -a'
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -32,6 +43,12 @@ function main() {
                 ;;
             configure)
                 configure
+                ;;
+            restack)
+                restack
+                ;;
+            stopall)
+                stopall
                 ;;
             *)
                 echo "unknown mode"
