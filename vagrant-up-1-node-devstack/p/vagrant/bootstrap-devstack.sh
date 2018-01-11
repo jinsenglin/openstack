@@ -29,7 +29,7 @@ function restack() {
     su stack -c './stack.sh'
 }
 
-function stopall() {
+function unstackall() {
     cd devstack
     su stack -c './unstack.sh -a'
 
@@ -37,6 +37,15 @@ function stopall() {
     # before re-stacking
     # run `service mysql start`
     # run `service rabbitmq-server start`
+}
+
+function stopall() {
+    su stack -c 'systemctl stop devstack@keystone.service'
+    su stack -c 'systemctl stop devstack@q-svc.service'
+    su stack -c 'systemctl stop devstack@q-agt.service'
+    su stack -c 'systemctl stop devstack@q-dhcp.service'
+    su stack -c 'systemctl stop devstack@q-l3.service'
+    su stack -c 'systemctl stop devstack@q-meta.service'
 }
 
 function main() {
