@@ -90,9 +90,7 @@ use dirty-debugger
 
 ```
 # install
-git clone https://github.com/jinsenglin/python.git
-cd python/dirty-debugger
-sudo python setup.py install
+sudo pip install dirty-debugger
 
 # instruct e.g. file: /opt/stack/neutron/neutron/api/v2/router.py
 import dirty_debugger as cclin
