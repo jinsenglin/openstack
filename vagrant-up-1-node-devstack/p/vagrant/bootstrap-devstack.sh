@@ -14,8 +14,9 @@ function download() {
 function configure() {
     cd devstack
     git checkout $DEVSTACK_PIN_VERSION
-    cp $DEVSTACK_LOCAL_CONF .
-    ./stack.sh
+    cp $DEVSTACK_LOCAL_CONF ./local.conf
+    HOST_IP=10.0.0.11 ./tools/create-stack-user.sh
+    su stack -c './stack.sh'
 }
 
 function main() {

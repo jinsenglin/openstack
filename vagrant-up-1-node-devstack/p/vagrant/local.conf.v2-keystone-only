@@ -37,7 +37,7 @@ SERVICE_PASSWORD=$ADMIN_PASSWORD
 # from an Ethernet interface to a bridge on the host. Setting it here also
 # makes it available for ``openrc`` to include when setting ``OS_AUTH_URL``.
 # Neither is set by default.
-#HOST_IP=w.x.y.z
+HOST_IP=10.0.0.11
 #HOST_IPV6=2001:db8::7
 
 
