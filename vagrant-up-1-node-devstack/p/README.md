@@ -76,3 +76,5 @@ file: /usr/local/lib/python2.7/dist-packages/neutron.egg-link
 ```
 /opt/stack/neutron
 ```
+
+folder: /usr/local/lib/python2.7/dist-packages/neutron_lib
