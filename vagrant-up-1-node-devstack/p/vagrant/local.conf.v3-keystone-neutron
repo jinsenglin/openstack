@@ -103,4 +103,4 @@ LOGDAYS=2
 # ----------------
 
 disable_all_services
-enable_service mysql key
+enable_service mysql key neutron q-svc q-agt q-dhcp q-l3 q-meta
