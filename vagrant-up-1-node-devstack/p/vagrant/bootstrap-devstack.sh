@@ -32,6 +32,11 @@ function restack() {
 function stopall() {
     cd devstack
     su stack -c './unstack.sh -a'
+
+    # NOTE
+    # before re-stacking
+    # run `service mysql start`
+    # run `service rabbitmq-server start`
 }
 
 function main() {
