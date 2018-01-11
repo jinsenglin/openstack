@@ -85,3 +85,22 @@ file: /usr/local/lib/python2.7/dist-packages/neutron.egg-link
 ```
 
 folder: /usr/local/lib/python2.7/dist-packages/neutron_lib
+
+use dirty-debugger
+
+```
+# install
+git clone https://github.com/jinsenglin/python.git
+cd python/dirty-debugger
+sudo python setup.py install
+
+# instruct e.g. file: /opt/stack/neutron/neutron/api/v2/router.py
+import dirty_debugger as cclin
+cclin.log('ok')
+
+# restart e.g.
+sudo systemctl restart devstack@q-svc.service
+
+# view
+cat /tmp/dirty-debugger.log
+```
