@@ -41,6 +41,8 @@ openstack system unit file see `/etc/systemd/system/multi-user.target.wants`, e.
 * devstack@q-l3.service
 * devstack@q-meta.service
 
+Services are running under systemd unit files. For more information see: https://docs.openstack.org/devstack/latest/systemd.html
+
 # log file
 
 devstack logs
