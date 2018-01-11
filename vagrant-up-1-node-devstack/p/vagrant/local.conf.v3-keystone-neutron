@@ -103,7 +103,7 @@ LOGDAYS=2
 # ----------------
 
 disable_all_services
-enable_service mysql key rabbit neutron q-svc q-agt q-dhcp q-l3 q-meta
+enable_service mysql key zeromq neutron q-svc q-agt q-dhcp q-l3 q-meta
 
 OVS_PHYSICAL_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex

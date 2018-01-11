@@ -3,7 +3,7 @@
 set -e
 
 DEVSTACK_PIN_VERSION=9884f60ea44130b8f415924c7b7654bb17f83ab1   # or HEAD
-DEVSTACK_LOCAL_CONF=/vagrant/local.conf.v2-keystone-only
+DEVSTACK_LOCAL_CONF=/vagrant/local.conf.v3-keystone-neutron
 
 function download() {
     apt-get update
