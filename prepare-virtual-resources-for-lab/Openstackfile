@@ -1,0 +1,99 @@
+# External Network
+EXTNET=cd3de404-0cfc-4cc2-88c9-bdeff3733094
+R1_FIP=192.168.240.100
+R1_HOST1_FIP=192.168.240.101
+R1_HOST2_FIP=192.168.240.102
+R1_HOST3_FIP=192.168.240.103
+R1_HOST4_FIP=192.168.240.104
+R1_HOST5_FIP=192.168.240.105
+# # # # # # # # # # #
+
+NETWORK=405d0f4d-ee2e-4d41-a1d1-f53962df2b02
+SUBNET=7409311e-73dd-419c-84ba-d31b83d8d069
+
+R1_VIP=192.168.33.100
+R1_HOST1_IP=192.168.33.101
+R1_HOST2_IP=192.168.33.102
+R1_HOST3_IP=192.168.33.103
+R1_HOST4_IP=192.168.33.104
+R1_HOST5_IP=192.168.33.105
+
+IMAGE=Tony-CentOS-7.5-min-v1.img
+FLAVOR=2C2G10G
+KEYPAIR=devops
+
+function destroy() {
+    openstack server delete r1-host5
+    openstack server delete r1-host4
+    openstack server delete r1-host3
+    openstack server delete r1-host2
+    openstack server delete r1-host1
+    openstack port delete $R1_HOST5_IP
+    openstack port delete $R1_HOST4_IP
+    openstack port delete $R1_HOST3_IP
+    openstack port delete $R1_HOST2_IP
+    openstack port delete $R1_HOST1_IP
+    openstack port delete $R1_VIP
+
+    # # # # # # # # # # # when binding external network # # # # # # # # # # #
+    openstack floating ip delete $R1_FIP
+    openstack floating ip delete $R1_HOST1_FIP
+    openstack floating ip delete $R1_HOST2_FIP
+    openstack floating ip delete $R1_HOST3_FIP
+    openstack floating ip delete $R1_HOST4_FIP
+    openstack floating ip delete $R1_HOST5_FIP
+}
+
+function start() {
+    openstack server start r1-host1
+    openstack server start r1-host2
+    openstack server start r1-host3
+    openstack server start r1-host4
+    openstack server start r1-host5
+}
+
+function halt() {
+    openstack server stop r1-host5
+    openstack server stop r1-host4
+    openstack server stop r1-host3
+    openstack server stop r1-host2
+    openstack server stop r1-host1
+}
+
+function up() {
+    R1_HOST1_VIF_ID=$(openstack port show $R1_HOST1_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST1_VIF_ID r1-host1
+    R1_HOST2_VIF_ID=$(openstack port show $R1_HOST2_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST2_VIF_ID r1-host2
+    R1_HOST3_VIF_ID=$(openstack port show $R1_HOST3_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST3_VIF_ID r1-host3
+    R1_HOST4_VIF_ID=$(openstack port show $R1_HOST4_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST4_VIF_ID r1-host4
+    R1_HOST5_VIF_ID=$(openstack port show $R1_HOST5_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST5_VIF_ID r1-host5
+}
+
+function init() {
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_VIP $R1_VIP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST1_IP --allowed-address ip-address=$R1_VIP $R1_HOST1_IP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST2_IP --allowed-address ip-address=$R1_VIP $R1_HOST2_IP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST3_IP --allowed-address ip-address=$R1_VIP $R1_HOST3_IP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST4_IP --allowed-address ip-address=$R1_VIP $R1_HOST4_IP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST5_IP --allowed-address ip-address=$R1_VIP $R1_HOST5_IP
+
+    # # # # # # # # # # # when binding external network # # # # # # # # # # #
+    R1_VIF_ID=$(openstack port show $R1_VIP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_FIP --port $R1_VIF_ID $EXTNET
+    R1_HOST1_VIF_ID=$(openstack port show $R1_HOST1_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOST1_FIP --port $R1_HOST1_VIF_ID $EXTNET
+    R1_HOST2_VIF_ID=$(openstack port show $R1_HOST2_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOST2_FIP --port $R1_HOST2_VIF_ID $EXTNET
+    R1_HOST3_VIF_ID=$(openstack port show $R1_HOST3_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOST3_FIP --port $R1_HOST3_VIF_ID $EXTNET
+    R1_HOST4_VIF_ID=$(openstack port show $R1_HOST4_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOST4_FIP --port $R1_HOST4_VIF_ID $EXTNET
+    R1_HOST5_VIF_ID=$(openstack port show $R1_HOST5_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOST5_FIP --port $R1_HOST5_VIF_ID $EXTNET
+}
+
+$1
