@@ -13,6 +13,10 @@ public  vip 192.168.240.100
 
 INFO
 
+# Firewall Policy
+FWPOLICY=open-all
+# # # # # # # # # # #
+
 # External Network
 EXTNET=cd3de404-0cfc-4cc2-88c9-bdeff3733094
 R1_FIP=192.168.240.100
@@ -86,6 +90,13 @@ function up() {
     openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST4_VIF_ID r1-host4
     R1_HOST5_VIF_ID=$(openstack port show $R1_HOST5_IP -c id -f value)
     openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST5_VIF_ID r1-host5
+    
+    # # # # # # # # # # # when binding firewall policy # # # # # # # # # # #
+    openstack server add security group r1-host1 $FWPOLICY
+    openstack server add security group r1-host2 $FWPOLICY
+    openstack server add security group r1-host3 $FWPOLICY
+    openstack server add security group r1-host4 $FWPOLICY
+    openstack server add security group r1-host5 $FWPOLICY
 }
 
 function init() {
