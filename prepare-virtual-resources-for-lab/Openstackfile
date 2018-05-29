@@ -3,13 +3,13 @@
 private vip 192.168.33.100
 public  vip 192.168.240.100
 
-+------------------------------------------------------------------------------------------------------+
-|            | node 1          | node 2          | node 3          | node 4          | node 5          |
-+------------------------------------------------------------------------------------------------------+
-| private ip | 192.168.33.101  | 192.168.33.102  | 192.168.33.103  | 192.168.33.104  | 192.168.33.105  |
-+------------------------------------------------------------------------------------------------------+
-| public  ip | 192.168.240.101 | 192.168.240.102 | 192.168.240.103 | 192.168.240.104 | 192.168.240.105 |
-+------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------+-----------------+
+|            | node 1          | node 2          | node 3          | node 4          | node 5          | node x          |
++------------------------------------------------------------------------------------------------------+-----------------+
+| private ip | 192.168.33.101  | 192.168.33.102  | 192.168.33.103  | 192.168.33.104  | 192.168.33.105  | 192.168.33.200  |
++------------------------------------------------------------------------------------------------------+-----------------+
+| public  ip | 192.168.240.101 | 192.168.240.102 | 192.168.240.103 | 192.168.240.104 | 192.168.240.105 | 192.168.240.200 |
++------------------------------------------------------------------------------------------------------+-----------------+
 
 INFO
 
@@ -23,6 +23,7 @@ R1_HOST2_FIP=192.168.240.102
 R1_HOST3_FIP=192.168.240.103
 R1_HOST4_FIP=192.168.240.104
 R1_HOST5_FIP=192.168.240.105
+R1_HOSTx_FIP=192.168.240.200
 # # # # # # # # # # #
 
 # Firewall Policy
@@ -38,12 +39,14 @@ R1_HOST2_IP=192.168.33.102
 R1_HOST3_IP=192.168.33.103
 R1_HOST4_IP=192.168.33.104
 R1_HOST5_IP=192.168.33.105
+R1_HOSTx_IP=192.168.33.200
 
 IMAGE=CentOS-7.5-x86_64-GenericCloud-1804_02
 FLAVOR=2C4G10G
 KEYPAIR=devops
 
 function destroy() {
+    openstack server delete ${NS}r1-hostx
     openstack server delete ${NS}r1-host5
     openstack server delete ${NS}r1-host4
     openstack server delete ${NS}r1-host3
@@ -63,6 +66,7 @@ function destroy() {
     openstack floating ip delete $NS$R1_HOST3_FIP
     openstack floating ip delete $NS$R1_HOST4_FIP
     openstack floating ip delete $NS$R1_HOST5_FIP
+    openstack floating ip delete $NS$R1_HOSTx_FIP
 }
 
 function start() {
@@ -71,9 +75,11 @@ function start() {
     openstack server start ${NS}r1-host3
     openstack server start ${NS}r1-host4
     openstack server start ${NS}r1-host5
+    openstack server start ${NS}r1-hostx
 }
 
 function halt() {
+    openstack server stop ${NS}r1-hostx
     openstack server stop ${NS}r1-host5
     openstack server stop ${NS}r1-host4
     openstack server stop ${NS}r1-host3
@@ -82,7 +88,7 @@ function halt() {
 }
 
 function status() {
-    openstack server list -c Name -c Status --name ^${NS}r1-host[1-5]
+    openstack server list -c Name -c Status --name ^${NS}r1-host[1-5x]
 }
 
 function up() {
@@ -96,6 +102,8 @@ function up() {
     openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST4_VIF_ID ${NS}r1-host4
     R1_HOST5_VIF_ID=$(openstack port show $NS$R1_HOST5_IP -c id -f value)
     openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOST5_VIF_ID ${NS}r1-host5
+    R1_HOSTx_VIF_ID=$(openstack port show $NS$R1_HOSTx_IP -c id -f value)
+    openstack server create --image $IMAGE --flavor $FLAVOR --key-name "$KEYPAIR" --nic port-id=$R1_HOSTx_VIF_ID ${NS}r1-hostx
 
     # # # # # # # # # # # when binding firewall policy # # # # # # # # # # #
     openstack server add security group ${NS}r1-host1 $FWPOLICY
@@ -103,6 +111,7 @@ function up() {
     openstack server add security group ${NS}r1-host3 $FWPOLICY
     openstack server add security group ${NS}r1-host4 $FWPOLICY
     openstack server add security group ${NS}r1-host5 $FWPOLICY
+    openstack server add security group ${NS}r1-hostx $FWPOLICY
 }
 
 function init() {
@@ -112,6 +121,7 @@ function init() {
     openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST3_IP --allowed-address ip-address=$R1_VIP $NS$R1_HOST3_IP
     openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST4_IP --allowed-address ip-address=$R1_VIP $NS$R1_HOST4_IP
     openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOST5_IP --allowed-address ip-address=$R1_VIP $NS$R1_HOST5_IP
+    openstack port create --network $NETWORK --fixed-ip subnet=$SUBNET,ip-address=$R1_HOSTx_IP --allowed-address ip-address=$R1_VIP $NS$R1_HOSTx_IP
 
     # # # # # # # # # # # when binding external network # # # # # # # # # # #
     R1_VIF_ID=$(openstack port show $NS$R1_VIP -c id -f value)
@@ -126,6 +136,8 @@ function init() {
     openstack floating ip create --floating-ip-address $R1_HOST4_FIP --port $R1_HOST4_VIF_ID $EXTNET
     R1_HOST5_VIF_ID=$(openstack port show $NS$R1_HOST5_IP -c id -f value)
     openstack floating ip create --floating-ip-address $R1_HOST5_FIP --port $R1_HOST5_VIF_ID $EXTNET
+    R1_HOSTx_VIF_ID=$(openstack port show $NS$R1_HOSTx_IP -c id -f value)
+    openstack floating ip create --floating-ip-address $R1_HOSTx_FIP --port $R1_HOSTx_VIF_ID $EXTNET
 }
 
 $1
