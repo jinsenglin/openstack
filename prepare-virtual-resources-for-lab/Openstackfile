@@ -45,13 +45,7 @@ IMAGE=CentOS-7.5-x86_64-GenericCloud-1804_02
 FLAVOR=2C4G10G
 KEYPAIR=devops
 
-function destroy() {
-    openstack server delete ${NS}r1-hostx
-    openstack server delete ${NS}r1-host5
-    openstack server delete ${NS}r1-host4
-    openstack server delete ${NS}r1-host3
-    openstack server delete ${NS}r1-host2
-    openstack server delete ${NS}r1-host1
+function clean() {
     openstack port delete $NS$R1_HOST5_IP
     openstack port delete $NS$R1_HOST4_IP
     openstack port delete $NS$R1_HOST3_IP
@@ -67,6 +61,15 @@ function destroy() {
     openstack floating ip delete $NS$R1_HOST4_FIP
     openstack floating ip delete $NS$R1_HOST5_FIP
     openstack floating ip delete $NS$R1_HOSTx_FIP
+}
+
+function destroy() {
+    openstack server delete ${NS}r1-hostx
+    openstack server delete ${NS}r1-host5
+    openstack server delete ${NS}r1-host4
+    openstack server delete ${NS}r1-host3
+    openstack server delete ${NS}r1-host2
+    openstack server delete ${NS}r1-host1
 }
 
 function start() {
