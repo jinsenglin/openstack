@@ -93,6 +93,9 @@ function up() {
     openstack server add security group ${NS}r1-host4 $FWPOLICY
     openstack server add security group ${NS}r1-host5 $FWPOLICY
     openstack server add security group ${NS}r1-hostx $FWPOLICY
+    
+    # # # # # # # # # # # when binding data volume # # # # # # # # # # #
+    openstack server add volume ${NS}r1-hostx ${NS}r1-hostx-100g
 }
 
 function init() {
