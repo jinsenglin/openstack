@@ -29,6 +29,7 @@ openstack metric show METRIC_ID
 
 # About points, granularity, timespan, archive policy
 # See https://gnocchi.xyz/operating.html
+# * If your archive policy defines a policy of 10 points with a granularity of 1 second, the time series archive will keep up to 10 seconds, each representing an aggregation over 1 second. This means the time series will at maximum retain 10 seconds of data between the more recent point and the oldest point. That does not mean it will be 10 consecutive seconds: there might be a gap if data is fed irregularly.
 ```
 
 ---
