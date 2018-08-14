@@ -6,7 +6,7 @@ https://docs.openstack.org/ceilometer/pike/install/install-compute.html
 
 controller node :: install ceilometer + gnocchi (Telemetry Metric service)
 
-https://docs.openstack.org/ceilometer/pike/install/install-controller.html
+https://docs.openstack.org/ceilometer/pike/install/install-base-ubuntu.html
 
 Prerequisites
 
