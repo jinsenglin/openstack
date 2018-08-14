@@ -41,7 +41,7 @@ Usage
 aodh alarm create --name ALARM-NAME --type gnocchi_resources_threshold --description 'ALARM-NAME' --metric cpu_util --threshold 1.0 --comparison-operator gt --aggregation-method mean --granularity 300 --evaluation-periods 1 --alarm-action 'log://' --resource-id RESOURCE_ID --resource-type instance
 
 # details of an specific alarm
-aodh alarm show ALARM_ID
+openstack alarm show ALARM_ID
 ```
 
 ---
