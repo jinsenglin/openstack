@@ -40,7 +40,7 @@ https://docs.openstack.org/aodh/pike/install/install-ubuntu.html
 Usage
 
 ```
-# create alarm (threshold alarm)
+# create alarm (threshold rule alarm)
 aodh alarm create --name ALARM-NAME --type gnocchi_resources_threshold --description 'ALARM-NAME' --metric cpu_util --threshold 1.0 --comparison-operator gt --aggregation-method mean --granularity 300 --evaluation-periods 1 --alarm-action 'log://' --resource-id RESOURCE_ID --resource-type instance
 
 # details of an specific alarm
@@ -49,8 +49,8 @@ openstack alarm show ALARM_ID
 # About threshold, comparison-operator, aggregation-method, granularity, evaluation-periods
 # See https://docs.openstack.org/aodh/pike/admin/telemetry-alarms.html
 # * The alarm granularity must match the granularities of the metric configured in Gnocchi.
-# * As of Ocata, the threshold alarm is deprecated since Ceilometer’s native storage API is deprecated.
-# * Combination alarms are deprecated as of Newton for composite alarms. Combination alarm functionality is removed in Pike.
+# * As of Ocata, the threshold rule alarm is deprecated since Ceilometer’s native storage API is deprecated.
+# * Combination rule alarms are deprecated as of Newton for composite alarms. Combination alarm functionality is removed in Pike.
 # * -> Composite rule alarms are recommended.
 ```
 
