@@ -48,6 +48,7 @@ openstack alarm show ALARM_ID
 
 # About threshold, comparison-operator, aggregation-method, granularity, evaluation-periods
 # See https://docs.openstack.org/aodh/pike/admin/telemetry-alarms.html
+# * The alarm granularity must match the granularities of the metric configured in Gnocchi.
 ```
 
 ---
