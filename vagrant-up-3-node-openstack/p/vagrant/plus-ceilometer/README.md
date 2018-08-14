@@ -41,7 +41,9 @@ Usage
 
 ```
 # create alarm (threshold rule alarm)
-aodh alarm create --name ALARM-NAME --type gnocchi_resources_threshold --description 'ALARM-NAME' --metric cpu_util --threshold 1.0 --comparison-operator gt --aggregation-method mean --granularity 300 --evaluation-periods 1 --alarm-action 'log://' --resource-id RESOURCE_ID --resource-type instance
+aodh alarm create --name ALARM-NAME --type gnocchi_resources_threshold --description 'ALARM-NAME' --metric cpu_util --threshold 70.0 --comparison-operator gt --aggregation-method mean --granularity 600 --evaluation-periods 3 --alarm-action 'log://' --resource-id RESOURCE_ID --resource-type instance
+
+# This creates an alarm that will fire when the average CPU utilization for an individual instance exceeds 70% for three consecutive 10 minute periods. The notification in this case is simply a log message, though it could alternatively be a webhook URL.
 
 # details of an specific alarm
 openstack alarm show ALARM_ID
