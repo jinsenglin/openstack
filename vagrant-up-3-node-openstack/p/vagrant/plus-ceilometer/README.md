@@ -1,4 +1,4 @@
-install ceilometer (Telemetry Data Collection service)
+install ceilometer (Telemetry Data Collection service, for short Telemetry service)
 
 https://docs.openstack.org/ceilometer/pike/install/install-compute.html
 
