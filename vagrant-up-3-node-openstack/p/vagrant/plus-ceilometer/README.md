@@ -26,6 +26,9 @@ openstack metric measures show METRIC_ID
 
 # details of a specific metric
 openstack metric show METRIC_ID
+
+# About points, granularity, timespan, archive policy
+# See https://gnocchi.xyz/operating.html
 ```
 
 ---
@@ -42,6 +45,9 @@ aodh alarm create --name ALARM-NAME --type gnocchi_resources_threshold --descrip
 
 # details of an specific alarm
 openstack alarm show ALARM_ID
+
+# About threshold, comparison-operator, aggregation-method, granularity, evaluation-periods
+# See https://docs.openstack.org/aodh/pike/admin/telemetry-alarms.html
 ```
 
 ---
